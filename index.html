@@ -2069,6 +2069,18 @@ section + section { border-top: none; }
   }
 });
 
+/* ─── HERO SCROLL LOCK ON HOVER ─── */
+(function() {
+  const heroSection = document.querySelector('.hero-section');
+  if (!heroSection) return;
+  heroSection.addEventListener('mouseenter', () => {
+    document.body.style.overflow = 'hidden';
+  });
+  heroSection.addEventListener('mouseleave', () => {
+    document.body.style.overflow = '';
+  });
+})();
+
 /* ─── MATCH POV HEIGHT TO NOTICE LIST ─── */
 function matchPovHeight() {
   const noticeCol = document.querySelector('.notice-pov-grid > div:first-child');
