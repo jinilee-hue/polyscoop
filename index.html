@@ -298,6 +298,7 @@ iframe.hero-video {
    MAIN CONTENT WRAPPER
 ────────────────────────────────────────── */
 .page-wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+.page-wrap > section:last-child { margin-bottom: 0; padding-bottom: 0; }
 
 /* ──────────────────────────────────────────
    SECTION HEADER  (Samsung-style: thin line + bold title + "더보기")
@@ -630,7 +631,7 @@ section + section { border-top: none; }
 .list-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
 /* LIFE LOG list - 3 columns, overlay cards fill height naturally */
 #grid-lifelog { grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.list-grid.cols-prev { grid-template-columns: repeat(5, 1fr); }
+.list-grid.cols-prev { grid-template-columns: repeat(6, 1fr); }
 
 /* Inside the World list - equal card heights */
 #grid-world .strip-card {
@@ -727,7 +728,24 @@ section + section { border-top: none; }
   padding-right: calc(50vw - 50%);
 }
 
-/* Notice list view */
+/* Previous Issue 풀블리드 배경 */
+#previous {
+  background: #f5f5f5;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding-left: calc(50vw - 50%);
+  padding-right: calc(50vw - 50%);
+  padding-bottom: 48px;
+  margin-bottom: 0;
+}
+
+/* Previous Issue 캐러셀 버튼 - 썸네일 높이 기준 중앙 */
+#previous .carousel-btn,
+#insights .carousel-btn,
+#world .carousel-btn {
+  top: 0;
+  transform: none;
+}
 .list-notice-table { width: 100%; border-collapse: collapse; }
 .list-notice-table th {
   font-size: 12px; font-weight: 700; color: #000;
@@ -745,7 +763,7 @@ section + section { border-top: none; }
 /* Inside the World: 3열 기준 캐러셀 */
 #world-track > * { flex: 0 0 calc((100% - 48px) / 3); }
 
-.prev-card { cursor: pointer; flex: 0 0 calc((100% - 72px) / 4); min-width: 0; }
+.prev-card { cursor: pointer; flex: 0 0 calc((100% - 120px) / 6); min-width: 0; }
 .prev-card:hover .prev-cover { transform: scale(1.02); }
 .prev-card:hover .prev-view-btn { background: var(--blue); color: white; border-color: var(--blue); }
 .prev-cover-wrap { overflow: hidden; border: 1px solid var(--gray-200); border-radius: 10px; }
@@ -1797,6 +1815,58 @@ section + section { border-top: none; }
                 <a href="#" class="prev-view-btn">View Issue →</a>
               </div>
             </div>
+            <div class="prev-card">
+              <div class="prev-cover-wrap">
+                <div class="prev-cover prev-cover-1">
+                  <div class="prev-cover-text">Poly Scoop</div>
+                  <div class="prev-cover-issue">Issue 5 · Jan 2027</div>
+                </div>
+              </div>
+              <div class="prev-card-body">
+                <p class="art-card-tag" style="margin:0">5호</p>
+                <div class="prev-card-date">2027년 1월 15일 발간</div>
+                <a href="#" class="prev-view-btn">View Issue →</a>
+              </div>
+            </div>
+            <div class="prev-card">
+              <div class="prev-cover-wrap">
+                <div class="prev-cover prev-cover-2">
+                  <div class="prev-cover-text">Poly Scoop</div>
+                  <div class="prev-cover-issue">Issue 6 · Mar 2027</div>
+                </div>
+              </div>
+              <div class="prev-card-body">
+                <p class="art-card-tag" style="margin:0">6호</p>
+                <div class="prev-card-date">2027년 3월 19일 발간</div>
+                <a href="#" class="prev-view-btn">View Issue →</a>
+              </div>
+            </div>
+            <div class="prev-card">
+              <div class="prev-cover-wrap">
+                <div class="prev-cover prev-cover-3">
+                  <div class="prev-cover-text">Poly Scoop</div>
+                  <div class="prev-cover-issue">Issue 7 · May 2027</div>
+                </div>
+              </div>
+              <div class="prev-card-body">
+                <p class="art-card-tag" style="margin:0">7호</p>
+                <div class="prev-card-date">2027년 5월 28일 발간</div>
+                <a href="#" class="prev-view-btn">View Issue →</a>
+              </div>
+            </div>
+            <div class="prev-card">
+              <div class="prev-cover-wrap">
+                <div class="prev-cover prev-cover-4">
+                  <div class="prev-cover-text">Poly Scoop</div>
+                  <div class="prev-cover-issue">Issue 8 · Jul 2027</div>
+                </div>
+              </div>
+              <div class="prev-card-body">
+                <p class="art-card-tag" style="margin:0">8호</p>
+                <div class="prev-card-date">2027년 7월 16일 발간</div>
+                <a href="#" class="prev-view-btn">View Issue →</a>
+              </div>
+            </div>
           </div>
         </div>
         <button class="carousel-btn carousel-btn-right" onclick="carouselMove('prev',1)" id="prev-next">
@@ -2534,6 +2604,10 @@ const sectionData = {
     { tag: '2호',   issue: 'Issue 2 · Jul 2026', date: '2026년 7월 16일 발간', cover: 'prev-cover-2' , section: 'Previous Issue' },
     { tag: '3호',   issue: 'Issue 3 · Sep 2026', date: '2026년 9월 16일 발간', cover: 'prev-cover-3' , section: 'Previous Issue' },
     { tag: '4호',   issue: 'Issue 4 · Nov 2026', date: '2026년 11월 11일 발간', cover: 'prev-cover-4' , section: 'Previous Issue' },
+    { tag: '5호',   issue: 'Issue 5 · Jan 2027', date: '2027년 1월 15일 발간', cover: 'prev-cover-1' , section: 'Previous Issue' },
+    { tag: '6호',   issue: 'Issue 6 · Mar 2027', date: '2027년 3월 19일 발간', cover: 'prev-cover-2' , section: 'Previous Issue' },
+    { tag: '7호',   issue: 'Issue 7 · May 2027', date: '2027년 5월 28일 발간', cover: 'prev-cover-3' , section: 'Previous Issue' },
+    { tag: '8호',   issue: 'Issue 8 · Jul 2027', date: '2027년 7월 16일 발간', cover: 'prev-cover-4' , section: 'Previous Issue' },
   ]}
 };
 
@@ -2773,7 +2847,7 @@ const carousels = {
   insights: { idx: 0, visible: 4 },
   lifelog:  { idx: 0, visible: 4 },
   world:    { idx: 0, visible: 3 },
-  prev:     { idx: 0, visible: 4 },
+  prev:     { idx: 0, visible: 6 },
 };
 
 function carouselMove(id, dir) {
@@ -2843,6 +2917,36 @@ function resetAuto() {
 
 // 초기 자동 재생
 resetAuto();
+
+/* ─── 캐러셀 버튼 썸네일 중앙 정렬 ─── */
+function alignCarouselBtns() {
+  // Previous Issue: .prev-cover-wrap 기준
+  const prevCover = document.querySelector('#prev-track .prev-cover-wrap');
+  if (prevCover) {
+    const h = prevCover.getBoundingClientRect().height;
+    document.querySelectorAll('#previous .carousel-btn').forEach(btn => {
+      btn.style.top = (h / 2 - 20) + 'px';
+    });
+  }
+  // INSIGHTS: .art-card-img 기준
+  const insightsImg = document.querySelector('#insights-track .art-card-img');
+  if (insightsImg) {
+    const h = insightsImg.getBoundingClientRect().height;
+    document.querySelectorAll('#insights .carousel-btn').forEach(btn => {
+      btn.style.top = (h / 2 - 20) + 'px';
+    });
+  }
+  // Inside the World: .art-card-img 기준
+  const worldImg = document.querySelector('#world-track .art-card-img');
+  if (worldImg) {
+    const h = worldImg.getBoundingClientRect().height;
+    document.querySelectorAll('#world .carousel-btn').forEach(btn => {
+      btn.style.top = (h / 2 - 20) + 'px';
+    });
+  }
+}
+window.addEventListener('load', alignCarouselBtns);
+window.addEventListener('resize', alignCarouselBtns);
 
 /* ─── TOPIC TABS ─── */
 function switchTopic(btn) {
