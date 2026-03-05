@@ -1218,11 +1218,10 @@ section + section { border-top: none; }
       <div class="hero-slide" onclick="showArticle()">
         <div class="hero-img-wrap">
           <div class="hero-img-wrap-inner hi-1">
-            <!-- 영상 파일 업로드 후 src 경로를 교체해주세요 -->
             <iframe class="hero-video" id="heroVideo1"
-              src="https://drive.google.com/file/d/16mxfrPTkKYMqNMRgjRYV2ecGw6-DMxyo/preview"
-              allow="autoplay"
-              style="border:none;width:100%;height:100%;position:absolute;top:0;left:0;"
+              src="https://www.youtube.com/embed/3NsYsJM4Ca0?autoplay=1&mute=1&loop=1&playlist=3NsYsJM4Ca0&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+              allow="autoplay; encrypted-media"
+              style="border:none;width:100%;height:100%;position:absolute;top:0;left:0;pointer-events:none;"
               allowfullscreen></iframe>
             <div class="hero-video-placeholder" id="heroPlaceholder1">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -1241,7 +1240,11 @@ section + section { border-top: none; }
       <div class="hero-slide" onclick="showArticle()">
         <div class="hero-img-wrap">
           <div class="hero-img-wrap-inner hi-2">
-            <video class="hero-video" id="heroVideo2" src="" autoplay muted loop playsinline></video>
+            <iframe class="hero-video" id="heroVideo2"
+              src="https://www.youtube.com/embed/olixnDvUdJM?autoplay=1&mute=1&loop=1&playlist=olixnDvUdJM&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+              allow="autoplay; encrypted-media"
+              style="border:none;width:100%;height:100%;position:absolute;top:0;left:0;pointer-events:none;"
+              allowfullscreen></iframe>
             <div class="hero-video-placeholder" id="heroPlaceholder2">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
               <span>Video 2</span>
@@ -1259,7 +1262,11 @@ section + section { border-top: none; }
       <div class="hero-slide" onclick="showArticle()">
         <div class="hero-img-wrap">
           <div class="hero-img-wrap-inner hi-3">
-            <video class="hero-video" id="heroVideo3" src="" autoplay muted loop playsinline></video>
+            <iframe class="hero-video" id="heroVideo3"
+              src="https://www.youtube.com/embed/OeN0pIFruqQ?autoplay=1&mute=1&loop=1&playlist=OeN0pIFruqQ&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+              allow="autoplay; encrypted-media"
+              style="border:none;width:100%;height:100%;position:absolute;top:0;left:0;pointer-events:none;"
+              allowfullscreen></iframe>
             <div class="hero-video-placeholder" id="heroPlaceholder3">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
               <span>Video 3</span>
@@ -2054,7 +2061,7 @@ section + section { border-top: none; }
   const video = document.getElementById('heroVideo' + i);
   const placeholder = document.getElementById('heroPlaceholder' + i);
   if (!video || !placeholder) return;
-  // iframe(heroVideo1)은 placeholder 즉시 숨김
+  // iframe은 placeholder 즉시 숨김
   if (video.tagName === 'IFRAME') {
     placeholder.style.display = 'none';
     return;
