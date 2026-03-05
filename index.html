@@ -539,7 +539,7 @@ section + section { border-top: none; }
 .pov-card-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); text-align: center; }
 .pov-card-title { font-size: 18px; font-weight: 700; line-height: 1.35; text-align: center; }
 /* VS layout */
-.pov-vs-wrap { display: flex; align-items: flex-start; gap: 0; }
+.pov-vs-wrap { display: flex; align-items: center; gap: 0; }
 .pov-side {
   flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
   padding: 16px 12px; border-radius: 4px; cursor: pointer; transition: border-color .2s;
@@ -557,8 +557,8 @@ section + section { border-top: none; }
 .pov-pct { font-size: 13px; font-weight: 700; color: var(--gray-800); }
 .pov-vs-divider {
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 800; color: var(--gray-400);
-  padding: 0 6px; margin-top: 60px; flex-shrink: 0;
+  font-size: 13px; font-weight: 800; color: #000;
+  padding: 0 6px; flex-shrink: 0;
 }
 .pov-vote-btn {
   align-self: center; background: var(--blue); color: white;
@@ -657,6 +657,9 @@ section + section { border-top: none; }
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: center;
+  max-width: 25%;
+  margin: 0 auto;
 }
 .notice-search-input {
   flex: 1;
@@ -1216,7 +1219,11 @@ section + section { border-top: none; }
         <div class="hero-img-wrap">
           <div class="hero-img-wrap-inner hi-1">
             <!-- 영상 파일 업로드 후 src 경로를 교체해주세요 -->
-            <video class="hero-video" id="heroVideo1" src="" autoplay muted loop playsinline></video>
+            <iframe class="hero-video" id="heroVideo1"
+              src="https://drive.google.com/file/d/16mxfrPTkKYMqNMRgjRYV2ecGw6-DMxyo/preview"
+              allow="autoplay"
+              style="border:none;width:100%;height:100%;position:absolute;top:0;left:0;"
+              allowfullscreen></iframe>
             <div class="hero-video-placeholder" id="heroPlaceholder1">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
               <span>Video 1</span>
@@ -1657,7 +1664,7 @@ section + section { border-top: none; }
             </div>
           </div>
           <div class="pov-card animate delay-1" id="povCard">
-            <span class="pov-card-label">⚔️ CHOOSE A SIDE</span>
+            <span class="pov-card-label">CHOOSE A SIDE</span>
             <h3 class="pov-card-title">Cinderella vs. Stepmother —<br>Whose side are you on?</h3>
             <div class="pov-vs-wrap">
               <div class="pov-side" id="povSideA">
@@ -2047,6 +2054,11 @@ section + section { border-top: none; }
   const video = document.getElementById('heroVideo' + i);
   const placeholder = document.getElementById('heroPlaceholder' + i);
   if (!video || !placeholder) return;
+  // iframe(heroVideo1)은 placeholder 즉시 숨김
+  if (video.tagName === 'IFRAME') {
+    placeholder.style.display = 'none';
+    return;
+  }
   // 영상 src가 있고 로드 성공 시 placeholder 숨김
   video.addEventListener('loadeddata', () => {
     placeholder.style.display = 'none';
