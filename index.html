@@ -172,9 +172,10 @@ img { display: block; width: 100%; }
 @media (max-width: 500px)  { .hero-img-wrap { aspect-ratio: 4/3; } }
 
 .hero-img-wrap-inner {
+  position: absolute; inset: 0;
   width: 100%; height: 100%;
+  overflow: hidden;
   transition: transform .65s ease;
-  display: flex; align-items: center; justify-content: center;
 }
 .hero-slide:hover .hero-img-wrap-inner { transform: scale(1.025); }
 
@@ -185,16 +186,17 @@ img { display: block; width: 100%; }
   object-fit: cover;
   display: block;
 }
-/* YouTube iframe - 16:9 비율을 커버처럼 채우기 */
+/* YouTube iframe - cover 방식으로 영역 꽉 채우기 */
 iframe.hero-video {
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  width: 177.78vh;  /* 16/9 * 100vh */
-  height: 56.25vw;  /* 9/16 * 100vw */
-  min-width: 100%;
+  width: 100%;
+  height: 56.25vw;
   min-height: 100%;
   pointer-events: none;
+  border: none;
 }
 .hero-video-placeholder {
   position: absolute; inset: 0;
@@ -1232,7 +1234,7 @@ section + section { border-top: none; }
             <iframe class="hero-video" id="heroVideo1"
               src="https://www.youtube.com/embed/3NsYsJM4Ca0?autoplay=1&mute=1&loop=1&playlist=3NsYsJM4Ca0&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
               allow="autoplay; encrypted-media"
-              style="border:none;position:absolute;top:0;left:0;pointer-events:none;"
+              style="border:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:56.25vw;min-height:100%;pointer-events:none;"
               allowfullscreen></iframe>
             <div class="hero-video-placeholder" id="heroPlaceholder1">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -1254,7 +1256,7 @@ section + section { border-top: none; }
             <iframe class="hero-video" id="heroVideo2"
               src="https://www.youtube.com/embed/olixnDvUdJM?autoplay=1&mute=1&loop=1&playlist=olixnDvUdJM&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
               allow="autoplay; encrypted-media"
-              style="border:none;position:absolute;top:0;left:0;pointer-events:none;"
+              style="border:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:56.25vw;min-height:100%;pointer-events:none;"
               allowfullscreen></iframe>
             <div class="hero-video-placeholder" id="heroPlaceholder2">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -1276,7 +1278,7 @@ section + section { border-top: none; }
             <iframe class="hero-video" id="heroVideo3"
               src="https://www.youtube.com/embed/OeN0pIFruqQ?autoplay=1&mute=1&loop=1&playlist=OeN0pIFruqQ&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
               allow="autoplay; encrypted-media"
-              style="border:none;position:absolute;top:0;left:0;pointer-events:none;"
+              style="border:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:56.25vw;min-height:100%;pointer-events:none;"
               allowfullscreen></iframe>
             <div class="hero-video-placeholder" id="heroPlaceholder3">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
