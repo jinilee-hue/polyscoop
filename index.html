@@ -619,10 +619,84 @@ section + section { border-top: none; }
 #grid-lifelog { grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .list-grid.cols-prev { grid-template-columns: repeat(5, 1fr); }
 
+/* Inside the World list - equal card heights */
+#grid-world .strip-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+#grid-world .strip-card .art-card-img {
+  flex-shrink: 0;
+}
+#grid-world .strip-card .art-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+#grid-world .strip-card .art-card-excerpt {
+  flex: 1;
+}
+#grid-world .strip-card .art-card-meta {
+  margin-bottom: 10px;
+}
+#grid-world .strip-card .art-card-stats {
+  margin-top: auto;
+}
+#grid-world {
+  align-items: stretch;
+}
+
+/* Notice 검색 */
+.notice-search-wrap {
+  background: var(--gray-100);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.notice-search-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.notice-search-input {
+  flex: 1;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: var(--black);
+  outline: none;
+  transition: border-color .2s;
+}
+.notice-search-input:focus {
+  border-color: var(--black);
+}
+.notice-search-input::placeholder {
+  color: var(--gray-400);
+}
+.notice-search-btn {
+  height: 44px;
+  padding: 0 24px;
+  background: var(--black);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.notice-search-btn:hover {
+  background: #333;
+}
+
 /* Notice list view */
 .list-notice-table { width: 100%; border-collapse: collapse; }
 .list-notice-table th {
-  font-size: 12px; font-weight: 700; color: var(--gray-400);
+  font-size: 12px; font-weight: 700; color: #000;
   text-align: center; padding: 10px 12px; border-bottom: 2px solid var(--black);
   letter-spacing: .5px; text-transform: uppercase;
 }
@@ -1435,10 +1509,7 @@ section + section { border-top: none; }
           <div class="carousel-track" id="world-track" style="--cols:3;">
             <div class="strip-card" onclick="showArticle()">
               <div class="art-card-img">
-                <div class="art-card-img-inner ph ph-4">
-                  <div style="font-size:40px;">🌦️</div>
-                  <div class="ph-label">Weather Wonders</div>
-                </div>
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=17PTyxPvJJtXakQcv8AYjN7IJtWJ6fHcQ&sz=w600" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" alt=""></div>
               </div>
               <div class="art-card-body">
                 <span class="art-card-tag">Science &amp; Technology</span>
@@ -1453,10 +1524,7 @@ section + section { border-top: none; }
             </div>
             <div class="strip-card" onclick="showArticle()">
               <div class="art-card-img">
-                <div class="art-card-img-inner ph ph-7">
-                  <div style="font-size:40px;">🚀</div>
-                  <div class="ph-label">Space Food Secrets</div>
-                </div>
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=1hOhMZBEZ9Byfi92Jc29-myFHnmIzKq_r&sz=w600" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" alt=""></div>
               </div>
               <div class="art-card-body">
                 <span class="art-card-tag">Science &amp; Technology</span>
@@ -1471,10 +1539,7 @@ section + section { border-top: none; }
             </div>
             <div class="strip-card" onclick="showArticle()">
               <div class="art-card-img">
-                <div class="art-card-img-inner ph ph-1">
-                  <div style="font-size:40px;">🤖</div>
-                  <div class="ph-label">The Truth About Robots</div>
-                </div>
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=17reCnL4xD5vW9AIYiYutzgyRHYiZ7Cxb&sz=w600" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" alt=""></div>
               </div>
               <div class="art-card-body">
                 <span class="art-card-tag">Science &amp; Technology</span>
@@ -1489,10 +1554,7 @@ section + section { border-top: none; }
             </div>
             <div class="strip-card" onclick="showArticle()">
               <div class="art-card-img">
-                <div class="art-card-img-inner ph ph-2">
-                  <div style="font-size:40px;">🐠</div>
-                  <div class="ph-label">Ocean Plastic Crisis</div>
-                </div>
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=1V87cbGAVYATBoFUBJv-1Ck52aMIN1ATa&sz=w600" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" alt=""></div>
               </div>
               <div class="art-card-body">
                 <span class="art-card-tag">Nature &amp; Environment</span>
@@ -1507,10 +1569,7 @@ section + section { border-top: none; }
             </div>
             <div class="strip-card" onclick="showArticle()">
               <div class="art-card-img">
-                <div class="art-card-img-inner ph ph-5">
-                  <div style="font-size:40px;">📱</div>
-                  <div class="ph-label">Smartphones & Sleep</div>
-                </div>
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=1Dj5FeDFwGslc6YD5NbIx1mTW5nvpAsUS&sz=w600" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" alt=""></div>
               </div>
               <div class="art-card-body">
                 <span class="art-card-tag">Life &amp; Society</span>
@@ -1525,10 +1584,7 @@ section + section { border-top: none; }
             </div>
             <div class="strip-card" onclick="showArticle()">
               <div class="art-card-img">
-                <div class="art-card-img-inner ph ph-6">
-                  <div style="font-size:40px;">⚡</div>
-                  <div class="ph-label">Electric vs Gas</div>
-                </div>
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=1P-e-g2I5A01QrAmelj5JrGDGxsxD_UaH&sz=w600" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" alt=""></div>
               </div>
               <div class="art-card-body">
                 <span class="art-card-tag">Nature &amp; Environment</span>
@@ -1950,6 +2006,12 @@ section + section { border-top: none; }
     </div>
   </div>
   <div class="list-view-body">
+    <div class="notice-search-wrap">
+      <div class="notice-search-box">
+        <input type="text" id="notice-search-input" class="notice-search-input" placeholder="제목을 검색하세요" oninput="filterNotice()" onkeydown="if(event.key==='Enter')filterNotice()">
+        <button class="notice-search-btn" onclick="filterNotice()">검색</button>
+      </div>
+    </div>
     <table class="list-notice-table" id="grid-notice">
       <thead>
         <tr>
@@ -2208,6 +2270,16 @@ function prevCardHTML(c) {
       <div class="prev-card-date">${c.date}</div>
       <a href="#" class="prev-view-btn">View Issue →</a>
     </div></div>`;
+}
+
+function filterNotice() {
+  const keyword = (document.getElementById('notice-search-input').value || '').trim().toLowerCase();
+  const tbody = document.querySelector('#grid-notice tbody');
+  if (!tbody) return;
+  Array.from(tbody.rows).forEach(row => {
+    const title = (row.cells[1] ? row.cells[1].textContent : '').toLowerCase();
+    row.style.display = (!keyword || title.includes(keyword)) ? '' : 'none';
+  });
 }
 
 function initListViews() {
