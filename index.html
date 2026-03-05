@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poly Scoop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ──────────────────────────────────────────
+   RESET & BASE  (Samsung Newsroom aesthetic)
+────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:   #000000;
+  --white:   #ffffff;
+  --gray-50: #f9f9f9;
+  --gray-100:#f2f2f2;
+  --gray-200:#e5e5e5;
+  --gray-400:#aaaaaa;
+  --gray-600:#666666;
+  --gray-800:#333333;
+  --blue:    #1428a0;   /* Samsung-style deep blue */
+  --blue-lt: #1a39cc;
+  --font-kr: 'Noto Sans KR', sans-serif;
+  --max-w: 1320px;
+  --header-h: 60px;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body { font-family: var(--font-kr); color: var(--black); background: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+img { display: block; width: 100%; }
+.view { display: none; }
+.view.active { display: block; }
+
+/* ──────────────────────────────────────────
+   HEADER
+────────────────────────────────────────── */
+.site-header {
+  position: sticky; top: 0; z-index: 1000;
+  background: var(--white);
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  height: var(--header-h);
+}
+.header-wrap {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+  height: 100%; display: flex; align-items: center; gap: 32px;
+}
+/* Hamburger */
+.btn-menu { display: none; flex-direction: column; gap: 5px; padding: 8px; }
+.btn-menu span { display: block; width: 20px; height: 1.5px; background: var(--black); transition: .3s; }
+@media (max-width: 768px) { .btn-menu { display: flex; } }
+/* Logo */
+.site-logo {
+  font-size: 17px; font-weight: 700; letter-spacing: -0.3px;
+  display: flex; align-items: center; gap: 2px; cursor: pointer;
+}
+.site-logo .dot { color: var(--blue); font-size: 22px; line-height: 1; }
+/* Main nav */
+.main-nav { display: flex; gap: 0; margin-left: 16px; height: 100%; }
+.main-nav > a {
+  display: flex; align-items: center; padding: 0 18px;
+  font-size: 14px; font-weight: 500; color: var(--gray-800);
+  border-bottom: 2px solid transparent; transition: .2s;
+  white-space: nowrap;
+}
+.main-nav > a:hover, .main-nav > a.active { color: var(--black); border-bottom-color: var(--black); }
+/* Right controls */
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.btn-icon { padding: 10px; border-radius: 50%; transition: background .2s; display: flex; align-items: center; justify-content: center; }
+.btn-icon:hover { background: var(--gray-100); }
+.btn-icon svg { width: 20px; height: 20px; }
+
+/* Search bar */
+.search-bar {
+  display: flex; align-items: center; gap: 0;
+  overflow: hidden;
+  max-width: 0; opacity: 0;
+  transition: max-width .35s cubic-bezier(.4,0,.2,1), opacity .25s;
+}
+.search-bar.open { max-width: 360px; opacity: 1; }
+.search-input {
+  border: none; border-bottom: 1.5px solid var(--black);
+  outline: none; background: transparent;
+  font-size: 14px; padding: 4px 8px; width: 220px;
+  color: var(--black); white-space: nowrap;
+}
+.search-input::placeholder { color: var(--gray-400); }
+.search-submit {
+  flex-shrink: 0;
+  display: none;
+  align-items: center; justify-content: center;
+  height: 30px; padding: 0 14px;
+  background: var(--blue); color: white;
+  font-size: 12px; font-weight: 700; letter-spacing: .3px;
+  border-radius: 2px; cursor: pointer;
+  margin-left: 8px;
+  white-space: nowrap;
+  transition: background .2s;
+}
+.search-submit:hover { background: var(--blue-lt); }
+.search-submit.visible { display: flex; }
+
+/* ──────────────────────────────────────────
+   SIDEBAR / DRAWER
+────────────────────────────────────────── */
+.drawer-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,.45);
+  z-index: 900; opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.drawer-bg.show { opacity: 1; pointer-events: all; }
+.drawer {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 280px;
+  background: var(--white); z-index: 901;
+  transform: translateX(-100%); transition: transform .35s cubic-bezier(.4,0,.2,1);
+  display: flex; flex-direction: column; overflow-y: auto;
+}
+.drawer.show { transform: translateX(0); }
+.drawer-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; flex-shrink: 0;
+}
+.drawer-head .drawer-logo { font-size: 16px; font-weight: 700; }
+.drawer-head .drawer-logo span { color: var(--blue); }
+.btn-close { font-size: 22px; color: var(--gray-600); line-height: 1; }
+.drawer-menu { padding: 12px 0; }
+.drawer-menu a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 24px; font-size: 14px; font-weight: 500;
+  color: var(--gray-800); transition: .15s;
+}
+.drawer-menu a:hover { background: var(--gray-50); color: var(--black); }
+.drawer-menu-section { padding: 16px 24px 6px; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gray-400); }
+
+/* ══════════════════════════════════════════
+   HERO SLIDER  — 풀블리드 이미지 + 텍스트 오버레이
+══════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   HERO — 풀스크린 단일 슬라이더
+   이미지 전체 화면 + 텍스트 하단 오버레이
+   좌/우 화살표 · 하단 도트 인디케이터
+══════════════════════════════════════════ */
+.hero-slider {
+  position: relative; overflow: hidden;
+  background: var(--black);
+  /* 뷰포트 너비 100% 풀블리드 */
+  width: 100%;
+}
+
+.hero-track {
+  display: flex;
+  transition: transform .65s cubic-bezier(.4, 0, .2, 1);
+}
+
+.hero-slide {
+  flex: 0 0 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+/* 이미지 영역 — 16:7 와이드 비율 */
+.hero-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+}
+@media (max-width: 900px)  { .hero-img-wrap { aspect-ratio: 16/9; } }
+@media (max-width: 500px)  { .hero-img-wrap { aspect-ratio: 4/3; } }
+
+.hero-img-wrap-inner {
+  width: 100%; height: 100%;
+  transition: transform .65s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-slide:hover .hero-img-wrap-inner { transform: scale(1.025); }
+
+/* 히어로 비디오 */
+.hero-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hero-video-placeholder {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
+  background: rgba(0,0,0,.45);
+  color: rgba(255,255,255,.6);
+  font-size: 14px; letter-spacing: .5px;
+  pointer-events: none;
+}
+.hero-video-placeholder svg { width: 48px; height: 48px; opacity: .5; }
+
+/* 그라디언트 플레이스홀더 */
+.hi-1 { background: linear-gradient(135deg, #06122e 0%, #0d2260 45%, #1428a0 100%); }
+.hi-2 { background: linear-gradient(150deg, #071a07 0%, #0d4020 50%, #1a7a35 100%); }
+.hi-3 { background: linear-gradient(140deg, #1a0800 0%, #5a1800 50%, #c03800 100%); }
+
+/* ── 텍스트 오버레이 (이미지 하단 안쪽) ── */
+.hero-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 100px 56px 56px;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.78) 0%,
+    rgba(0,0,0,.35) 55%,
+    transparent 100%
+  );
+  color: white;
+  pointer-events: none;
+}
+
+.hero-overlay-tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,.5);
+  padding: 4px 12px; border-radius: 2px; margin-bottom: 18px;
+  color: rgba(255,255,255,.92);
+}
+
+.hero-overlay-title {
+  font-size: clamp(24px, 3.4vw, 48px);
+  font-weight: 700; line-height: 1.22; letter-spacing: -0.6px;
+  max-width: 740px; text-shadow: 0 2px 12px rgba(0,0,0,.3);
+}
+
+.hero-overlay-sub {
+  font-size: clamp(13px, 1.2vw, 16px);
+  color: rgba(255,255,255,.75); margin-top: 14px;
+  font-weight: 300; max-width: 580px; line-height: 1.65;
+}
+
+@media (max-width: 768px) {
+  .hero-overlay { padding: 60px 24px 36px; }
+}
+
+/* ── 좌/우 화살표 ── */
+.hero-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.55);
+  background: rgba(0,0,0,.25); backdrop-filter: blur(6px);
+  color: white; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 10; transition: all .2s;
+  /* 이미지 영역 내에서 수직 중앙 — 오버레이 텍스트 위 */
+}
+.hero-arrow:hover {
+  background: rgba(0,0,0,.55);
+  border-color: white;
+  transform: translateY(-50%) scale(1.08);
+}
+.hero-arrow svg { width: 18px; height: 18px; }
+.hero-arrow-left  { left: 24px; }
+.hero-arrow-right { right: 24px; }
+
+@media (max-width: 500px) {
+  .hero-arrow { width: 36px; height: 36px; }
+  .hero-arrow svg { width: 14px; height: 14px; }
+  .hero-arrow-left  { left: 12px; }
+  .hero-arrow-right { right: 12px; }
+}
+
+/* ── 하단 도트 인디케이터 ── */
+.hero-dots-bar {
+  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 8px; z-index: 10;
+}
+.hero-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,.4);
+  cursor: pointer; transition: all .3s; border: 1.5px solid rgba(255,255,255,.6);
+}
+.hero-dot.on {
+  width: 24px; border-radius: 4px;
+  background: white; border-color: white;
+}
+
+/* ──────────────────────────────────────────
+   MAIN CONTENT WRAPPER
+────────────────────────────────────────── */
+.page-wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+/* ──────────────────────────────────────────
+   SECTION HEADER  (Samsung-style: thin line + bold title + "더보기")
+────────────────────────────────────────── */
+.section-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding-top: 5px;
+  margin-bottom: 28px;
+  position: relative;
+}
+.section-head-left {
+  display: flex; align-items: baseline; gap: 10px;
+  position: relative;
+}
+.section-head-left::before {
+  content: '';
+  position: absolute;
+  top: -5px; left: 0;
+  width: 20px; height: 2px;
+  background: var(--black);
+}
+.section-name { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+.section-name-sub { font-size: 13px; color: var(--gray-400); font-weight: 400; }
+.btn-more {
+  font-size: 12px; color: var(--gray-600); font-weight: 600;
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 14px;
+  border: 1px solid var(--gray-200); border-radius: 2px;
+  transition: all .2s;
+}
+.btn-more:hover { background: var(--blue); color: white; border-color: var(--blue); }
+.btn-more svg { width: 13px; height: 13px; }
+
+section { padding: 48px 0; }
+section + section { border-top: none; }
+
+/* ──────────────────────────────────────────
+   BENTO GRID  (Samsung Newsroom grid)
+   메인 1 큰 카드 + 오른쪽 2개 소형 카드
+────────────────────────────────────────── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 2px;
+}
+.bento-main { grid-row: 1 / 3; }
+.bento-sub { }
+
+/* Samsung-style article card */
+.art-card { display: block; cursor: pointer; overflow: hidden; }
+.art-card:hover .art-card-img-inner { transform: scale(1.03); }
+.art-card-img {
+  overflow: hidden; background: var(--gray-100);
+  aspect-ratio: 16/10; width: 100%; border-radius: 10px;
+}
+.art-card-img-inner {
+  width: 100%; height: 100%; transition: transform .5s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.art-card-body { padding: 18px 0 24px; }
+.art-card-stats {
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid var(--gray-100);
+}
+.stat-reactions { display: flex; gap: 8px; align-items: center; }
+.art-card-stats--dark {
+  border-top: 1px solid rgba(255,255,255,0.15);
+  margin-top: 8px; padding-top: 8px;
+}
+.stat-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--gray-400); font-weight: 500;
+}
+.stat-item svg { width: 12px; height: 12px; flex-shrink: 0; }
+.art-card-stats--dark .stat-item { color: rgba(255,255,255,0.55); }
+.art-card-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--blue); margin-bottom: 8px;
+  display: block;
+}
+.art-card-title {
+  font-size: 17px; font-weight: 700; line-height: 1.4;
+  letter-spacing: -0.3px; color: var(--black);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.art-card-title.lg { font-size: 22px; -webkit-line-clamp: 3; }
+.art-card-excerpt {
+  font-size: 14px; color: var(--gray-600); margin-top: 8px; line-height: 1.65;
+  font-weight: 300;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.art-card-meta { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.art-card-date { font-size: 12px; color: var(--gray-400); }
+.art-card-author { font-size: 12px; color: var(--gray-600); font-weight: 500; }
+.art-card-reactions { display: flex; gap: 10px; margin-left: auto; }
+.reaction { font-size: 12px; color: var(--gray-400); display: flex; align-items: center; gap: 3px; cursor: pointer; transition: color .2s; }
+.reaction:hover { color: var(--gray-800); }
+.reaction span { font-size: 13px; }
+
+/* 3-column grid */
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+/* sub cards in bento get horizontal layout on right side */
+.bento-sub .art-card { display: flex; gap: 20px; padding: 24px; background: var(--gray-50); height: 100%; }
+.bento-sub .art-card:first-child { border-bottom: 1px solid var(--gray-200); }
+.bento-sub .art-card .art-card-img { flex-shrink: 0; width: 140px; aspect-ratio: 4/3; border-radius: 10px; }
+.bento-sub .art-card .art-card-body { padding: 0; flex: 1; }
+.bento-sub .art-card .art-card-title { font-size: 15px; -webkit-line-clamp: 3; }
+.bento-sub .art-card .art-card-excerpt { -webkit-line-clamp: 2; font-size: 13px; }
+
+/* ──────────────────────────────────────────
+   CAROUSEL WRAPPER (공통 좌우 이동 인디케이터)
+────────────────────────────────────────── */
+.carousel-wrap { position: relative; }
+
+.carousel-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  box-shadow: 0 2px 8px rgba(0,0,0,.10);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 10; transition: all .2s;
+  color: var(--gray-800);
+}
+.carousel-btn:hover { background: var(--black); color: white; border-color: var(--black); }
+.carousel-btn:disabled { opacity: 0; pointer-events: none; }
+.carousel-btn svg { width: 16px; height: 16px; }
+.carousel-btn-left  { left: -20px; }
+.carousel-btn-right { right: -20px; }
+
+.carousel-viewport {
+  overflow: hidden;
+}
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  transition: transform .45s cubic-bezier(.4, 0, .2, 1);
+}
+/* 각 카드: 고정 너비 (4개 기준 calc) */
+.carousel-track > * {
+  flex: 0 0 calc((100% - 72px) / 4);  /* gap 3개 = 72px */
+  min-width: 0;
+}
+
+/* CARD STRIP  (INSIGHTS, LIFE LOG 공용) */
+.strip-card { cursor: pointer; }
+.strip-card:hover .art-card-img-inner { transform: scale(1.03); }
+.strip-card .art-card-img { aspect-ratio: 16/9; overflow: hidden; border-radius: 10px; }
+.strip-card .art-card-img-inner { transition: transform .45s ease; }
+
+/* LIFE LOG overlay card */
+.lifelog-overlay-card {
+  position: relative; border-radius: 10px; overflow: hidden;
+  aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: flex-end;
+  transition: transform .3s ease;
+}
+.lifelog-overlay-card:hover { transform: translateY(-4px); }
+.lifelog-overlay {
+  position: relative; z-index: 2;
+  padding: 20px 16px 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.lifelog-overlay-card .art-card-title { font-size: 14px; font-weight: 700; line-height: 1.4; margin: 0; }
+.lifelog-overlay-card .art-card-excerpt { font-size: 12px; line-height: 1.5; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.lifelog-overlay-card .art-card-meta { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.lifelog-overlay-card .art-card-author, .lifelog-overlay-card .art-card-date { font-size: 11px; }
+
+/* ──────────────────────────────────────────
+   CARD STRIP  (레거시 호환)
+────────────────────────────────────────── */
+.strip-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--gray-200); margin-bottom: 24px; }
+.strip-tab {
+  padding: 10px 20px; font-size: 14px; font-weight: 500;
+  color: var(--gray-400); cursor: pointer; transition: .2s;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.strip-tab.on { color: var(--black); border-bottom-color: var(--black); }
+
+/* ──────────────────────────────────────────
+   INSIDE THE WORLD – tabbed section
+────────────────────────────────────────── */
+.topic-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.topic-tab {
+  padding: 7px 18px; border: 1px solid var(--gray-200); border-radius: 100px;
+  font-size: 13px; font-weight: 500; color: var(--gray-600);
+  cursor: pointer; transition: all .2s;
+}
+.topic-tab.on { background: var(--black); color: var(--white); border-color: var(--black); }
+.topic-tab:hover:not(.on) { border-color: var(--gray-600); color: var(--black); }
+
+/* ──────────────────────────────────────────
+   NOTICE & EVENT + POV (two-column)
+────────────────────────────────────────── */
+.notice-pov-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.notice-pov-grid > div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.notice-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.pov-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.notice-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 0;
+  flex: 1;
+  border-bottom: 1px solid var(--gray-200); cursor: pointer; transition: .15s;
+  min-height: 0;
+}
+.notice-row:first-child { border-top: 1px solid var(--gray-200); }
+.notice-row:hover .notice-title { color: var(--blue); }
+.notice-badge-new {
+  flex-shrink: 0;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--blue); color: white;
+  font-size: 10px; font-weight: 800;
+  font-style: italic;
+  display: inline-flex; align-items: center; justify-content: center;
+  letter-spacing: 0;
+  vertical-align: middle; margin-left: 4px;
+}
+.notice-title { font-size: 14px; font-weight: 500; flex: 1; line-height: 1.5; }
+.notice-date  { font-size: 12px; color: var(--gray-400); white-space: nowrap; flex-shrink: 0; }
+.notice-arrow {
+  display: none;
+  flex-shrink: 0; color: var(--gray-400);
+  font-size: 16px; line-height: 1;
+}
+
+/* POV Switcher card */
+.pov-card {
+  background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 4px;
+  padding: 28px 24px; display: flex; flex-direction: column; gap: 18px;
+  transition: box-shadow .2s;
+}
+.pov-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+.pov-card-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); text-align: center; }
+.pov-card-title { font-size: 18px; font-weight: 700; line-height: 1.35; text-align: center; }
+/* VS layout */
+.pov-vs-wrap { display: flex; align-items: flex-start; gap: 0; }
+.pov-side {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 12px; border-radius: 4px; cursor: pointer; transition: border-color .2s;
+  text-align: center; background: #fff; border: 1px solid transparent;
+}
+.pov-side:hover { background: #fff; border-color: var(--blue); }
+.pov-side.selected { background: rgba(0,82,204,.08); border: 2px solid var(--blue); border-radius: 4px; }
+.pov-avatar { font-size: 44px; line-height: 1; }
+.pov-choice-name { font-size: 14px; font-weight: 700; color: var(--black); }
+.pov-choice-quote { font-size: 12px; color: var(--gray-600); font-weight: 300; line-height: 1.5; }
+.pov-bar-row { width: 100%; display: flex; justify-content: center; }
+.pov-bar-track { width: 67%; height: 10px; background: var(--gray-200); border-radius: 5px; overflow: hidden; margin-top: 4px; }
+.pov-bar-fill { height: 100%; background: var(--blue); border-radius: 3px; transition: width .8s ease; }
+.pov-bar-fill.gray { background: var(--gray-400); }
+.pov-pct { font-size: 13px; font-weight: 700; color: var(--gray-800); }
+.pov-vs-divider {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: var(--gray-400);
+  padding: 0 6px; margin-top: 60px; flex-shrink: 0;
+}
+.pov-vote-btn {
+  align-self: center; background: var(--blue); color: white;
+  font-size: 13px; font-weight: 700; padding: 11px 48px; border-radius: 2px;
+  cursor: pointer; transition: background .2s; letter-spacing: 1px;
+}
+.pov-vote-btn:hover { background: var(--blue-lt); }
+.pov-vote-btn:disabled { background: var(--gray-400); cursor: default; }
+
+/* ──────────────────────────────────────────
+   SEARCH RESULT VIEW
+────────────────────────────────────────── */
+#searchView { background: var(--white); }
+.search-result-head {
+  border-bottom: 1px solid var(--gray-200);
+  padding: 36px 0 24px;
+}
+.search-result-head-inner {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+}
+.search-result-keyword {
+  font-size: clamp(20px, 3vw, 28px); font-weight: 700; margin-bottom: 6px;
+}
+.search-result-keyword span { color: var(--blue); }
+.search-result-count { font-size: 13px; color: var(--gray-400); }
+.search-result-body {
+  max-width: var(--max-w); margin: 0 auto; padding: 36px 24px 80px;
+}
+.search-no-result {
+  text-align: center; padding: 80px 0; color: var(--gray-400); font-size: 15px;
+}
+.search-no-result svg { width: 48px; height: 48px; opacity: .3; margin-bottom: 16px; display: block; margin-left: auto; margin-right: auto; }
+
+/* ──────────────────────────────────────────
+   LIST VIEW  (섹션별 전체 리스트 페이지)
+────────────────────────────────────────── */
+#listView { background: var(--white); }
+.list-view-head {
+  border-bottom: 1px solid var(--gray-200);
+  padding: 40px 0 28px;
+}
+.list-view-head-inner {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+}
+.list-view-title {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 700; margin-bottom: 6px;
+}
+.list-view-sub { font-size: 14px; color: var(--gray-400); }
+
+.list-view-body {
+  max-width: var(--max-w); margin: 0 auto; padding: 40px 24px 80px;
+}
+.list-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px;
+}
+.list-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+/* LIFE LOG list - 3 columns, overlay cards fill height naturally */
+#grid-lifelog { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.list-grid.cols-prev { grid-template-columns: repeat(5, 1fr); }
+
+/* Notice list view */
+.list-notice-table { width: 100%; border-collapse: collapse; }
+.list-notice-table th {
+  font-size: 12px; font-weight: 700; color: var(--gray-400);
+  text-align: center; padding: 10px 12px; border-bottom: 2px solid var(--black);
+  letter-spacing: .5px; text-transform: uppercase;
+}
+.list-notice-table td {
+  font-size: 14px; padding: 16px 12px;
+  border-bottom: 1px solid var(--gray-200); vertical-align: middle; text-align: center;
+}
+.list-notice-table tr:hover td { background: var(--gray-50); cursor: pointer; }
+.list-notice-num { color: var(--gray-400); width: 48px; }
+.list-notice-table td.list-notice-title-cell { flex: 1; text-align: left; }
+.list-notice-date { color: var(--gray-400); white-space: nowrap; width: 100px; text-align: center; }
+/* Inside the World: 3열 기준 캐러셀 */
+#world-track > * { flex: 0 0 calc((100% - 48px) / 3); }
+
+.prev-card { cursor: pointer; flex: 0 0 calc((100% - 72px) / 4); min-width: 0; }
+.prev-card:hover .prev-cover { transform: scale(1.02); }
+.prev-card:hover .prev-view-btn { background: var(--blue); color: white; border-color: var(--blue); }
+.prev-cover-wrap { overflow: hidden; border: 1px solid var(--gray-200); border-radius: 10px; }
+.prev-cover {
+  aspect-ratio: 3/4; transition: transform .4s ease;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 10px;
+}
+.prev-cover-1 { background: linear-gradient(160deg, #06122e, #1428a0); }
+.prev-cover-2 { background: linear-gradient(160deg, #0a2a0a, #1a6b30); }
+.prev-cover-3 { background: linear-gradient(160deg, #1a0800, #8b3000); }
+.prev-cover-4 { background: linear-gradient(160deg, #1a1040, #4a2090); }
+.prev-cover-text { font-size: 18px; font-weight: 700; color: white; text-align: center; line-height: 1.3; }
+.prev-cover-issue { font-size: 12px; color: rgba(255,255,255,.6); }
+.prev-card-body { padding: 12px 0 0; display: flex; flex-direction: column; gap: 8px; }
+.prev-card-date { font-size: 13px; color: var(--gray-400); }
+.prev-view-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; color: var(--gray-600);
+  border: 1px solid var(--gray-200); border-radius: 2px;
+  padding: 6px 14px; transition: all .2s; align-self: flex-start;
+}
+
+/* ──────────────────────────────────────────
+   FOOTER
+────────────────────────────────────────── */
+.site-footer { background: var(--gray-800); color: rgba(255,255,255,.6); padding: 40px 0 28px; margin-top: 0; }
+.footer-wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+.footer-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; gap: 32px; flex-wrap: wrap; }
+.footer-brand { font-size: 16px; font-weight: 700; color: white; margin-bottom: 10px; }
+.footer-brand span { color: var(--blue); }
+.footer-tagline { font-size: 13px; color: rgba(255,255,255,.45); font-weight: 300; }
+.footer-links-group { display: flex; flex-direction: column; gap: 8px; }
+.footer-links-group h4 { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 4px; }
+.footer-links-group a { font-size: 13px; color: rgba(255,255,255,.55); transition: color .2s; }
+.footer-links-group a:hover { color: white; }
+.footer-divider { border: none; border-top: 1px solid rgba(255,255,255,.1); margin: 0 0 20px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-info { font-size: 12px; line-height: 1.9; }
+.footer-social { display: flex; gap: 10px; align-items: center; }
+.footer-social a {
+  color: rgba(255,255,255,.85); transition: background .2s, color .2s;
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,.12); border: none;
+}
+.footer-social a:hover { background: rgba(255,255,255,.25); color: white; }
+
+/* ──────────────────────────────────────────
+   PDF FAB  (floating button)
+────────────────────────────────────────── */
+.pdf-fab {
+  position: fixed; right: 28px; bottom: 28px; z-index: 200;
+  background: var(--blue); color: white;
+  padding: 12px 20px; border-radius: 100px;
+  font-size: 13px; font-weight: 700; letter-spacing: .3px;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 6px 24px rgba(20,40,160,.35); transition: all .25s;
+}
+.pdf-fab:hover { background: var(--blue-lt); transform: translateY(-2px); box-shadow: 0 10px 32px rgba(20,40,160,.45); }
+.pdf-fab svg { width: 16px; height: 16px; }
+
+/* ──────────────────────────────────────────
+   ARTICLE PAGE  (Samsung Newsroom article style)
+────────────────────────────────────────── */
+#articleView { background: var(--white); }
+
+.art-breadcrumb {
+  border-bottom: 1px solid var(--gray-200); padding: 14px 0;
+}
+.art-breadcrumb-inner {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+  font-size: 13px; color: var(--gray-400); display: flex; align-items: center; gap: 8px;
+}
+.art-breadcrumb-inner a { color: var(--gray-600); transition: color .2s; }
+.art-breadcrumb-inner a:hover { color: var(--black); }
+.art-breadcrumb-inner .sep { color: var(--gray-200); }
+
+.art-body-wrap { max-width: var(--max-w); margin: 0 auto; padding: 56px 24px 80px; }
+
+.art-tag-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.art-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase;
+  color: var(--blue); padding: 3px 10px; border: 1px solid var(--blue); border-radius: 2px;
+}
+
+.art-headline {
+  font-size: clamp(26px, 4vw, 42px); font-weight: 700;
+  letter-spacing: -0.8px; line-height: 1.2; margin-bottom: 16px; color: var(--black);
+}
+.art-deck {
+  font-size: 18px; color: var(--gray-600); line-height: 1.65;
+  font-weight: 300; margin-bottom: 28px;
+}
+
+.art-meta-bar {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 16px;
+  padding: 18px 0; border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 40px;
+}
+.art-author-block { display: flex; align-items: center; gap: 12px; }
+.art-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue) 0%, #3a5aee 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.art-author-name { font-size: 14px; font-weight: 700; color: var(--black); }
+.art-author-campus { font-size: 12px; color: var(--gray-400); }
+.art-date { font-size: 13px; color: var(--gray-400); }
+.art-meta-bar .spacer { flex: 1; }
+.art-pdf-btn {
+  padding: 8px 18px; border: 1px solid var(--gray-200); border-radius: 100px;
+  font-size: 13px; font-weight: 600; color: var(--gray-600); transition: all .2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.art-pdf-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Article hero image */
+.art-hero-img {
+  width: 100%; aspect-ratio: 16/9; background: var(--gray-100);
+  margin-bottom: 12px; overflow: hidden; border-radius: 2px;
+  display: flex; align-items: center; justify-content: center; position: relative;
+}
+.art-hero-img .ai-tag {
+  position: absolute; bottom: 12px; right: 12px;
+  background: rgba(0,0,0,.55); color: rgba(255,255,255,.8);
+  font-size: 11px; padding: 3px 10px; border-radius: 2px;
+}
+.art-img-caption { font-size: 12px; color: var(--gray-400); margin-bottom: 40px; line-height: 1.6; }
+
+/* Article text */
+.art-text { font-size: 17px; line-height: 1.9; color: #1a1a1a; font-weight: 400; }
+.art-text p { margin-bottom: 28px; }
+.art-text p:first-child::first-letter {
+  float: left; font-size: 64px; font-weight: 700;
+  line-height: .85; margin-right: 6px; margin-top: 5px;
+  color: var(--blue); font-family: 'Noto Serif KR', serif;
+}
+.art-text strong { font-weight: 700; }
+
+.art-divider { border: none; border-top: 1px solid var(--gray-200); margin: 40px 0; }
+
+/* Reactions */
+.art-reactions-wrap {
+  background: var(--gray-50); border: none;
+  border-radius: 2px; padding: 28px 32px;
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  text-align: center; margin-bottom: 32px;
+}
+.art-reactions-label { font-size: 15px; font-weight: 700; }
+.art-reaction-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.art-rbtn {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 28px; border: 1px solid var(--gray-200); border-radius: 2px;
+  background: white; cursor: pointer; transition: all .2s; min-width: 110px;
+  font-size: 13px; font-weight: 600; color: var(--gray-600);
+}
+.art-rbtn .rbtn-emoji { font-size: 26px; }
+.art-rbtn:hover { border-color: var(--blue); color: var(--blue); }
+.art-rbtn.on { border-color: var(--blue); background: #f0f4ff; color: var(--blue); }
+
+/* Nav buttons */
+.art-nav-row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 8px; margin-bottom: 12px;
+}
+.art-nav-btn {
+  padding: 12px 0; border: 1px solid var(--gray-200); border-radius: 2px;
+  font-size: 14px; font-weight: 600; color: var(--gray-600);
+  transition: all .2s; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+  width: 120px; justify-content: center;
+}
+.art-nav-btn.list { min-width: 100px; }
+.art-nav-btn:hover { border-color: var(--gray-600); color: var(--black); }
+.art-nav-btn.prev { justify-content: center; }
+.art-nav-btn.next { justify-content: center; }
+.art-nav-btn.list {
+  background: var(--black); color: white; border-color: var(--black); justify-content: center; width: 100px; min-width: unset;
+}
+.art-nav-btn.list:hover { background: var(--gray-800); }
+
+/* ──────────────────────────────────────────
+   IMAGE PLACEHOLDERS  (colored gradients for articles)
+────────────────────────────────────────── */
+.ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; }
+.ph-label { font-size: 13px; font-weight: 500; text-align: center; padding: 0 16px; line-height: 1.4; }
+.ph-1 { background: linear-gradient(145deg, #06122e, #1428a0); color: rgba(255,255,255,.5); }
+.ph-2 { background: linear-gradient(145deg, #0a2f12, #1a7a30); color: rgba(255,255,255,.5); }
+.ph-3 { background: linear-gradient(145deg, #2a0a00, #c04000); color: rgba(255,255,255,.5); }
+.ph-4 { background: linear-gradient(145deg, #1a1a4a, #4a4aaa); color: rgba(255,255,255,.5); }
+.ph-5 { background: linear-gradient(145deg, #2a2000, #c09000); color: rgba(255,255,255,.5); }
+.ph-6 { background: linear-gradient(145deg, #002a2a, #007070); color: rgba(255,255,255,.5); }
+.ph-7 { background: linear-gradient(145deg, #200030, #8000b0); color: rgba(255,255,255,.5); }
+.ph-8 { background: linear-gradient(145deg, #002040, #0060c0); color: rgba(255,255,255,.5); }
+.ph-9 { background: linear-gradient(145deg, #301000, #904000); color: rgba(255,255,255,.5); }
+
+/* ──────────────────────────────────────────
+   TICKER BANNER (헤더 ↔ 히어로 사이 흐르는 자막)
+────────────────────────────────────────── */
+.ticker-wrap {
+  width: 100%;
+  background: var(--white);
+  overflow: hidden;
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+/* header-wrap과 동일한 max-width + padding으로 NOTICE 라벨 시작점 맞춤 */
+.ticker-inner-wrap {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ticker-label {
+  flex-shrink: 0;
+  background: var(--white);
+  color: var(--black);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  padding: 0 16px 0 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  box-shadow: 8px 0 12px 4px rgba(255,255,255,1);
+}
+
+.ticker-track {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-inner {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: ticker-scroll 36s linear infinite;
+  will-change: transform;
+}
+.ticker-inner:hover { animation-play-state: paused; }
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--gray-700);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .2px;
+  padding: 0 80px;
+}
+.ticker-item .ticker-dot {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: var(--gray-400);
+  flex-shrink: 0;
+}
+
+/* ──────────────────────────────────────────
+   ANIMATIONS
+────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate { animation: fadeUp .5s ease both; }
+.delay-1 { animation-delay: .08s; }
+.delay-2 { animation-delay: .16s; }
+.delay-3 { animation-delay: .24s; }
+
+/* ── 터치 스와이프 지원 ── */
+.carousel-viewport { touch-action: pan-y; user-select: none; }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE  — 전체 반응형
+══════════════════════════════════════════ */
+
+/* ── 태블릿 (≤1100px) ── */
+@media (max-width: 1100px) {
+  .bento-grid { grid-template-columns: 1fr; }
+  .bento-main { grid-row: auto; }
+
+  /* 캐러셀: 3열 */
+  .carousel-track > * { flex: 0 0 calc((100% - 48px) / 3); }
+  #world-track > *    { flex: 0 0 calc((100% - 24px) / 2); }
+  .prev-card           { flex: 0 0 calc((100% - 48px) / 3); }
+
+  /* 리스트 그리드 */
+  .list-grid           { grid-template-columns: repeat(3, 1fr); }
+  .list-grid.cols-3    { grid-template-columns: repeat(2, 1fr); }
+  .list-grid.cols-prev { grid-template-columns: repeat(3, 1fr); }
+
+  /* notice-pov */
+  .notice-pov-grid { gap: 28px; }
+}
+
+/* ── 모바일 가로 / 소형 태블릿 (≤780px) ── */
+@media (max-width: 780px) {
+  /* 헤더 */
+  .main-nav  { display: none; }
+  .header-wrap { padding: 0 16px; }
+  .site-logo { font-size: 17px; }
+
+  /* 검색바 */
+  .search-bar.open { max-width: 200px; }
+  .search-input { width: 160px; }
+
+  /* 섹션 패딩 */
+  section { padding: 36px 0; }
+  .page-wrap { padding: 0 16px; }
+
+  /* 히어로 */
+  .hero-overlay-title { font-size: clamp(18px, 5vw, 28px); }
+  .hero-overlay-sub   { font-size: 13px; display: none; }
+
+  /* 캐러셀: 2열 */
+  .carousel-track > * { flex: 0 0 calc((100% - 24px) / 2); }
+  #world-track > *    { flex: 0 0 calc((100% - 24px) / 2); }
+  .prev-card           { flex: 0 0 calc((100% - 24px) / 2); }
+  .carousel-btn-left  { left: -12px; }
+  .carousel-btn-right { right: -12px; }
+
+  /* notice: 날짜 숨기고 > 버튼 표시 */
+  .notice-date  { display: none; }
+  .notice-arrow { display: flex; align-items: center; font-size: 18px; color: var(--gray-400); }
+  .notice-row   { flex: none; padding: 14px 0; align-items: flex-start; }
+
+  /* notice-pov: 세로 스택 */
+  .notice-pov-grid { grid-template-columns: 1fr; }
+  .notice-list { max-height: none; }
+
+  /* 리스트 그리드 */
+  .list-grid           { grid-template-columns: repeat(2, 1fr); }
+  .list-grid.cols-3    { grid-template-columns: repeat(2, 1fr); }
+  .list-grid.cols-prev { grid-template-columns: repeat(2, 1fr); }
+
+  /* 기사 페이지 */
+  .art-body-wrap { padding: 32px 16px 60px; }
+  .art-headline  { font-size: clamp(22px, 5vw, 32px); }
+  .art-nav-row   { gap: 8px; }
+
+  /* 리스트뷰 헤더 */
+  .list-view-head-inner { padding: 0 16px; }
+  .list-view-body       { padding: 28px 16px 60px; }
+
+  /* 푸터 */
+  .footer-top   { flex-direction: column; gap: 20px; }
+  .footer-bottom { flex-direction: column; gap: 8px; align-items: flex-start; }
+
+  /* 티커 */
+  .ticker-inner-wrap { padding: 0 16px; }
+  .ticker-label { padding: 0 12px; font-size: 11px; }
+}
+
+/* ── 모바일 세로 (≤480px) ── */
+@media (max-width: 480px) {
+  /* 헤더 */
+  .site-logo { font-size: 15px; }
+
+  /* 캐러셀: 1열 */
+  .carousel-track > * { flex: 0 0 100%; }
+  #world-track > *    { flex: 0 0 100%; }
+  .prev-card           { flex: 0 0 calc((100% - 24px) / 2); }
+  .carousel-btn        { display: none; }
+
+  /* 리스트 그리드 */
+  .list-grid           { grid-template-columns: 1fr; gap: 20px; }
+  .list-grid.cols-3    { grid-template-columns: 1fr; }
+  .list-grid.cols-prev { grid-template-columns: repeat(2, 1fr); }
+
+  /* 공지 테이블 */
+  .list-notice-num { display: none; }
+
+  /* 섹션 헤더 */
+  .section-name { font-size: 17px; }
+  .btn-more     { font-size: 11px; padding: 5px 10px; }
+
+  /* 기사 카드 */
+  .art-card-title  { font-size: 14px; }
+  .art-card-excerpt { display: none; }
+
+  /* POV 카드 */
+  .pov-card { padding: 20px; }
+
+  /* 푸터 */
+  .footer-social { flex-wrap: wrap; gap: 12px; }
+
+  /* 히어로 화살표 */
+  .hero-arrow { width: 32px; height: 32px; }
+  .hero-arrow svg { width: 12px; height: 12px; }
+  .hero-arrow-left  { left: 8px; }
+  .hero-arrow-right { right: 8px; }
+
+  /* 히어로 overlay */
+  .hero-overlay { padding: 40px 16px 28px; }
+  .hero-overlay-tag { font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── DRAWER ─── -->
+<div class="drawer-bg" id="drawerBg" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="drawer-logo">Poly Scoop</div>
+    <button class="btn-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-menu">
+    <a href="#" onclick="showList('insights');closeDrawer()">INSIGHTS &nbsp;<small style="color:#aaa">심층탐구</small></a>
+    <a href="#" onclick="showList('lifelog');closeDrawer()">LIFE LOG &nbsp;<small style="color:#aaa">일상기록</small></a>
+    <a href="#" onclick="showList('world');closeDrawer()">Inside the World &nbsp;<small style="color:#aaa">세상 속으로</small></a>
+    <a href="#" onclick="showList('notice');closeDrawer()">Notice &amp; Event</a>
+    <a href="#" onclick="showList('previous');closeDrawer()">Previous Issue</a>
+  </div>
+</div>
+
+<!-- ─── HEADER ─── -->
+<header class="site-header">
+  <div class="header-wrap">
+    <button class="btn-menu" onclick="toggleDrawer()">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="site-logo" onclick="showMain()" style="cursor:pointer">
+      Poly Scoop
+    </div>
+    <nav class="main-nav">
+      <a href="#" onclick="showList('insights')" class="active">INSIGHTS</a>
+      <a href="#" onclick="showList('lifelog')">LIFE LOG</a>
+      <a href="#" onclick="showList('world')">Inside the World</a>
+      <a href="#" onclick="showList('notice')">Notice &amp; Event</a>
+      <a href="#" onclick="showList('previous')">Previous Issue</a>
+    </nav>
+    <div class="header-right">
+      <div class="search-bar" id="searchBar">
+        <input class="search-input" id="searchInput" type="text" placeholder="검색어를 입력해주세요" oninput="onSearchInput()" onkeydown="if(event.key==='Enter')doSearch()" />
+      </div>
+      <button class="btn-icon" title="검색" onclick="toggleSearch()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="11" cy="11" r="7.5"/><line x1="21" y1="21" x2="16.3" y2="16.3"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════════════════════
+     MAIN VIEW
+═══════════════════════════════════════════ -->
+<div class="view active" id="mainView">
+
+  <!-- ── 흐르는 자막 티커 ── -->
+  <div class="ticker-wrap">
+    <div class="ticker-inner-wrap">
+      <div class="ticker-label">POLY SCOOP NOTICE</div>
+      <div class="ticker-track">
+        <div class="ticker-inner">
+        <!-- 원본 세트 -->
+        <span class="ticker-item">폴리 기자단이 직접 취재한 Poly Scoop 지금 확인해보세요<span class="ticker-dot"></span></span>
+        <span class="ticker-item">폴리 기자단이 직접 취재한 Poly Scoop 지금 확인해보세요<span class="ticker-dot"></span></span>
+        <span class="ticker-item">폴리 기자단이 직접 취재한 Poly Scoop 지금 확인해보세요<span class="ticker-dot"></span></span>
+        <span class="ticker-item">폴리 기자단이 직접 취재한 Poly Scoop 지금 확인해보세요<span class="ticker-dot"></span></span>
+        <!-- 끊김 없이 루프하기 위한 복제 세트 -->
+        <span class="ticker-item">폴리 기자단이 직접 취재한 Poly Scoop 지금 확인해보세요<span class="ticker-dot"></span></span>
+        <span class="ticker-item">폴리 기자단이 직접 취재한 Poly Scoop 지금 확인해보세요<span class="ticker-dot"></span></span>
+        <span class="ticker-item">폴리 기자단이 직접 취재한 Poly Scoop 지금 확인해보세요<span class="ticker-dot"></span></span>
+        <span class="ticker-item">폴리 기자단이 직접 취재한 Poly Scoop 지금 확인해보세요<span class="ticker-dot"></span></span>
+      </div>
+    </div>
+    </div><!-- /ticker-inner-wrap -->
+  </div><!-- /ticker-wrap -->
+
+  <!-- ══ HERO SLIDER — 풀스크린 단일 슬라이드 ══ -->
+  <div class="hero-slider">
+
+    <!-- 슬라이드 트랙 -->
+    <div class="hero-track" id="heroTrack">
+
+      <!-- Slide 1 -->
+      <div class="hero-slide" onclick="showArticle()">
+        <div class="hero-img-wrap">
+          <div class="hero-img-wrap-inner hi-1">
+            <!-- 영상 파일 업로드 후 src 경로를 교체해주세요 -->
+            <video class="hero-video" id="heroVideo1" src="" autoplay muted loop playsinline></video>
+            <div class="hero-video-placeholder" id="heroPlaceholder1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Video 1</span>
+            </div>
+          </div>
+          <div class="hero-overlay">
+            <span class="hero-overlay-tag">⭐ Editor's Pick · INSIGHTS</span>
+            <h2 class="hero-overlay-title">Tech Show and Tell:<br>CES 2026이 보여준 미래</h2>
+            <p class="hero-overlay-sub">From humanoid robots to AI-powered gadgets — a student reporter's eye on the biggest tech show on Earth.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="hero-slide" onclick="showArticle()">
+        <div class="hero-img-wrap">
+          <div class="hero-img-wrap-inner hi-2">
+            <video class="hero-video" id="heroVideo2" src="" autoplay muted loop playsinline></video>
+            <div class="hero-video-placeholder" id="heroPlaceholder2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Video 2</span>
+            </div>
+          </div>
+          <div class="hero-overlay">
+            <span class="hero-overlay-tag">⭐ Editor's Pick · LIFE LOG</span>
+            <h2 class="hero-overlay-title">Saving Our Blue Ocean:<br>The Magic of No-Plastic Days</h2>
+            <p class="hero-overlay-sub">매주 목요일, 플라스틱 없이 살아보기로 한 한 학생의 놀라운 기록.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="hero-slide" onclick="showArticle()">
+        <div class="hero-img-wrap">
+          <div class="hero-img-wrap-inner hi-3">
+            <video class="hero-video" id="heroVideo3" src="" autoplay muted loop playsinline></video>
+            <div class="hero-video-placeholder" id="heroPlaceholder3">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Video 3</span>
+            </div>
+          </div>
+          <div class="hero-overlay">
+            <span class="hero-overlay-tag">⭐ Editor's Pick · INSIDE THE WORLD</span>
+            <h2 class="hero-overlay-title">The Truth About Robots:<br>Can They Really Do Our Homework?</h2>
+            <p class="hero-overlay-sub">AI 로봇이 숙제를 대신할 수 있을까? 학생 기자가 직접 검증했다.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 좌 화살표 -->
+    <button class="hero-arrow hero-arrow-left" onclick="heroMove(-1)" aria-label="이전 슬라이드">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+
+    <!-- 우 화살표 -->
+    <button class="hero-arrow hero-arrow-right" onclick="heroMove(1)" aria-label="다음 슬라이드">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+
+    <!-- 하단 도트 -->
+    <div class="hero-dots-bar">
+      <div class="hero-dot on"  onclick="heroGo(0)"></div>
+      <div class="hero-dot"     onclick="heroGo(1)"></div>
+      <div class="hero-dot"     onclick="heroGo(2)"></div>
+    </div>
+
+  </div>
+  <!-- ══ /HERO ══ -->
+
+  <div class="page-wrap">
+
+    <!-- ── INSIGHTS SECTION ── -->
+    <section id="insights">
+      <div class="section-head animate">
+        <div class="section-head-left">
+          <span class="section-name">INSIGHTS</span>
+          <span class="section-name-sub">심층탐구</span>
+        </div>
+        <a href="#" onclick="showList('insights')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <div class="carousel-wrap animate delay-1">
+        <button class="carousel-btn carousel-btn-left" onclick="carouselMove('insights',-1)" id="insights-prev" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="insights-track">
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=1o_pFjZm1qBaTr5BxICPdKmrPJQVZNYsw&sz=w600" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Science &amp; Technology</span>
+                <h3 class="art-card-title">My Secret Robot Friend: How Does AI Help Us at School?</h3>
+                <p class="art-card-excerpt">AI tools are reshaping classrooms. But are they helpers or cheaters? One student reporter investigates.</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Minho Lee · Gangnam</span>
+                  <span class="art-card-date">2026.05.28</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>1,243</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>42</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>31</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>18</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=1T2u-w2KbQNPEQGl5BaGX-c7imongLz5N&sz=w600" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Nature &amp; Environment</span>
+                <h3 class="art-card-title">Saving Our Blue Ocean: The Magic of No-Plastic Days</h3>
+                <p class="art-card-excerpt">Every Thursday, Haemi decided to live without plastic. What she found surprised everyone.</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Haemi Choi · Mapo</span>
+                  <span class="art-card-date">2026.05.28</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>987</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>28</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>45</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>22</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=17thWW2vAPglkEng1JudOfJLUNVCaShsa&sz=w600" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Life &amp; Society</span>
+                <h3 class="art-card-title">The Yellow Safety Line: Secrets of Our Safe Road to School</h3>
+                <p class="art-card-excerpt">That yellow line near school crossings — who put it there, and why does it matter?</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Jiwon Park · Bundang</span>
+                  <span class="art-card-date">2026.05.28</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>754</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>19</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>33</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>14</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=1lbQsPiJNZLIqCZlpgE9c_uYsOFuWHnUP&sz=w600" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Science &amp; Technology</span>
+                <h3 class="art-card-title">Weather Wonders: How Do Scientists Know When It Will Rain?</h3>
+                <p class="art-card-excerpt">Behind every forecast is a fascinating story of satellites, math, and supercomputers.</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Jiho Shin · Daechi</span>
+                  <span class="art-card-date">2026.05.28</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>1,021</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>33</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>44</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>21</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=1xNgp8XMDjFTmY8oex4nVZtaJLthhe2B0&sz=w600" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Science &amp; Technology</span>
+                <h3 class="art-card-title">Space Food Secrets: What Do Astronauts Eat for Lunch?</h3>
+                <p class="art-card-excerpt">No forks, no gravity — discover the creative science behind eating in outer space.</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Yuna Bae · Mokdong</span>
+                  <span class="art-card-date">2026.05.28</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>892</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>24</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>51</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>16</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner" style="padding:0;background:none;"><img src="https://drive.google.com/thumbnail?id=1x8a_oAt6Y5sGkCXQG2n64tf-JkTUyYvc&sz=w600" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Life &amp; Society</span>
+                <h3 class="art-card-title">Smartphones: Does Screen Time Keep Us Awake?</h3>
+                <p class="art-card-excerpt">We scroll, we watch, we swipe — but what does all that blue light do to our sleep?</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Sora Jung · Mapo</span>
+                  <span class="art-card-date">2026.05.28</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>1,334</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>55</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>39</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>27</span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-btn carousel-btn-right" onclick="carouselMove('insights',1)" id="insights-next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+    <!-- ── LIFE LOG SECTION ── -->
+    <section id="lifelog">
+      <div class="section-head animate">
+        <div class="section-head-left">
+          <span class="section-name">LIFE LOG</span>
+          <span class="section-name-sub">일상기록</span>
+        </div>
+        <a href="#" onclick="showList('lifelog')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <div class="carousel-wrap animate delay-1">
+        <button class="carousel-btn carousel-btn-left" onclick="carouselMove('lifelog',-1)" id="lifelog-prev" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="lifelog-track">
+                        <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1jGPz05WxLtxm_c27YzSzEyYftuEpLhiN&sz=w600');background-size:cover;background-position:center;">
+              <div class="lifelog-overlay">
+                <span class="art-card-tag" style="color:#fff;border-color:rgba(255,255,255,0.5);">Nature & Garden</span>
+                <h3 class="art-card-title" style="color:#fff;">My Tiny Green Friend: The Day I Planted My First Flower</h3>
+                <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">From a seed to a blooming flower — the journey taught me patience and wonder.</p>
+                <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Soyeon Kim · Incheon</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
+                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>678</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>15</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>22</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>31</span></span></div>
+              </div>
+            </div>
+                        <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1q6c4vZPzu0OnQz8QSUBh-PFsg8BMIJXG&sz=w600');background-size:cover;background-position:center;">
+              <div class="lifelog-overlay">
+                <span class="art-card-tag" style="color:#fff;border-color:rgba(255,255,255,0.5);">Family</span>
+                <h3 class="art-card-title" style="color:#fff;">The Busy Bee: Helping My Grandma Water Her Colorful Garden</h3>
+                <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">A weekend with grandma turned into a gardening adventure.</p>
+                <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Dahyun Oh · Suwon</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
+                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>543</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>12</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>18</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>24</span></span></div>
+              </div>
+            </div>
+                        <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1eytbDCy3V4dlCREsY3zPerqy2mkyIb7W&sz=w600');background-size:cover;background-position:center;">
+              <div class="lifelog-overlay">
+                <span class="art-card-tag" style="color:#fff;border-color:rgba(255,255,255,0.5);">Environment</span>
+                <h3 class="art-card-title" style="color:#fff;">Our Green Mission: Sorting Recycling to Keep the Earth Happy</h3>
+                <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">What happens after we throw things into the recycling bin?</p>
+                <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Eunji Yoon · Seongnam</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
+                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>721</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>18</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>27</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>19</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1I3BqOvqafGCmW5b9JnobSz2rN-aYQo0l&sz=w600');background-size:cover;background-position:center;">
+              <div class="lifelog-overlay">
+                <span class="art-card-tag" style="color:#fff;border-color:rgba(255,255,255,0.5);">Daily Life</span>
+                <h3 class="art-card-title" style="color:#fff;">A Day in My Shoes: What I Love and Hate About School</h3>
+                <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">An honest essay about the highs and lows of being a student reporter.</p>
+                <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Yujin Han · Daechi</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
+                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>894</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>31</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>24</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>38</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1BD3D_h8Myg2AGR-Nsrs0RuJxbJ6bqBAu&sz=w600');background-size:cover;background-position:center;">
+              <div class="lifelog-overlay">
+                <span class="art-card-tag" style="color:#fff;border-color:rgba(255,255,255,0.5);">Hobby & Art</span>
+                <h3 class="art-card-title" style="color:#fff;">My Art Weekend: How Drawing Helps Me Think Clearly</h3>
+                <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">Every stroke of the brush felt like a new way to express myself.</p>
+                <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Mira Song · Hongdae</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
+                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>612</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>22</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>16</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>29</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1n-x3b3JB_dq3G9vzTTHaS_t-EaUYXv8J&sz=w600');background-size:cover;background-position:center;">
+              <div class="lifelog-overlay">
+                <span class="art-card-tag" style="color:#fff;border-color:rgba(255,255,255,0.5);">Food & Culture</span>
+                <h3 class="art-card-title" style="color:#fff;">Lunchbox Stories: What My Mom Packs Tells About Our Culture</h3>
+                <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">A peek inside my lunchbox reveals more than just food.</p>
+                <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Jisoo Kwon · Bundang</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
+                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>445</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>9</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>21</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>17</span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-btn carousel-btn-right" onclick="carouselMove('lifelog',1)" id="lifelog-next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── INSIDE THE WORLD ── -->
+    <section id="world">
+      <div class="section-head animate">
+        <div class="section-head-left">
+          <span class="section-name">Inside the World</span>
+          <span class="section-name-sub">세상 속으로</span>
+        </div>
+        <a href="#" onclick="showList('world')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+
+      <div class="topic-tabs animate">
+        <button class="topic-tab on" onclick="switchTopic(this)">Science &amp; Technology</button>
+        <button class="topic-tab" onclick="switchTopic(this)">Nature &amp; Environment</button>
+        <button class="topic-tab" onclick="switchTopic(this)">Life &amp; Society</button>
+      </div>
+
+      <div class="carousel-wrap animate delay-1">
+        <button class="carousel-btn carousel-btn-left" onclick="carouselMove('world',-1)" id="world-prev" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="world-track" style="--cols:3;">
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner ph ph-4">
+                  <div style="font-size:40px;">🌦️</div>
+                  <div class="ph-label">Weather Wonders</div>
+                </div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Science &amp; Technology</span>
+                <h3 class="art-card-title">Weather Wonders: How Do Scientists Know When It Will Rain?</h3>
+                <p class="art-card-excerpt">Behind every forecast is a fascinating story of satellites, math, and supercomputers.</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Jiho Shin · Daechi</span>
+                  <span class="art-card-date">2026.05.28</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>1,021</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>33</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>44</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>21</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner ph ph-7">
+                  <div style="font-size:40px;">🚀</div>
+                  <div class="ph-label">Space Food Secrets</div>
+                </div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Science &amp; Technology</span>
+                <h3 class="art-card-title">Space Food Secrets: What Do Astronauts Eat for Lunch?</h3>
+                <p class="art-card-excerpt">No forks, no gravity — discover the creative science behind eating in outer space.</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Yuna Bae · Mokdong</span>
+                  <span class="art-card-date">2026.05.28</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>876</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>27</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>38</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>25</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner ph ph-1">
+                  <div style="font-size:40px;">🤖</div>
+                  <div class="ph-label">The Truth About Robots</div>
+                </div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Science &amp; Technology</span>
+                <h3 class="art-card-title">The Truth About Robots: Can They Really Do Our Homework?</h3>
+                <p class="art-card-excerpt">AI robots are getting smarter every day. But should we trust them with our assignments?</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Seojun Lim · Nowon</span>
+                  <span class="art-card-date">2026.05.28</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>743</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>19</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>29</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>18</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner ph ph-2">
+                  <div style="font-size:40px;">🐠</div>
+                  <div class="ph-label">Ocean Plastic Crisis</div>
+                </div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Nature &amp; Environment</span>
+                <h3 class="art-card-title">Ocean Plastic Crisis: Why Fish Are Eating Our Trash</h3>
+                <p class="art-card-excerpt">Millions of tons of plastic enter our oceans every year — and marine life is paying the price.</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Haemi Choi · Mapo</span>
+                  <span class="art-card-date">2026.07.16</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>1,156</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>41</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>52</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>33</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner ph ph-5">
+                  <div style="font-size:40px;">📱</div>
+                  <div class="ph-label">Smartphones & Sleep</div>
+                </div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Life &amp; Society</span>
+                <h3 class="art-card-title">Smartphones: Does Screen Time Keep Us Awake?</h3>
+                <p class="art-card-excerpt">We scroll, we watch, we swipe — but what does all that blue light do to our sleep?</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Sora Jung · Mapo</span>
+                  <span class="art-card-date">2026.07.16</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>1,334</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>55</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>39</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>27</span></span></div>
+              </div>
+            </div>
+            <div class="strip-card" onclick="showArticle()">
+              <div class="art-card-img">
+                <div class="art-card-img-inner ph ph-6">
+                  <div style="font-size:40px;">⚡</div>
+                  <div class="ph-label">Electric vs Gas</div>
+                </div>
+              </div>
+              <div class="art-card-body">
+                <span class="art-card-tag">Nature &amp; Environment</span>
+                <h3 class="art-card-title">Electric vs. Gas: Which Car is Truly Better for Our Earth?</h3>
+                <p class="art-card-excerpt">The debate goes beyond emissions — a deep dive into the full lifecycle of both car types.</p>
+                <div class="art-card-meta">
+                  <span class="art-card-author">Jiwon Park · Bundang</span>
+                  <span class="art-card-date">2026.07.16</span>
+                </div>
+                <div class="art-card-stats"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>876</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>27</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>38</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>25</span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-btn carousel-btn-right" onclick="carouselMove('world',1)" id="world-next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── NOTICE & POV ── -->
+    <section id="notice">
+      <div class="notice-pov-grid">
+        <!-- Notice -->
+        <div>
+          <div class="section-head animate">
+            <div class="section-head-left">
+              <span class="section-name">Notice &amp; Event</span>
+            </div>
+            <a href="#" onclick="showList('notice')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+          </div>
+          <div class="notice-list animate delay-1">
+            <div class="notice-row">
+              <span class="notice-title">2기 기자단 발대식 온라인 Zoom 개최 안내 <span class="notice-badge-new">N</span></span>
+              <span class="notice-date">2026.08.01</span><span class="notice-arrow">›</span>
+            </div>
+            <div class="notice-row">
+              <span class="notice-title">Poly Scoop Issue 2 정식 발간 안내 <span class="notice-badge-new">N</span></span>
+              <span class="notice-date">2026.07.16</span><span class="notice-arrow">›</span>
+            </div>
+            <div class="notice-row">
+              <span class="notice-title">1기 Editor's Pick 수상자 발표 — 우수 기자 3명 선정</span>
+              <span class="notice-date">2026.07.16</span><span class="notice-arrow">›</span>
+            </div>
+            <div class="notice-row">
+              <span class="notice-title">2기 기자단 모집 안내 (7월 1일 ~ 7월 17일)</span>
+              <span class="notice-date">2026.06.01</span><span class="notice-arrow">›</span>
+            </div>
+            <div class="notice-row">
+              <span class="notice-title">Poly Scoop 론칭 기념 인스타그램 '와글와글 소문내기' 이벤트 당첨자 발표</span>
+              <span class="notice-date">2026.05.30</span><span class="notice-arrow">›</span>
+            </div>
+            <div class="notice-row">
+              <span class="notice-title">Poly Scoop 창간호 정식 발간 🎉</span>
+              <span class="notice-date">2026.05.28</span><span class="notice-arrow">›</span>
+            </div>
+            <div class="notice-row">
+              <span class="notice-title">'나의 원픽 스쿱을 찾아라' — 가장 좋아하는 기사 댓글 남기기 이벤트 진행 중</span>
+              <span class="notice-date">2026.05.28</span><span class="notice-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- POV Switcher -->
+        <div>
+          <div class="section-head animate">
+            <div class="section-head-left">
+              <span class="section-name">Interactive</span>
+              <span class="section-name-sub">POV Switcher</span>
+            </div>
+          </div>
+          <div class="pov-card animate delay-1" id="povCard">
+            <span class="pov-card-label">⚔️ CHOOSE A SIDE</span>
+            <h3 class="pov-card-title">Cinderella vs. Stepmother —<br>Whose side are you on?</h3>
+            <div class="pov-vs-wrap">
+              <div class="pov-side" id="povSideA">
+                <div class="pov-avatar">👸</div>
+                <span class="pov-choice-name">Cinderella</span>
+                <span class="pov-choice-quote">"I never get to go to the ball. It's not fair..."</span>
+                <div class="pov-bar-row">
+                  <div class="pov-bar-track"><div class="pov-bar-fill" id="povBarA" style="width:64%"></div></div>
+                </div>
+                <span class="pov-pct" id="povPctA">64%</span>
+              </div>
+              <div class="pov-vs-divider">VS</div>
+              <div class="pov-side" id="povSideB">
+                <div class="pov-avatar">👻</div>
+                <span class="pov-choice-name">Stepmother</span>
+                <span class="pov-choice-quote">"Maybe the chores will teach her a lesson..."</span>
+                <div class="pov-bar-row">
+                  <div class="pov-bar-track"><div class="pov-bar-fill gray" id="povBarB" style="width:36%"></div></div>
+                </div>
+                <span class="pov-pct" id="povPctB">36%</span>
+              </div>
+            </div>
+            <button class="pov-vote-btn" id="povVoteBtn" onclick="povVote()">VOTE</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PREVIOUS ISSUE ── -->
+    <section id="previous">
+      <div class="section-head animate">
+        <div class="section-head-left">
+          <span class="section-name">Previous Issue</span>
+        </div>
+        <a href="#" onclick="showList('previous')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      </div>
+      <div class="carousel-wrap animate delay-1">
+        <button class="carousel-btn carousel-btn-left" onclick="carouselMove('prev',-1)" id="prev-prev" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="prev-track">
+            <div class="prev-card">
+              <div class="prev-cover-wrap">
+                <div class="prev-cover prev-cover-1">
+                  <div class="prev-cover-text">Poly Scoop</div>
+                  <div class="prev-cover-issue">Issue 1 · May 2026</div>
+                </div>
+              </div>
+              <div class="prev-card-body">
+                <p class="art-card-tag" style="margin:0">창간호</p>
+                <div class="prev-card-date">2026년 5월 28일 발간</div>
+                <a href="#" class="prev-view-btn">View Issue →</a>
+              </div>
+            </div>
+            <div class="prev-card">
+              <div class="prev-cover-wrap">
+                <div class="prev-cover prev-cover-2">
+                  <div class="prev-cover-text">Poly Scoop</div>
+                  <div class="prev-cover-issue">Issue 2 · Jul 2026</div>
+                </div>
+              </div>
+              <div class="prev-card-body">
+                <p class="art-card-tag" style="margin:0">2호</p>
+                <div class="prev-card-date">2026년 7월 16일 발간</div>
+                <a href="#" class="prev-view-btn">View Issue →</a>
+              </div>
+            </div>
+            <div class="prev-card">
+              <div class="prev-cover-wrap">
+                <div class="prev-cover prev-cover-3">
+                  <div class="prev-cover-text">Poly Scoop</div>
+                  <div class="prev-cover-issue">Issue 3 · Sep 2026</div>
+                </div>
+              </div>
+              <div class="prev-card-body">
+                <p class="art-card-tag" style="margin:0">3호</p>
+                <div class="prev-card-date">2026년 9월 16일 발간</div>
+                <a href="#" class="prev-view-btn">View Issue →</a>
+              </div>
+            </div>
+            <div class="prev-card">
+              <div class="prev-cover-wrap">
+                <div class="prev-cover prev-cover-4">
+                  <div class="prev-cover-text">Poly Scoop</div>
+                  <div class="prev-cover-issue">Issue 4 · Nov 2026</div>
+                </div>
+              </div>
+              <div class="prev-card-body">
+                <p class="art-card-tag" style="margin:0">4호</p>
+                <div class="prev-card-date">2026년 11월 11일 발간</div>
+                <a href="#" class="prev-view-btn">View Issue →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-btn carousel-btn-right" onclick="carouselMove('prev',1)" id="prev-next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </section>
+
+  </div><!-- /page-wrap -->
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">Poly Scoop</div>
+          <div class="footer-tagline">폴리 기자단이 직접 취재한 영문 디지털 매거진</div>
+        </div>
+        <div class="footer-links-group">
+          <h4>Family Site</h4>
+          <a href="https://www.poly-english.com/main.do" target="_blank" rel="noopener">폴리어학원</a>
+          <a href="https://www.canb-english.com/canb" target="_blank" rel="noopener">캔비어학원</a>
+          <a href="https://www.polyinspiration.com/" target="_blank" rel="noopener">폴리인스퍼레이션</a>
+        </div>
+        <div class="footer-links-group">
+          <h4>Legal</h4>
+          <a href="https://www.poly-english.com/util/privacy.do" target="_blank" rel="noopener">개인정보처리방침</a>
+          <a href="https://www.poly-english.com/util/service.do" target="_blank" rel="noopener">이용약관</a>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="footer-bottom">
+        <div class="footer-info">
+          주소: 서울특별시 송파구 송파대로 201, 테라타워2 B동 4층&nbsp;&nbsp;|&nbsp;&nbsp;사업자등록번호: 117-81-51015&nbsp;&nbsp;|&nbsp;&nbsp;대표이사: 김성원, 장수복<br>
+          © 2026 Poly English. All rights reserved.
+        </div>
+        <div class="footer-social">
+          <a href="#" title="Blog" style="font-size:11px;font-weight:700;letter-spacing:-0.3px;font-family:'Noto Sans KR',sans-serif;">blog</a>
+          <a href="#" title="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="#" title="YouTube">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 8s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C15.6 3.8 12 3.8 12 3.8s-3.6 0-5.8.1c-.6.1-1.9.1-3 1.3C2.3 6 2 8 2 8S1.7 10.3 1.7 12.5v2.1c0 2.2.3 4.4.3 4.4s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C8.5 23.1 12 23.2 12 23.2s3.6 0 5.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.4v-2.1C22.3 10.3 22 8 22 8z"/>
+              <polygon points="9.8,8.5 9.8,15.5 16,12" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="pdf-fab">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    PDF 다운로드
+  </button>
+
+</div><!-- /mainView -->
+
+
+<!-- ═══════════════════════════════════════════
+     ARTICLE VIEW
+═══════════════════════════════════════════ -->
+<div class="view" id="articleView">
+
+  <div class="art-breadcrumb">
+    <div class="art-breadcrumb-inner">
+      <a href="#" onclick="showMain()">Poly Scoop</a>
+      <span class="sep">›</span>
+      <a href="#">INSIGHTS</a>
+      <span class="sep">›</span>
+      <span>Tech Show and Tell</span>
+    </div>
+  </div>
+
+  <div class="art-body-wrap">
+
+    <div class="art-tag-row">
+      <span class="art-tag">INSIGHTS</span>
+      <span class="art-tag" id="artSubTag" style="color:#555;border-color:#ccc;display:none">Science &amp; Technology</span>
+    </div>
+
+    <h1 class="art-headline">Tech Show and Tell</h1>
+    <p class="art-deck">From humanoid robots to AI-powered gadgets — CES 2026 showed the world what tomorrow looks like, through a student reporter's eyes.</p>
+
+    <div class="art-meta-bar">
+      <div class="art-author-block">
+        <div class="art-avatar">JK</div>
+        <div>
+          <div class="art-author-name">Jason Kim</div>
+          <div class="art-author-campus">Songpa Campus</div>
+        </div>
+      </div>
+      <span class="art-date">2026.01.08</span>
+      <div class="spacer"></div>
+      <button class="art-pdf-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        PDF 다운로드
+      </button>
+    </div>
+
+    <div class="art-hero-img">
+      <img src="https://drive.google.com/thumbnail?id=1P-e-g2I5A01QrAmelj5JrGDGxsxD_UaH&sz=w600" style="width:100%;height:100%;object-fit:cover;display:block;" />
+      <div class="ai-tag">✨ AI Generated</div>
+    </div>
+    <div class="art-img-caption">LG Electronics' humanoid robot, unveiled at CES 2026, Las Vegas. Designed to handle household tasks autonomously. (Illustration: AI-generated by Poly Scoop)</div>
+
+    <div class="art-text">
+      <p>Tech fans attended the Consumer Electronics Show (CES) from January 6 to 9. The yearly showcase takes place in Las Vegas, Nevada. It allows tech companies to show off their newest products.</p>
+
+      <p>This year, many companies presented robots. For example, Korean tech giant LG Electronics presented its new humanoid bot. LG announced that the bot is designed to handle "time-consuming" household tasks, such as folding laundry.</p>
+
+      <p>But robots were not the only stars of the show. Many other companies brought exciting new gadgets and ideas to the stage. From smart glasses that translate languages in real time, to tiny projectors that fit in your pocket, CES 2026 had something for everyone who loves technology.</p>
+
+      <p>For students like us, the most exciting part was seeing how AI is becoming a bigger part of everyday life. Experts at the show explained that AI can help people work faster and learn new things more easily. Some even said that in the future, AI tutors might help students study at home.</p>
+
+      <p>Of course, not everyone is happy about robots doing more work. Some people worry that robots might take away jobs from humans. But many tech leaders at CES said that robots and humans can work together as a team — each doing what they do best.</p>
+
+      <p>As we look at all these amazing inventions, one thing is clear: the future is arriving faster than we think. And as young students of today, we will be the ones who decide how to use these technologies wisely.</p>
+    </div>
+
+    <hr class="art-divider">
+
+    <div class="art-reactions-wrap">
+      <div class="art-reactions-label">이 기사를 추천합니다</div>
+      <div class="art-reaction-btns">
+        <button class="art-rbtn" onclick="toggleR(this)">
+          <span class="rbtn-emoji">💡</span>
+          쏠쏠정보
+          <span class="rcount">0</span>
+        </button>
+        <button class="art-rbtn on" onclick="toggleR(this)">
+          <span class="rbtn-emoji">🔍</span>
+          흥미진진
+          <span class="rcount">1</span>
+        </button>
+        <button class="art-rbtn" onclick="toggleR(this)">
+          <span class="rbtn-emoji">😊</span>
+          공감백배
+          <span class="rcount">0</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="art-nav-row">
+      <button class="art-nav-btn prev">← 이전글</button>
+      <button class="art-nav-btn list" onclick="showMain()">목록</button>
+      <button class="art-nav-btn next">다음글 →</button>
+    </div>
+
+  </div>
+
+  <button class="pdf-fab">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    PDF 다운로드
+  </button>
+
+</div><!-- /articleView -->
+
+
+<!-- ═══════════════════════════════════════════
+     SEARCH RESULT VIEW
+═══════════════════════════════════════════ -->
+<div class="view" id="searchView">
+  <div class="search-result-head">
+    <div class="search-result-head-inner">
+      <div class="art-breadcrumb-inner" style="padding:0 0 14px;border:none;">
+        <a href="#" onclick="showMain()">Poly Scoop</a>
+        <span class="sep">›</span>
+        <span>검색 결과</span>
+      </div>
+      <div class="search-result-keyword">
+        "<span id="searchKeywordDisplay"></span>" 검색 결과
+      </div>
+      <div class="search-result-count" id="searchResultCount"></div>
+    </div>
+  </div>
+  <div class="search-result-body">
+    <div class="list-grid" id="searchResultGrid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     LIST VIEWS  (섹션별 전체 리스트)
+═══════════════════════════════════════════ -->
+
+<!-- INSIGHTS LIST -->
+<div class="view" id="listView-insights">
+  <div class="list-view-head">
+    <div class="list-view-head-inner">
+      <div class="art-breadcrumb-inner" style="padding:0 0 16px;border:none;">
+        <a href="#" onclick="showMain()">Poly Scoop</a><span class="sep">›</span><span>INSIGHTS</span>
+      </div>
+      <div class="list-view-title">INSIGHTS</div>
+      <div class="list-view-sub">심층탐구</div>
+    </div>
+  </div>
+  <div class="list-view-body">
+    <div class="list-grid" id="grid-insights"></div>
+  </div>
+</div>
+
+<!-- LIFE LOG LIST -->
+<div class="view" id="listView-lifelog">
+  <div class="list-view-head">
+    <div class="list-view-head-inner">
+      <div class="art-breadcrumb-inner" style="padding:0 0 16px;border:none;">
+        <a href="#" onclick="showMain()">Poly Scoop</a><span class="sep">›</span><span>LIFE LOG</span>
+      </div>
+      <div class="list-view-title">LIFE LOG</div>
+      <div class="list-view-sub">일상기록</div>
+    </div>
+  </div>
+  <div class="list-view-body">
+    <div class="list-grid" id="grid-lifelog"></div>
+  </div>
+</div>
+
+<!-- INSIDE THE WORLD LIST -->
+<div class="view" id="listView-world">
+  <div class="list-view-head">
+    <div class="list-view-head-inner">
+      <div class="art-breadcrumb-inner" style="padding:0 0 16px;border:none;">
+        <a href="#" onclick="showMain()">Poly Scoop</a><span class="sep">›</span><span>Inside the World</span>
+      </div>
+      <div class="list-view-title">Inside the World</div>
+      <div class="list-view-sub">세상 속으로</div>
+    </div>
+  </div>
+  <div class="list-view-body">
+    <div class="list-grid cols-3" id="grid-world"></div>
+  </div>
+</div>
+
+<!-- NOTICE & EVENT LIST -->
+<div class="view" id="listView-notice">
+  <div class="list-view-head">
+    <div class="list-view-head-inner">
+      <div class="art-breadcrumb-inner" style="padding:0 0 16px;border:none;">
+        <a href="#" onclick="showMain()">Poly Scoop</a><span class="sep">›</span><span>Notice &amp; Event</span>
+      </div>
+      <div class="list-view-title">Notice &amp; Event</div>
+      <div class="list-view-sub"></div>
+    </div>
+  </div>
+  <div class="list-view-body">
+    <table class="list-notice-table" id="grid-notice">
+      <thead>
+        <tr>
+          <th class="list-notice-num">번호</th>
+          <th>제목</th>
+          <th class="list-notice-date">날짜</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PREVIOUS ISSUE LIST -->
+<div class="view" id="listView-previous">
+  <div class="list-view-head">
+    <div class="list-view-head-inner">
+      <div class="art-breadcrumb-inner" style="padding:0 0 16px;border:none;">
+        <a href="#" onclick="showMain()">Poly Scoop</a><span class="sep">›</span><span>Previous Issue</span>
+      </div>
+      <div class="list-view-title">Previous Issue</div>
+      <div class="list-view-sub"></div>
+    </div>
+  </div>
+  <div class="list-view-body">
+    <div class="list-grid cols-prev" id="grid-previous"></div>
+  </div>
+</div>
+
+<script>
+/* ─── HERO VIDEO PLACEHOLDER ─── */
+[1,2,3].forEach(i => {
+  const video = document.getElementById('heroVideo' + i);
+  const placeholder = document.getElementById('heroPlaceholder' + i);
+  if (!video || !placeholder) return;
+  // 영상 src가 있고 로드 성공 시 placeholder 숨김
+  video.addEventListener('loadeddata', () => {
+    placeholder.style.display = 'none';
+  });
+  // src가 비어있으면 placeholder 유지
+  if (!video.src || video.src === window.location.href) {
+    placeholder.style.display = 'flex';
+  }
+});
+
+/* ─── MATCH POV HEIGHT TO NOTICE LIST ─── */
+function matchPovHeight() {
+  const noticeCol = document.querySelector('.notice-pov-grid > div:first-child');
+  const povCol    = document.querySelector('.notice-pov-grid > div:last-child');
+  const povCard   = document.querySelector('.pov-card');
+  if (!noticeCol || !povCol || !povCard) return;
+
+  // reset
+  povCard.style.height = '';
+  povCard.style.overflow = '';
+  povCol.style.height = '';
+  noticeCol.style.height = '';
+
+  if (window.innerWidth <= 780) return;
+
+  // 두 컬럼 중 더 큰 자연 높이를 기준으로 맞춤
+  const noticeNatural = noticeCol.scrollHeight;
+  const povNatural    = povCol.scrollHeight;
+  const targetH       = Math.max(noticeNatural, povNatural);
+
+  // 두 컬럼 모두 동일 높이 고정
+  noticeCol.style.height = targetH + 'px';
+  povCol.style.height    = targetH + 'px';
+
+  // pov-card = 전체 높이 - section-head 높이
+  const povHeadH = povCol.querySelector('.section-head').offsetHeight;
+  povCard.style.height   = (targetH - povHeadH) + 'px';
+  povCard.style.overflow = 'hidden';
+}
+window.addEventListener('load', matchPovHeight);
+window.addEventListener('resize', matchPovHeight);
+
+/* ─── DRAWER ─── */
+function toggleDrawer() {
+  const drawer = document.getElementById('drawer');
+  const bg = document.getElementById('drawerBg');
+  const isOpen = drawer.classList.contains('show');
+  drawer.classList.toggle('show', !isOpen);
+  bg.classList.toggle('show', !isOpen);
+}
+function openDrawer() {
+  const d = document.getElementById('drawer'); if(d) d.classList.add('show');
+  const db = document.getElementById('drawerBg'); if(db) db.classList.add('show');
+}
+function closeDrawer() {
+  const d = document.getElementById('drawer'); if(d) d.classList.remove('show');
+  const db = document.getElementById('drawerBg'); if(db) db.classList.remove('show');
+}
+
+/* ─── VIEWS ─── */
+const ALL_VIEWS = ['mainView','articleView','searchView','listView-insights','listView-lifelog','listView-world','listView-notice','listView-previous'];
+
+function hideAll() {
+  ALL_VIEWS.forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('active'); });
+}
+function showMain() {
+  hideAll();
+  const mv = document.getElementById('mainView'); if(mv) mv.classList.add('active');
+  setActiveNav('');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showArticle(card) {
+  hideAll();
+  const av = document.getElementById('articleView'); if(av) av.classList.add('active');
+  if (card) {
+    const heroImg = document.querySelector('#articleView .art-hero-img');
+    if (heroImg) {
+      if (card.imgSrc) {
+        heroImg.innerHTML = `<img src="${card.imgSrc}" style="width:100%;height:100%;object-fit:cover;display:block;" /><div class="ai-tag">✨ AI Generated</div>`;
+      } else {
+        heroImg.innerHTML = `<div style="width:100%;height:100%;background:linear-gradient(135deg,#f0f4ff,#d8e4ff);display:flex;align-items:center;justify-content:center;font-size:80px;">${card.emoji || '📰'}</div>`;
+      }
+    }
+    const titleEl = document.querySelector('#articleView .art-headline');
+    if (titleEl && card.title) titleEl.textContent = card.title;
+    const excerptEl = document.querySelector('#articleView .art-deck');
+    if (excerptEl && card.excerpt) excerptEl.textContent = card.excerpt;
+    const authorEl = document.querySelector('#articleView .art-author-name');
+    if (authorEl && card.author) authorEl.textContent = card.author.split('·')[0].trim();
+    const dateEl = document.querySelector('#articleView .art-date');
+    if (dateEl && card.date) dateEl.textContent = card.date;
+    const tagEl = document.querySelector('#articleView .art-tag');
+    const subTagEl = document.getElementById('artSubTag');
+    if (card.tag) {
+      // card.tag format: "INSIGHTS · Science & Technology" or just "Science & Technology"
+      const parts = card.tag.split('·').map(s => s.trim());
+      if (parts.length >= 2) {
+        // e.g. allArticles format: "INSIGHTS · Science & Technology"
+        if (tagEl) tagEl.textContent = parts[0];
+        if (subTagEl) { subTagEl.textContent = parts[1]; subTagEl.style.display = ''; }
+      } else {
+        // sectionData format: tag is sub-category, section field has section name
+        const sectionLabel = card.section || 'INSIGHTS';
+        if (tagEl) tagEl.textContent = sectionLabel;
+        if (card.tag && card.tag !== sectionLabel) {
+          if (subTagEl) { subTagEl.textContent = card.tag; subTagEl.style.display = ''; }
+        } else {
+          if (subTagEl) subTagEl.style.display = 'none';
+        }
+      }
+    }
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─── SECTION DATA & LIST VIEWS ─── */
+const sectionData = {
+  insights: { cards: [
+    { tag: 'Science & Technology', title: 'My Secret Robot Friend: How Does AI Help Us at School?', excerpt: 'AI tools are reshaping classrooms. But are they helpers or cheaters?', author: 'Minho Lee · Gangnam', date: '2026.05.28', views: 1243, r1: 42, r2: 31, r3: 18, emoji: '🤖' , imgSrc: 'https://drive.google.com/thumbnail?id=1o_pFjZm1qBaTr5BxICPdKmrPJQVZNYsw&sz=w600' , section: 'INSIGHTS' },
+    { tag: 'Nature & Environment', title: 'Saving Our Blue Ocean: The Magic of No-Plastic Days', excerpt: 'Every Thursday, Haemi decided to live without plastic.', author: 'Haemi Choi · Mapo', date: '2026.05.28', views: 987, r1: 28, r2: 45, r3: 22, emoji: '🌊' , imgSrc: 'https://drive.google.com/thumbnail?id=1T2u-w2KbQNPEQGl5BaGX-c7imongLz5N&sz=w600' , section: 'INSIGHTS' },
+    { tag: 'Life & Society', title: 'The Yellow Safety Line: Secrets of Our Safe Road to School', excerpt: 'That yellow line near school crossings — who put it there?', author: 'Jiwon Park · Bundang', date: '2026.05.28', views: 754, r1: 19, r2: 33, r3: 14, emoji: '🚸' , imgSrc: 'https://drive.google.com/thumbnail?id=17thWW2vAPglkEng1JudOfJLUNVCaShsa&sz=w600' , section: 'INSIGHTS' },
+    { tag: 'Science & Technology', title: 'Weather Wonders: How Do Scientists Know When It Will Rain?', excerpt: 'Behind every forecast is a story of satellites and supercomputers.', author: 'Jiho Shin · Daechi', date: '2026.05.28', views: 1021, r1: 33, r2: 44, r3: 21, views: 1021, r1: 33, r2: 44, r3: 21, views: 1102, r1: 37, r2: 28, r3: 29, emoji: '🌦️' , imgSrc: 'https://drive.google.com/thumbnail?id=1lbQsPiJNZLIqCZlpgE9c_uYsOFuWHnUP&sz=w600' , section: 'INSIGHTS' },
+    { tag: 'Science & Technology', title: 'Space Food Secrets: What Do Astronauts Eat for Lunch?', excerpt: 'No forks, no gravity — the creative science behind eating in space.', author: 'Yuna Bae · Mokdong', date: '2026.05.28', views: 876, r1: 27, r2: 38, r3: 25, views: 892, r1: 24, r2: 51, r3: 16, emoji: '🚀' , imgSrc: 'https://drive.google.com/thumbnail?id=1xNgp8XMDjFTmY8oex4nVZtaJLthhe2B0&sz=w600' , section: 'INSIGHTS' },
+    { tag: 'Life & Society', title: 'Smartphones: Does Screen Time Keep Us Awake?', excerpt: 'We scroll, we watch, we swipe — what does blue light do to our sleep?', author: 'Sora Jung · Mapo', date: '2026.05.28', views: 1334, r1: 55, r2: 39, r3: 27, emoji: '📱' , imgSrc: 'https://drive.google.com/thumbnail?id=1x8a_oAt6Y5sGkCXQG2n64tf-JkTUyYvc&sz=w600' , section: 'INSIGHTS' },
+  ]},
+  lifelog: { cards: [
+    { tag: 'Nature & Garden', title: 'My Tiny Green Friend: The Day I Planted My First Flower', excerpt: 'From a seed to a blooming flower — patience and wonder.', imgSrc: 'https://drive.google.com/thumbnail?id=1jGPz05WxLtxm_c27YzSzEyYftuEpLhiN&sz=w600', author: 'Soyeon Kim · Incheon', date: '2026.05.28', views: 678, r1: 15, r2: 22, r3: 31, emoji: '🌱' , section: 'LIFE LOG' },
+    { tag: 'Family', title: 'The Busy Bee: Helping My Grandma Water Her Colorful Garden', excerpt: 'A weekend with grandma turned into a gardening adventure.', imgSrc: 'https://drive.google.com/thumbnail?id=1q6c4vZPzu0OnQz8QSUBh-PFsg8BMIJXG&sz=w600', author: 'Dahyun Oh · Suwon', date: '2026.05.28', views: 543, r1: 12, r2: 18, r3: 24, emoji: '🐝' , section: 'LIFE LOG' },
+    { tag: 'Environment', title: 'Our Green Mission: Sorting Recycling to Keep the Earth Happy', excerpt: 'What happens after we throw things into the recycling bin?', imgSrc: 'https://drive.google.com/thumbnail?id=1eytbDCy3V4dlCREsY3zPerqy2mkyIb7W&sz=w600', author: 'Eunji Yoon · Seongnam', date: '2026.05.28', views: 721, r1: 18, r2: 27, r3: 19, emoji: '♻️' , section: 'LIFE LOG' },
+    { tag: 'Daily Life', title: 'A Day in My Shoes: What I Love and Hate About School', excerpt: 'An honest essay about the highs and lows of being a student reporter.', imgSrc: 'https://drive.google.com/thumbnail?id=1I3BqOvqafGCmW5b9JnobSz2rN-aYQo0l&sz=w600', author: 'Yujin Han · Daechi', date: '2026.05.28', views: 894, r1: 31, r2: 24, r3: 38, emoji: '🏫' , section: 'LIFE LOG' },
+    { tag: 'Hobby & Art', title: 'My Art Weekend: How Drawing Helps Me Think Clearly', excerpt: 'When words fail, colors speak. Art as a personal reset button.', imgSrc: 'https://drive.google.com/thumbnail?id=1BD3D_h8Myg2AGR-Nsrs0RuJxbJ6bqBAu&sz=w600', author: 'Nara Lim · Bundang', date: '2026.07.16', views: 612, r1: 22, r2: 16, r3: 29, emoji: '🎨' , section: 'LIFE LOG' },
+    { tag: 'Food & Culture', title: 'Lunchbox Stories: What My Mom Packs Tells About Our Culture', excerpt: 'Every lunchbox holds a story — of family, love, and where we come from.', imgSrc: 'https://drive.google.com/thumbnail?id=1n-x3b3JB_dq3G9vzTTHaS_t-EaUYXv8J&sz=w600', author: 'Chaeyeon Bae · Nowon', date: '2026.07.16', views: 445, r1: 9, r2: 21, r3: 17, emoji: '🍱' , section: 'LIFE LOG' },
+  ]},
+  world: { cards: [
+    { tag: 'Science & Technology', title: 'Weather Wonders: How Do Scientists Know When It Will Rain?', excerpt: 'Behind every forecast is a story of satellites and supercomputers.', imgSrc: 'https://drive.google.com/thumbnail?id=17PTyxPvJJtXakQcv8AYjN7IJtWJ6fHcQ&sz=w600', author: 'Jiho Shin · Daechi', date: '2026.05.28', views: 1021, r1: 33, r2: 44, r3: 21, emoji: '🌦️' , section: 'Inside the World' },
+    { tag: 'Science & Technology', title: 'Space Food Secrets: What Do Astronauts Eat for Lunch?', excerpt: 'No forks, no gravity — the creative science behind eating in space.', imgSrc: 'https://drive.google.com/thumbnail?id=1hOhMZBEZ9Byfi92Jc29-myFHnmIzKq_r&sz=w600', author: 'Yuna Bae · Mokdong', date: '2026.05.28', views: 876, r1: 27, r2: 38, r3: 25, emoji: '🚀' , section: 'Inside the World' },
+    { tag: 'Science & Technology', title: 'The Truth About Robots: Can They Really Do Our Homework?', excerpt: 'AI robots are getting smarter every day. Should we trust them?', imgSrc: 'https://drive.google.com/thumbnail?id=17reCnL4xD5vW9AIYiYutzgyRHYiZ7Cxb&sz=w600', author: 'Seojun Lim · Nowon', date: '2026.05.28', views: 743, r1: 19, r2: 29, r3: 18, emoji: '🤖' , section: 'Inside the World' },
+    { tag: 'Nature & Environment', title: 'Ocean Plastic Crisis: Why Fish Are Eating Our Trash', excerpt: 'Millions of tons of plastic enter our oceans every year.', imgSrc: 'https://drive.google.com/thumbnail?id=1V87cbGAVYATBoFUBJv-1Ck52aMIN1ATa&sz=w600', author: 'Haemi Choi · Mapo', date: '2026.07.16', views: 1156, r1: 41, r2: 52, r3: 33, emoji: '🐠' , section: 'Inside the World' },
+    { tag: 'Life & Society', title: 'Smartphones: Does Screen Time Keep Us Awake?', excerpt: 'We scroll, we watch — what does blue light do to our sleep?', imgSrc: 'https://drive.google.com/thumbnail?id=1Dj5FeDFwGslc6YD5NbIx1mTW5nvpAsUS&sz=w600', author: 'Sora Jung · Mapo', date: '2026.07.16', views: 1334, r1: 55, r2: 39, r3: 27, emoji: '📱' , section: 'Inside the World' },
+    { tag: 'Nature & Environment', title: 'Electric vs. Gas: Which Car is Truly Better for Our Earth?', excerpt: 'A deep dive into the full lifecycle of both car types.', imgSrc: 'https://drive.google.com/thumbnail?id=1P-e-g2I5A01QrAmelj5JrGDGxsxD_UaH&sz=w600', author: 'Jiwon Park · Bundang', date: '2026.07.16', views: 876, r1: 27, r2: 38, r3: 25, emoji: '⚡' , section: 'Inside the World' },
+  ]},
+  notice: { items: [
+    { title: '2기 기자단 발대식 온라인 Zoom 개최 안내', date: '2026.08.01', isNew: true },
+    { title: 'Poly Scoop Issue 2 정식 발간 안내', date: '2026.07.16', isNew: true },
+    { title: "1기 Editor's Pick 수상자 발표 — 우수 기자 3명 선정", date: '2026.07.16', isNew: false },
+    { title: '2기 기자단 모집 안내 (7월 1일 ~ 7월 17일)', date: '2026.06.01', isNew: false },
+    { title: "Poly Scoop 론칭 기념 인스타그램 '와글와글 소문내기' 이벤트 당첨자 발표", date: '2026.05.30', isNew: false },
+    { title: 'Poly Scoop 창간호 정식 발간 🎉', date: '2026.05.28', isNew: false },
+    { title: "'나의 원픽 스쿱을 찾아라' — 가장 좋아하는 기사 댓글 남기기 이벤트", date: '2026.05.28', isNew: false },
+  ]},
+  previous: { cards: [
+    { tag: '창간호', issue: 'Issue 1 · May 2026', date: '2026년 5월 28일 발간', cover: 'prev-cover-1' , section: 'Previous Issue' },
+    { tag: '2호',   issue: 'Issue 2 · Jul 2026', date: '2026년 7월 16일 발간', cover: 'prev-cover-2' , section: 'Previous Issue' },
+    { tag: '3호',   issue: 'Issue 3 · Sep 2026', date: '2026년 9월 16일 발간', cover: 'prev-cover-3' , section: 'Previous Issue' },
+    { tag: '4호',   issue: 'Issue 4 · Nov 2026', date: '2026년 11월 11일 발간', cover: 'prev-cover-4' , section: 'Previous Issue' },
+  ]}
+};
+
+const _cardRegistry = {};
+let _cardIdx = 0;
+function cardHTML(c) {
+  const id = 'card_' + (_cardIdx++);
+  _cardRegistry[id] = c;
+
+  const eyeSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+  const statsHTML = (c.views !== undefined) ? (
+    '<div class="art-card-stats">' +
+    '<span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' + c.views.toLocaleString() + '</span>' +
+    '<span class="stat-reactions">' +
+      '<span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>' + c.r1 + '</span>' +
+      '<span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' + c.r2 + '</span>' +
+      '<span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' + c.r3 + '</span>' +
+    '</span>' +
+    '</div>'
+  ) : '';
+
+  const statsDarkHTML = (c.views !== undefined) ? (
+    '<div class="art-card-stats art-card-stats--dark">' +
+    '<span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' + c.views.toLocaleString() + '</span>' +
+    '<span class="stat-reactions">' +
+      '<span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>' + c.r1 + '</span>' +
+      '<span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' + c.r2 + '</span>' +
+      '<span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' + c.r3 + '</span>' +
+    '</span>' +
+    '</div>'
+  ) : '';
+
+  if (c.section === 'LIFE LOG') {
+    const bg = c.imgSrc ? "url('" + c.imgSrc + "')" : 'linear-gradient(135deg,#1a2a1a,#2d4a2d)';
+    return '<div class="strip-card lifelog-overlay-card" onclick="showArticle(_cardRegistry[\'' + id + '\'])" style="background:' + bg + ';background-size:cover;background-position:center;">' +
+      '<div class="lifelog-overlay">' +
+        '<span class="art-card-tag" style="color:#fff;border-color:rgba(255,255,255,0.5);">' + c.tag + '</span>' +
+        '<h3 class="art-card-title" style="color:#fff;">' + c.title + '</h3>' +
+        '<p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">' + c.excerpt + '</p>' +
+        '<div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">' + c.author + '</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">' + c.date + '</span></div>' +
+        statsDarkHTML +
+      '</div>' +
+    '</div>';
+  }
+
+  const thumbInner = c.imgSrc
+    ? '<div class="art-card-img-inner" style="padding:0;background:none;"><img src="' + c.imgSrc + '" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>'
+    : '<div class="art-card-img-inner" style="background:linear-gradient(135deg,#f0f4ff,#d8e4ff);display:flex;align-items:center;justify-content:center;"><div style="font-size:44px;">' + c.emoji + '</div></div>';
+
+  return '<div class="strip-card" onclick="showArticle(_cardRegistry[\'' + id + '\'])">' +
+    '<div class="art-card-img">' + thumbInner + '</div>' +
+    '<div class="art-card-body">' +
+      '<span class="art-card-tag">' + c.tag + '</span>' +
+      '<h3 class="art-card-title">' + c.title + '</h3>' +
+      '<p class="art-card-excerpt">' + c.excerpt + '</p>' +
+      '<div class="art-card-meta"><span class="art-card-author">' + c.author + '</span><span class="art-card-date">' + c.date + '</span></div>' +
+      statsHTML +
+    '</div></div>';
+}
+function prevCardHTML(c) {
+  return `<div class="prev-card" style="flex:unset;" onclick="showArticle()">
+    <div class="prev-cover-wrap"><div class="prev-cover ${c.cover}"><div class="prev-cover-text">Poly Scoop</div><div class="prev-cover-issue">${c.issue}</div></div></div>
+    <div class="prev-card-body">
+      <p class="art-card-tag" style="margin:0">${c.tag}</p>
+      <div class="prev-card-date">${c.date}</div>
+      <a href="#" class="prev-view-btn">View Issue →</a>
+    </div></div>`;
+}
+
+function initListViews() {
+  ['insights','lifelog','world'].forEach(id => {
+    const el = document.getElementById('grid-' + id);
+    if (el) el.innerHTML = sectionData[id].cards.map(cardHTML).join('');
+  });
+  // Wire static carousel cards to pass card data to showArticle
+  const insightsTrack = document.getElementById('insights-track');
+  if (insightsTrack) {
+    const cards = insightsTrack.querySelectorAll('.strip-card');
+    sectionData.insights.cards.forEach((card, i) => {
+      if (cards[i]) cards[i].setAttribute('onclick', '');
+      if (cards[i]) cards[i].addEventListener('click', () => showArticle(card));
+    });
+  }
+  const tbody = document.querySelector('#grid-notice tbody');
+  if (tbody) {
+    const items = sectionData.notice.items;
+    tbody.innerHTML = items.map((n,i) => `<tr onclick="showArticle()">
+      <td class="list-notice-num">${items.length - i}</td>
+      <td class="list-notice-title-cell">${n.title}${n.isNew ? ' <span class="notice-badge-new">N</span>' : ''}</td>
+      <td class="list-notice-date">${n.date}</td></tr>`).join('');
+  }
+  const pg = document.getElementById('grid-previous');
+  if (pg) pg.innerHTML = sectionData.previous.cards.map(prevCardHTML).join('');
+}
+document.addEventListener('DOMContentLoaded', initListViews);
+
+function showList(sectionId) {
+  hideAll();
+  const el = document.getElementById('listView-' + sectionId);
+  if (el) el.classList.add('active');
+  setActiveNav(sectionId);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setActiveNav(sectionId) {
+  const map = { insights:'INSIGHTS', lifelog:'LIFE LOG', world:'Inside the World', notice:'Notice & Event', previous:'Previous Issue' };
+  document.querySelectorAll('.main-nav a').forEach(a => {
+    a.classList.toggle('active', a.textContent.trim().replace(/\s+/g,' ') === (map[sectionId] || ''));
+  });
+}
+
+/* ─── SEARCH ─── */
+function toggleSearch() {
+  const bar   = document.getElementById('searchBar');
+  const input = document.getElementById('searchInput');
+  const isOpen = bar.classList.contains('open');
+  if (isOpen && input.value.trim()) {
+    doSearch();
+    return;
+  }
+  bar.classList.toggle('open', !isOpen);
+  if (!isOpen) {
+    setTimeout(() => input.focus(), 320);
+  } else {
+    input.value = '';
+  }
+}
+
+function onSearchInput() {
+  // no-op: submit button removed
+}
+
+// 전체 기사 풀 데이터 (검색 대상)
+const allArticles = [
+  { tag: 'INSIGHTS · Science & Technology', title: 'My Secret Robot Friend: How Does AI Help Us at School?', excerpt: 'AI tools are reshaping classrooms. But are they helpers or cheaters?', author: 'Minho Lee · Gangnam', date: '2026.05.28', emoji: '🤖' , imgSrc: 'https://drive.google.com/thumbnail?id=1o_pFjZm1qBaTr5BxICPdKmrPJQVZNYsw&sz=w600' , section: 'INSIGHTS' },
+  { tag: 'INSIGHTS · Nature & Environment', title: 'Saving Our Blue Ocean: The Magic of No-Plastic Days', excerpt: 'Every Thursday, Haemi decided to live without plastic.', author: 'Haemi Choi · Mapo', date: '2026.05.28', emoji: '🌊' , imgSrc: 'https://drive.google.com/thumbnail?id=1T2u-w2KbQNPEQGl5BaGX-c7imongLz5N&sz=w600' , section: 'INSIGHTS' },
+  { tag: 'INSIGHTS · Life & Society', title: 'The Yellow Safety Line: Secrets of Our Safe Road to School', excerpt: 'That yellow line near school crossings — who put it there?', author: 'Jiwon Park · Bundang', date: '2026.05.28', emoji: '🚸' , imgSrc: 'https://drive.google.com/thumbnail?id=17thWW2vAPglkEng1JudOfJLUNVCaShsa&sz=w600' , section: 'INSIGHTS' },
+  { tag: 'INSIGHTS · Science & Technology', title: 'Weather Wonders: How Do Scientists Know When It Will Rain?', excerpt: 'Behind every forecast is a story of satellites and supercomputers.', author: 'Jiho Shin · Daechi', date: '2026.05.28', emoji: '🌦️' , imgSrc: 'https://drive.google.com/thumbnail?id=1lbQsPiJNZLIqCZlpgE9c_uYsOFuWHnUP&sz=w600' , section: 'INSIGHTS' },
+  { tag: 'INSIGHTS · Science & Technology', title: 'Space Food Secrets: What Do Astronauts Eat for Lunch?', excerpt: 'No forks, no gravity — the creative science behind eating in space.', author: 'Yuna Bae · Mokdong', date: '2026.05.28', emoji: '🚀' , imgSrc: 'https://drive.google.com/thumbnail?id=1xNgp8XMDjFTmY8oex4nVZtaJLthhe2B0&sz=w600' , section: 'INSIGHTS' },
+  { tag: 'INSIGHTS · Life & Society', title: 'Smartphones: Does Screen Time Keep Us Awake?', excerpt: 'We scroll, we watch, we swipe — what does blue light do to our sleep?', author: 'Sora Jung · Mapo', date: '2026.05.28', emoji: '📱' , imgSrc: 'https://drive.google.com/thumbnail?id=1x8a_oAt6Y5sGkCXQG2n64tf-JkTUyYvc&sz=w600' , section: 'INSIGHTS' },
+  { tag: 'LIFE LOG', title: 'My Tiny Green Friend: The Day I Planted My First Flower', excerpt: 'From a seed to a blooming flower — patience and wonder.', author: 'Soyeon Kim · Incheon', date: '2026.05.28', emoji: '🌱' , section: 'LIFE LOG' },
+  { tag: 'LIFE LOG', title: 'The Busy Bee: Helping My Grandma Water Her Colorful Garden', excerpt: 'A weekend with grandma turned into a gardening adventure.', author: 'Dahyun Oh · Suwon', date: '2026.05.28', emoji: '🐝' , section: 'LIFE LOG' },
+  { tag: 'LIFE LOG', title: 'Our Green Mission: Sorting Recycling to Keep the Earth Happy', excerpt: 'What happens after we throw things into the recycling bin?', author: 'Eunji Yoon · Seongnam', date: '2026.05.28', emoji: '♻️' , section: 'LIFE LOG' },
+  { tag: 'LIFE LOG', title: 'A Day in My Shoes: What I Love and Hate About School', excerpt: 'An honest essay about the highs and lows of being a student reporter.', author: 'Yujin Han · Daechi', date: '2026.05.28', emoji: '🏫' , section: 'LIFE LOG' },
+  { tag: 'LIFE LOG', title: 'My Art Weekend: How Drawing Helps Me Think Clearly', excerpt: 'When words fail, colors speak. Art as a personal reset button.', author: 'Nara Lim · Bundang', date: '2026.07.16', emoji: '🎨' , section: 'LIFE LOG' },
+  { tag: 'LIFE LOG', title: 'Lunchbox Stories: What My Mom Packs Tells About Our Culture', excerpt: 'Every lunchbox holds a story — of family, love, and where we come from.', author: 'Chaeyeon Bae · Nowon', date: '2026.07.16', emoji: '🍱' , section: 'LIFE LOG' },
+  { tag: 'Inside the World · Science & Technology', title: 'The Truth About Robots: Can They Really Do Our Homework?', excerpt: 'AI robots are getting smarter every day. Should we trust them?', author: 'Seojun Lim · Nowon', date: '2026.05.28', emoji: '🤖' , section: 'Inside the World' },
+  { tag: 'Inside the World · Nature & Environment', title: 'Ocean Plastic Crisis: Why Fish Are Eating Our Trash', excerpt: 'Millions of tons of plastic enter our oceans every year.', author: 'Haemi Choi · Mapo', date: '2026.07.16', emoji: '🐠' , section: 'Inside the World' },
+  { tag: 'Inside the World · Nature & Environment', title: 'Electric vs. Gas: Which Car is Truly Better for Our Earth?', excerpt: 'A deep dive into the full lifecycle of both car types.', author: 'Jiwon Park · Bundang', date: '2026.07.16', emoji: '⚡' , section: 'Inside the World' },
+];
+
+function highlight(text, keyword) {
+  if (!keyword) return text;
+  const re = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(re, '<mark style="background:#fff3b0;border-radius:2px;">$1</mark>');
+}
+
+function doSearch() {
+  const keyword = document.getElementById('searchInput').value.trim();
+  if (!keyword) return;
+
+  // 검색 (제목 + 본문 + 태그 + 저자)
+  const results = allArticles.filter(a =>
+    [a.title, a.excerpt, a.tag, a.author].some(f => f.toLowerCase().includes(keyword.toLowerCase()))
+  );
+
+  // 뷰 전환
+  hideAll();
+  const sv = document.getElementById('searchView'); if(sv) sv.classList.add('active');
+  setActiveNav('');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // 검색어 / 결과 수
+  const _skd = document.getElementById('searchKeywordDisplay'); if(_skd) _skd.textContent = keyword;
+  const _src = document.getElementById('searchResultCount'); if(_src) _src.textContent =
+    results.length > 0 ? `총 ${results.length}건의 결과` : '검색 결과가 없습니다.';
+
+  // 결과 렌더
+  const grid = document.getElementById('searchResultGrid');
+  if (results.length === 0) {
+    grid.innerHTML = `<div class="search-no-result" style="grid-column:1/-1;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7.5"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg>
+      "<strong>${keyword}</strong>"에 대한 검색 결과가 없습니다.
+    </div>`;
+  } else {
+    grid.innerHTML = results.map(c => `
+      <div class="strip-card" onclick="showArticle()">
+        <div class="art-card-img">
+          <div class="art-card-img-inner" style="background:linear-gradient(135deg,#f0f4ff,#d8e4ff);display:flex;align-items:center;justify-content:center;">
+            <div style="font-size:44px;">${c.emoji}</div>
+          </div>
+        </div>
+        <div class="art-card-body">
+          <span class="art-card-tag">${highlight(c.tag, keyword)}</span>
+          <h3 class="art-card-title">${highlight(c.title, keyword)}</h3>
+          <p class="art-card-excerpt">${highlight(c.excerpt, keyword)}</p>
+          <div class="art-card-meta">
+            <span class="art-card-author">${highlight(c.author, keyword)}</span>
+            <span class="art-card-date">${c.date}</span>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  // 검색창 닫기
+  const _sb = document.getElementById('searchBar'); if(_sb) _sb.classList.remove('open');
+  const _si = document.getElementById('searchInput'); if(_si) _si.value = '';
+}
+
+/* ─── CAROUSEL TOUCH SWIPE ─── */
+document.querySelectorAll('.carousel-viewport').forEach(vp => {
+  let startX = 0;
+  vp.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  vp.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) < 40) return;
+    const track = vp.querySelector('.carousel-track');
+    if (!track) return;
+    const id = track.id.replace('-track', '');
+    carouselMove(id, dx < 0 ? 1 : -1);
+  }, { passive: true });
+});
+
+/* ─── CAROUSEL ─── */
+const carousels = {
+  insights: { idx: 0, visible: 4 },
+  lifelog:  { idx: 0, visible: 4 },
+  world:    { idx: 0, visible: 3 },
+  prev:     { idx: 0, visible: 4 },
+};
+
+function carouselMove(id, dir) {
+  const c = carousels[id];
+  const track = document.getElementById(id + '-track');
+  if (!track) return;
+  const cards = track.children;
+  const total = cards.length;
+  const maxIdx = Math.max(0, total - c.visible);
+
+  c.idx = Math.min(Math.max(c.idx + dir, 0), maxIdx);
+
+  // 카드 너비 + gap 계산
+  const cardW = cards[0].getBoundingClientRect().width;
+  const gap = 24;
+  track.style.transform = `translateX(-${c.idx * (cardW + gap)}px)`;
+
+  // 버튼 상태
+  const prevBtn = document.getElementById(id + '-prev');
+  const nextBtn = document.getElementById(id + '-next');
+  if (prevBtn) prevBtn.disabled = c.idx === 0;
+  if (nextBtn) nextBtn.disabled = c.idx >= maxIdx;
+}
+
+// 리사이즈 시 위치 재계산
+window.addEventListener('resize', () => {
+  Object.keys(carousels).forEach(id => {
+    carousels[id].idx = 0;
+    const track = document.getElementById(id + '-track');
+    if (track) track.style.transform = 'translateX(0)';
+    const prevBtn = document.getElementById(id + '-prev');
+    const nextBtn = document.getElementById(id + '-next');
+    if (prevBtn) prevBtn.disabled = true;
+    if (nextBtn) nextBtn.disabled = false;
+  });
+});
+let heroIdx = 0;
+const heroTotal = 3;
+let heroAuto = null;
+
+function heroGo(i) {
+  heroIdx = (i + heroTotal) % heroTotal;
+  const _ht = document.getElementById('heroTrack');
+  if (_ht) _ht.style.transform = `translateX(-${heroIdx * 100}%)`;
+  document.querySelectorAll('.hero-dot').forEach((d, j) => d.classList.toggle('on', j === heroIdx));
+  resetAuto();
+}
+
+function heroMove(dir) { heroGo(heroIdx + dir); }
+
+function resetAuto() {
+  clearInterval(heroAuto);
+  heroAuto = setInterval(() => heroMove(1), 5000);
+}
+
+// 초기 자동 재생
+resetAuto();
+
+/* ─── TOPIC TABS ─── */
+function switchTopic(btn) {
+  document.querySelectorAll('.topic-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+/* ─── REACTIONS ─── */
+function toggleR(btn) {
+  const c = btn.querySelector('.rcount');
+  let n = parseInt(c.textContent);
+  if (btn.classList.contains('on')) { btn.classList.remove('on'); c.textContent = Math.max(0, n-1); }
+  else { btn.classList.add('on'); c.textContent = n+1; }
+}
+
+/* ─── STRIP TABS (최신기사 style) ─── */
+document.querySelectorAll('.strip-tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.strip-tab').forEach(t => t.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+
+/* ─── POV VOTE ─── */
+(function() {
+  let voted = false;
+  let votesA = 64, votesB = 36;
+  let selected = null;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const sideA = document.getElementById('povSideA');
+    const sideB = document.getElementById('povSideB');
+    if (sideA) sideA.addEventListener('click', () => selectSide('A'));
+    if (sideB) sideB.addEventListener('click', () => selectSide('B'));
+  });
+
+  function selectSide(side) {
+    if (voted) return;
+    selected = side;
+    const sideA = document.getElementById('povSideA');
+    const sideB = document.getElementById('povSideB');
+    if (sideA) sideA.classList.toggle('selected', side === 'A');
+    if (sideB) sideB.classList.toggle('selected', side === 'B');
+  }
+
+  window.povVote = function() {
+    if (voted || !selected) return;
+    voted = true;
+    if (selected === 'A') votesA += 1;
+    else votesB += 1;
+    const total = votesA + votesB;
+    const pctA = Math.round(votesA / total * 100);
+    const pctB = 100 - pctA;
+    const barA = document.getElementById('povBarA');
+    const barB = document.getElementById('povBarB');
+    const pctElA = document.getElementById('povPctA');
+    const pctElB = document.getElementById('povPctB');
+    if (barA) barA.style.width = pctA + '%';
+    if (barB) barB.style.width = pctB + '%';
+    if (pctElA) pctElA.textContent = pctA + '%';
+    if (pctElB) pctElB.textContent = pctB + '%';
+    const btn = document.getElementById('povVoteBtn');
+    if (btn) { btn.textContent = '✓ VOTED!'; btn.disabled = true; }
+  };
+})();
+</script>
+</body>
+</html>
