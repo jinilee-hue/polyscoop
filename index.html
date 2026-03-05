@@ -2069,18 +2069,6 @@ section + section { border-top: none; }
   }
 });
 
-/* ─── HERO SCROLL LOCK ON HOVER ─── */
-(function() {
-  const heroSection = document.querySelector('.hero-section');
-  if (!heroSection) return;
-  heroSection.addEventListener('mouseenter', () => {
-    document.body.style.overflow = 'hidden';
-  });
-  heroSection.addEventListener('mouseleave', () => {
-    document.body.style.overflow = '';
-  });
-})();
-
 /* ─── MATCH POV HEIGHT TO NOTICE LIST ─── */
 function matchPovHeight() {
   const noticeCol = document.querySelector('.notice-pov-grid > div:first-child');
@@ -2511,15 +2499,27 @@ function heroGo(i) {
   const _ht = document.getElementById('heroTrack');
   if (_ht) _ht.style.transform = `translateX(-${heroIdx * 100}%)`;
   document.querySelectorAll('.hero-dot').forEach((d, j) => d.classList.toggle('on', j === heroIdx));
-  resetAuto();
+  if (!_heroHovered) resetAuto();
 }
 
 function heroMove(dir) { heroGo(heroIdx + dir); }
 
+// 히어로 hover 플래그 - resetAuto보다 먼저 선언
+let _heroHovered = false;
+
 function resetAuto() {
   clearInterval(heroAuto);
-  heroAuto = setInterval(() => heroMove(1), 5000);
+  if (!_heroHovered) heroAuto = setInterval(() => heroMove(1), 5000);
 }
+
+// 히어로 영역 hover시 자동 슬라이드 일시정지
+(function attachHeroHover() {
+  const hs = document.querySelector('.hero-slider');
+  if (hs) {
+    hs.addEventListener('mouseenter', () => { _heroHovered = true;  clearInterval(heroAuto); });
+    hs.addEventListener('mouseleave', () => { _heroHovered = false; resetAuto(); });
+  }
+})();
 
 // 초기 자동 재생
 resetAuto();
