@@ -325,11 +325,11 @@ iframe.hero-video {
 .btn-more {
   font-size: 12px; color: var(--gray-600); font-weight: 600;
   display: inline-flex; align-items: center; gap: 4px;
-  padding: 6px 14px;
-  border: 1px solid var(--gray-200); border-radius: 2px;
+  padding: 2px 0;
+  border: none; border-bottom: 1px solid var(--gray-600);
   transition: all .2s;
 }
-.btn-more:hover { background: var(--blue); color: white; border-color: var(--blue); }
+.btn-more:hover { color: var(--black); border-bottom-color: var(--black); }
 .btn-more svg { width: 13px; height: 13px; }
 
 section { padding: 48px 0; }
@@ -360,6 +360,19 @@ section + section { border-top: none; }
   display: flex; align-items: center; justify-content: center;
 }
 .art-card-body { padding: 18px 0 24px; }
+
+/* Inside the World 카드 텍스트 영역 흰색 배경 */
+#world-track .strip-card .art-card-img { border-radius: 10px 10px 0 0; }
+#world-track .strip-card {
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#world-track .strip-card .art-card-body {
+  background: #ffffff;
+  padding: 18px 14px 20px;
+  border-radius: 0 0 10px 10px;
+}
 .art-card-stats {
   display: flex; justify-content: space-between; align-items: center;
   width: 100%; margin-top: 10px; padding-top: 10px;
@@ -485,12 +498,13 @@ section + section { border-top: none; }
 ────────────────────────────────────────── */
 .topic-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
 .topic-tab {
-  padding: 7px 18px; border: 1px solid var(--gray-200); border-radius: 100px;
+  padding: 7px 18px; border: none; border-radius: 100px;
   font-size: 13px; font-weight: 500; color: var(--gray-600);
+  background: var(--white);
   cursor: pointer; transition: all .2s;
 }
 .topic-tab.on { background: var(--black); color: var(--white); border-color: var(--black); }
-.topic-tab:hover:not(.on) { border-color: var(--gray-600); color: var(--black); }
+.topic-tab:hover:not(.on) { color: var(--black); }
 
 /* ──────────────────────────────────────────
    NOTICE & EVENT + POV (two-column)
@@ -545,12 +559,12 @@ section + section { border-top: none; }
 
 /* POV Switcher card */
 .pov-card {
-  background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 4px;
+  background: #fdf8f2; border-radius: 4px;
   padding: 28px 24px; display: flex; flex-direction: column; gap: 18px;
   transition: box-shadow .2s;
 }
 .pov-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
-.pov-card-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); text-align: center; }
+.pov-card-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #F4621F; text-align: center; }
 .pov-card-title { font-size: 18px; font-weight: 700; line-height: 1.35; text-align: center; }
 /* VS layout */
 .pov-vs-wrap { display: flex; align-items: center; gap: 0; }
@@ -559,15 +573,15 @@ section + section { border-top: none; }
   padding: 16px 12px; border-radius: 4px; cursor: pointer; transition: border-color .2s;
   text-align: center; background: #fff; border: 1px solid transparent;
 }
-.pov-side:hover { background: #fff; border-color: var(--blue); }
-.pov-side.selected { background: rgba(0,82,204,.08); border: 2px solid var(--blue); border-radius: 4px; }
+.pov-side:hover { background: #fff; border-color: #F4621F; }
+.pov-side.selected { background: rgba(244,98,31,.08); border: 2px solid #F4621F; border-radius: 4px; }
 .pov-avatar { font-size: 44px; line-height: 1; }
 .pov-choice-name { font-size: 14px; font-weight: 700; color: var(--black); }
 .pov-choice-quote { font-size: 12px; color: var(--gray-600); font-weight: 300; line-height: 1.5; }
 .pov-bar-row { width: 100%; display: flex; justify-content: center; }
 .pov-bar-track { width: 67%; height: 10px; background: var(--gray-200); border-radius: 5px; overflow: hidden; margin-top: 4px; }
-.pov-bar-fill { height: 100%; background: var(--blue); border-radius: 3px; transition: width .8s ease; }
-.pov-bar-fill.gray { background: var(--gray-400); }
+.pov-bar-fill { height: 100%; background: #F4621F; border-radius: 3px; transition: width .8s ease; }
+.pov-bar-fill.gray { background: #FF7A3D; }
 .pov-pct { font-size: 13px; font-weight: 700; color: var(--gray-800); }
 .pov-vs-divider {
   display: flex; align-items: center; justify-content: center;
@@ -575,11 +589,11 @@ section + section { border-top: none; }
   padding: 0 6px; flex-shrink: 0;
 }
 .pov-vote-btn {
-  align-self: center; background: var(--blue); color: white;
+  align-self: center; background: #F4621F; color: white;
   font-size: 13px; font-weight: 700; padding: 11px 48px; border-radius: 2px;
   cursor: pointer; transition: background .2s; letter-spacing: 1px;
 }
-.pov-vote-btn:hover { background: var(--blue-lt); }
+.pov-vote-btn:hover { background: #FF7A3D; }
 .pov-vote-btn:disabled { background: var(--gray-400); cursor: default; }
 
 /* ──────────────────────────────────────────
@@ -717,6 +731,9 @@ section + section { border-top: none; }
   margin-right: calc(-50vw + 50%);
   padding-left: calc(50vw - 50%);
   padding-right: calc(50vw - 50%);
+  padding-top: 48px;
+  padding-bottom: 48px;
+  margin-top: 48px;
 }
 
 /* Inside the World 풀블리드 배경 */
@@ -726,6 +743,8 @@ section + section { border-top: none; }
   margin-right: calc(-50vw + 50%);
   padding-left: calc(50vw - 50%);
   padding-right: calc(50vw - 50%);
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
 /* Previous Issue 풀블리드 배경 */
@@ -737,6 +756,8 @@ section + section { border-top: none; }
   padding-right: calc(50vw - 50%);
   padding-bottom: 48px;
   margin-bottom: 0;
+  margin-top: 48px;
+  padding-top: 48px;
 }
 
 /* Previous Issue 캐러셀 버튼 - 썸네일 높이 기준 중앙 */
@@ -1369,7 +1390,7 @@ section + section { border-top: none; }
           <span class="section-name">INSIGHTS</span>
           <span class="section-name-sub">심층탐구</span>
         </div>
-        <a href="#" onclick="showList('insights')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        <a href="#" onclick="showList('insights')" class="btn-more">View All</a>
       </div>
 
       <div class="carousel-wrap animate delay-1">
@@ -1482,7 +1503,7 @@ section + section { border-top: none; }
           <span class="section-name">LIFE LOG</span>
           <span class="section-name-sub">일상기록</span>
         </div>
-        <a href="#" onclick="showList('lifelog')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        <a href="#" onclick="showList('lifelog')" class="btn-more">View All</a>
       </div>
 
       <div class="carousel-wrap animate delay-1">
@@ -1497,7 +1518,6 @@ section + section { border-top: none; }
                 <h3 class="art-card-title" style="color:#fff;">My Tiny Green Friend: The Day I Planted My First Flower</h3>
                 <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">From a seed to a blooming flower — the journey taught me patience and wonder.</p>
                 <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Soyeon Kim · Incheon</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
-                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>678</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>15</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>22</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>31</span></span></div>
               </div>
             </div>
                         <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1q6c4vZPzu0OnQz8QSUBh-PFsg8BMIJXG&sz=w600');background-size:cover;background-position:center;">
@@ -1506,7 +1526,6 @@ section + section { border-top: none; }
                 <h3 class="art-card-title" style="color:#fff;">The Busy Bee: Helping My Grandma Water Her Colorful Garden</h3>
                 <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">A weekend with grandma turned into a gardening adventure.</p>
                 <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Dahyun Oh · Suwon</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
-                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>543</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>12</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>18</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>24</span></span></div>
               </div>
             </div>
                         <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1eytbDCy3V4dlCREsY3zPerqy2mkyIb7W&sz=w600');background-size:cover;background-position:center;">
@@ -1515,7 +1534,6 @@ section + section { border-top: none; }
                 <h3 class="art-card-title" style="color:#fff;">Our Green Mission: Sorting Recycling to Keep the Earth Happy</h3>
                 <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">What happens after we throw things into the recycling bin?</p>
                 <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Eunji Yoon · Seongnam</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
-                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>721</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>18</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>27</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>19</span></span></div>
               </div>
             </div>
             <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1I3BqOvqafGCmW5b9JnobSz2rN-aYQo0l&sz=w600');background-size:cover;background-position:center;">
@@ -1524,7 +1542,6 @@ section + section { border-top: none; }
                 <h3 class="art-card-title" style="color:#fff;">A Day in My Shoes: What I Love and Hate About School</h3>
                 <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">An honest essay about the highs and lows of being a student reporter.</p>
                 <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Yujin Han · Daechi</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
-                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>894</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>31</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>24</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>38</span></span></div>
               </div>
             </div>
             <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1BD3D_h8Myg2AGR-Nsrs0RuJxbJ6bqBAu&sz=w600');background-size:cover;background-position:center;">
@@ -1533,7 +1550,6 @@ section + section { border-top: none; }
                 <h3 class="art-card-title" style="color:#fff;">My Art Weekend: How Drawing Helps Me Think Clearly</h3>
                 <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">Every stroke of the brush felt like a new way to express myself.</p>
                 <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Mira Song · Hongdae</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
-                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>612</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>22</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>16</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>29</span></span></div>
               </div>
             </div>
             <div class="strip-card lifelog-overlay-card" onclick="showArticle()" style="background:url('https://drive.google.com/thumbnail?id=1n-x3b3JB_dq3G9vzTTHaS_t-EaUYXv8J&sz=w600');background-size:cover;background-position:center;">
@@ -1542,7 +1558,6 @@ section + section { border-top: none; }
                 <h3 class="art-card-title" style="color:#fff;">Lunchbox Stories: What My Mom Packs Tells About Our Culture</h3>
                 <p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">A peek inside my lunchbox reveals more than just food.</p>
                 <div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">Jisoo Kwon · Bundang</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">2026.05.28</span></div>
-                <div class="art-card-stats art-card-stats--dark"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>445</span><span class="stat-reactions"><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 5 12l-1 1H8l-1-1A7 7 0 0 1 12 2z"/></svg>9</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>21</span><span class="stat-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>17</span></span></div>
               </div>
             </div>
           </div>
@@ -1560,7 +1575,7 @@ section + section { border-top: none; }
           <span class="section-name">Inside the World</span>
           <span class="section-name-sub">세상 속으로</span>
         </div>
-        <a href="#" onclick="showList('world')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        <a href="#" onclick="showList('world')" class="btn-more">View All</a>
       </div>
 
       <div class="topic-tabs animate">
@@ -1682,7 +1697,7 @@ section + section { border-top: none; }
             <div class="section-head-left">
               <span class="section-name">Notice &amp; Event</span>
             </div>
-            <a href="#" onclick="showList('notice')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+            <a href="#" onclick="showList('notice')" class="btn-more">View All</a>
           </div>
           <div class="notice-list animate delay-1">
             <div class="notice-row">
@@ -1760,7 +1775,7 @@ section + section { border-top: none; }
         <div class="section-head-left">
           <span class="section-name">Previous Issue</span>
         </div>
-        <a href="#" onclick="showList('previous')" class="btn-more">View All <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+        <a href="#" onclick="showList('previous')" class="btn-more">View All</a>
       </div>
       <div class="carousel-wrap animate delay-1">
         <button class="carousel-btn carousel-btn-left" onclick="carouselMove('prev',-1)" id="prev-prev" disabled>
@@ -2630,7 +2645,7 @@ function cardHTML(c) {
         '<h3 class="art-card-title" style="color:#fff;">' + c.title + '</h3>' +
         '<p class="art-card-excerpt" style="color:rgba(255,255,255,0.8);">' + c.excerpt + '</p>' +
         '<div class="art-card-meta"><span class="art-card-author" style="color:rgba(255,255,255,0.7);">' + c.author + '</span><span class="art-card-date" style="color:rgba(255,255,255,0.6);">' + c.date + '</span></div>' +
-        statsDarkHTML +
+        '' +
       '</div>' +
     '</div>';
   }
