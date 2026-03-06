@@ -2686,6 +2686,15 @@ function initListViews() {
       if (cards[i]) cards[i].addEventListener('click', () => showArticle(card));
     });
   }
+  // Wire lifelog carousel cards
+  const lifelogTrack = document.getElementById('lifelog-track');
+  if (lifelogTrack) {
+    const cards = lifelogTrack.querySelectorAll('.strip-card');
+    sectionData.lifelog.cards.forEach((card, i) => {
+      if (cards[i]) cards[i].setAttribute('onclick', '');
+      if (cards[i]) cards[i].addEventListener('click', () => showArticle(card));
+    });
+  }
   const tbody = document.querySelector('#grid-notice tbody');
   if (tbody) {
     const items = sectionData.notice.items;
