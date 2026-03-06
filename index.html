@@ -2581,6 +2581,30 @@ function showArticle(card) {
     }
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // ── breadcrumb & nav 활성화 ──
+  const sectionMap = {
+    'INSIGHTS':         { key: 'insights', label: 'INSIGHTS' },
+    'LIFE LOG':         { key: 'lifelog',  label: 'LIFE LOG' },
+    'Inside the World': { key: 'world',    label: 'Inside the World' },
+    'Notice & Event':   { key: 'notice',   label: 'Notice & Event' },
+    'Previous Issue':   { key: 'previous', label: 'Previous Issue' },
+  };
+  const sectionName = (card && card.section) ? card.section : 'INSIGHTS';
+  const sectionInfo = sectionMap[sectionName] || sectionMap['INSIGHTS'];
+
+  // breadcrumb 섹션명 업데이트
+  const bcSection = document.querySelector('.art-breadcrumb-inner a:nth-child(3)');
+  if (bcSection) bcSection.textContent = sectionInfo.label;
+
+  // breadcrumb 아티클 제목 업데이트
+  const bcTitle = document.querySelector('.art-breadcrumb-inner span:last-child');
+  if (bcTitle && card) bcTitle.textContent = card.title || card.issue || '';
+
+  // 네비 활성화
+  document.querySelectorAll('.main-nav a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('onclick') === `showList('${sectionInfo.key}')`);
+  });
 }
 
 /* ─── SECTION DATA & LIST VIEWS ─── */
