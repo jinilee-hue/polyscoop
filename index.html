@@ -1206,6 +1206,30 @@ section + section { border-top: none; }
   .hero-overlay { padding: 40px 16px 28px; }
   .hero-overlay-tag { font-size: 10px; }
 }
+
+/* ─── PRINT / PDF ─── */
+@media print {
+  .site-header, .pdf-fab, .hero-slider, .ticker-wrap,
+  .carousel-btn, .btn-menu, .hero-dots-bar,
+  .hero-arrow, .drawer, .drawer-bg,
+  #searchBar, .header-right { display: none !important; }
+
+  body { background: white; }
+  .view { display: block !important; }
+  #articleView { display: block !important; }
+  #mainView > *:not(.page-wrap):not(.site-footer) { display: none; }
+
+  .art-body-wrap { padding: 20px; }
+  .page-wrap { padding: 0 20px; }
+
+  section { break-inside: avoid; }
+  .strip-card { break-inside: avoid; }
+
+  @page {
+    margin: 15mm;
+    size: A4;
+  }
+}
 </style>
 </head>
 <body>
@@ -1918,7 +1942,7 @@ section + section { border-top: none; }
     </div>
   </footer>
 
-  <button class="pdf-fab">
+  <button class="pdf-fab" onclick="downloadPDF()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
     </svg>
@@ -1963,7 +1987,7 @@ section + section { border-top: none; }
       </div>
       <span class="art-date">2026.01.08</span>
       <div class="spacer"></div>
-      <button class="art-pdf-btn">
+      <button class="art-pdf-btn" onclick="downloadPDF()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         PDF 다운로드
       </button>
@@ -2020,7 +2044,7 @@ section + section { border-top: none; }
 
   </div>
 
-  <button class="pdf-fab">
+  <button class="pdf-fab" onclick="downloadPDF()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
     </svg>
@@ -2933,6 +2957,30 @@ function resetAuto() {
     hs.addEventListener('mouseleave', () => { _heroHovered = false; resetAuto(); });
   }
 })();
+
+
+/* ─── PDF 다운로드 ─── */
+function downloadPDF() {
+  // iframe 환경에서는 window.print()가 차단되므로
+  // 현재 HTML을 Blob으로 만들어 새 탭에서 열고 인쇄
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const win = window.open(url, '_blank');
+  if (win) {
+    win.addEventListener('load', () => {
+      win.print();
+      URL.revokeObjectURL(url);
+    });
+  } else {
+    // 팝업 차단 시 직접 다운로드
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'poly-scoop.html';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+}
 
 // 초기 자동 재생
 resetAuto();
