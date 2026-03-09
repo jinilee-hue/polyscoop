@@ -1048,7 +1048,7 @@ section + section { border-top: none; }
 /* Nav buttons */
 .art-nav-row {
   display: flex; justify-content: space-between; align-items: center;
-  gap: 8px; margin-bottom: 12px;
+  gap: 8px; margin-bottom: 12px; margin-top: 40px;
 }
 .art-nav-btn {
   padding: 12px 0; border: 1px solid var(--gray-200); border-radius: 2px;
@@ -2694,6 +2694,15 @@ function showArticle(card) {
         }
       }
     }
+
+    // ── 추천 영역: Notice & Event는 숨김 ──
+    const reactionsWrap = document.querySelector('#articleView .art-reactions-wrap');
+    const artDivider    = document.querySelector('#articleView .art-divider');
+    const artNavRow     = document.querySelector('#articleView .art-nav-row');
+    if (reactionsWrap) reactionsWrap.style.display = card.category ? 'none' : '';
+    if (artDivider)    artDivider.style.display    = card.category ? 'none' : '';
+    if (artNavRow)     artNavRow.style.borderTop   = card.category ? '1px solid var(--gray-200)' : '';
+    if (artNavRow)     artNavRow.style.paddingTop  = card.category ? '40px' : '';
 
     // ── 본문 동적 렌더링 ──
     const artText = document.querySelector('#articleView .art-text');
