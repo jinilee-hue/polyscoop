@@ -685,9 +685,103 @@ section + section { border-top: none; }
   gap: 10px;
   align-items: center;
   justify-content: center;
-  max-width: 25%;
+  max-width: 480px;
   margin: 0 auto;
 }
+.notice-search-select {
+  height: 44px;
+  padding: 0 40px 0 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23333' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+  font-size: 14px;
+  color: var(--black);
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color .2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* 커스텀 셀렉트 드롭다운 */
+.custom-select {
+  position: relative;
+  flex-shrink: 0;
+  user-select: none;
+}
+.custom-select-trigger {
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: var(--black);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  transition: border-color .2s;
+  min-width: 80px;
+}
+.custom-select-trigger:hover { border-color: var(--gray-400); }
+.custom-select.open .custom-select-trigger { border-color: var(--black); border-radius: 8px 8px 0 0; }
+.custom-select-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--black);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  z-index: 100;
+  list-style: none;
+  margin: 0; padding: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+.custom-select.open .custom-select-dropdown { display: block; }
+.custom-select-option {
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--black);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background .15s, color .15s;
+}
+.custom-select-option:hover { background: rgba(20,40,160,.05); color: var(--black); }
+.custom-select-option.selected { font-weight: 700; color: #1428a0; }
+.notice-search-select:focus { border-color: var(--black); }
+
+/* 페이징 */
+.notice-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 24px 0 8px;
+}
+.notice-pagination button {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notice-pagination button:hover { border-color: #1428a0; color: #1428a0; }
+.notice-pagination button.active { background: #1428a0; border-color: #1428a0; color: #fff; font-weight: 700; }
+.notice-pagination button:disabled { opacity: .35; cursor: default; border-color: var(--gray-200); color: var(--gray-400); }
 .notice-search-input {
   flex: 1;
   height: 44px;
@@ -1723,31 +1817,31 @@ section + section { border-top: none; }
             <a href="#" onclick="showList('notice')" class="btn-more">View All</a>
           </div>
           <div class="notice-list animate delay-1">
-            <div class="notice-row">
+            <div class="notice-row" data-notice-idx="0" style="cursor:pointer;">
               <span class="notice-title">2기 기자단 발대식 온라인 Zoom 개최 안내 <span class="notice-badge-new">N</span></span>
               <span class="notice-date">2026.08.01</span><span class="notice-arrow">›</span>
             </div>
-            <div class="notice-row">
+            <div class="notice-row" data-notice-idx="1" style="cursor:pointer;">
               <span class="notice-title">Poly Scoop Issue 2 정식 발간 안내 <span class="notice-badge-new">N</span></span>
               <span class="notice-date">2026.07.16</span><span class="notice-arrow">›</span>
             </div>
-            <div class="notice-row">
+            <div class="notice-row" data-notice-idx="2" style="cursor:pointer;">
               <span class="notice-title">1기 Editor's Pick 수상자 발표 — 우수 기자 3명 선정</span>
               <span class="notice-date">2026.07.16</span><span class="notice-arrow">›</span>
             </div>
-            <div class="notice-row">
+            <div class="notice-row" data-notice-idx="3" style="cursor:pointer;">
               <span class="notice-title">2기 기자단 모집 안내 (7월 1일 ~ 7월 17일)</span>
               <span class="notice-date">2026.06.01</span><span class="notice-arrow">›</span>
             </div>
-            <div class="notice-row">
+            <div class="notice-row" data-notice-idx="4" style="cursor:pointer;">
               <span class="notice-title">Poly Scoop 론칭 기념 인스타그램 '와글와글 소문내기' 이벤트 당첨자 발표</span>
               <span class="notice-date">2026.05.30</span><span class="notice-arrow">›</span>
             </div>
-            <div class="notice-row">
+            <div class="notice-row" data-notice-idx="5" style="cursor:pointer;">
               <span class="notice-title">Poly Scoop 창간호 정식 발간 🎉</span>
               <span class="notice-date">2026.05.28</span><span class="notice-arrow">›</span>
             </div>
-            <div class="notice-row">
+            <div class="notice-row" data-notice-idx="6" style="cursor:pointer;">
               <span class="notice-title">'나의 원픽 스쿱을 찾아라' — 가장 좋아하는 기사 댓글 남기기 이벤트 진행 중</span>
               <span class="notice-date">2026.05.28</span><span class="notice-arrow">›</span>
             </div>
@@ -2330,7 +2424,19 @@ section + section { border-top: none; }
   <div class="list-view-body">
     <div class="notice-search-wrap">
       <div class="notice-search-box">
-        <input type="text" id="notice-search-input" class="notice-search-input" placeholder="제목을 검색하세요" oninput="filterNotice()" onkeydown="if(event.key==='Enter')filterNotice()">
+        <div class="custom-select" id="notice-search-type-wrap">
+          <div class="custom-select-trigger" id="notice-search-type-trigger">
+            <span id="notice-search-type-label">전체</span>
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="#333" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <ul class="custom-select-dropdown" id="notice-search-type-dropdown">
+            <li class="custom-select-option selected" data-value="all">전체</li>
+            <li class="custom-select-option" data-value="title">제목</li>
+            <li class="custom-select-option" data-value="date">날짜</li>
+          </ul>
+          <input type="hidden" id="notice-search-type" value="all">
+        </div>
+        <input type="text" id="notice-search-input" class="notice-search-input" placeholder="검색어를 입력하세요" oninput="filterNotice()" onkeydown="if(event.key==='Enter')filterNotice()">
         <button class="notice-search-btn" onclick="filterNotice()">검색</button>
       </div>
     </div>
@@ -2344,6 +2450,7 @@ section + section { border-top: none; }
       </thead>
       <tbody></tbody>
     </table>
+    <div class="notice-pagination" id="notice-pagination"></div>
   </div>
 
   <div class="view-footer-wrap">
@@ -2561,7 +2668,15 @@ function showArticle(card) {
     if (dateEl && card.date) dateEl.textContent = card.date;
     const tagEl = document.querySelector('#articleView .art-tag');
     const subTagEl = document.getElementById('artSubTag');
-    if (card.tag) {
+    if (card.category) {
+      // Notice & Event 카드: category(공지/행사)만 라벨로 표시
+      if (tagEl) {
+        tagEl.textContent = card.category;
+        tagEl.style.color = card.category === '행사' ? '#F4621F' : '#1428a0';
+        tagEl.style.borderColor = card.category === '행사' ? '#F4621F' : '#1428a0';
+      }
+      if (subTagEl) subTagEl.style.display = 'none';
+    } else if (card.tag) {
       // card.tag format: "INSIGHTS · Science & Technology" or just "Science & Technology"
       const parts = card.tag.split('·').map(s => s.trim());
       if (parts.length >= 2) {
@@ -2579,6 +2694,27 @@ function showArticle(card) {
         }
       }
     }
+
+    // ── 본문 동적 렌더링 ──
+    const artText = document.querySelector('#articleView .art-text');
+    if (artText) {
+      if (card.body) {
+        artText.innerHTML = card.body;
+      } else if (card.excerpt) {
+        artText.innerHTML = `<p>${card.excerpt}</p>`;
+      }
+    }
+    // 캡션
+    const captionEl = document.querySelector('#articleView .art-img-caption');
+    if (captionEl) captionEl.textContent = card.caption || '';
+
+    // 저자 캠퍼스
+    const campusEl = document.querySelector('#articleView .art-author-campus');
+    if (campusEl) campusEl.textContent = card.campus || (card.author ? card.author.split('·').slice(1).join('·').trim() : '');
+
+    // 조회수 등 통계
+    const statsEl = document.querySelector('#articleView .art-stats');
+    if (statsEl && card.views) statsEl.innerHTML = `<span>👁 ${card.views.toLocaleString()}</span>`;
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -2610,28 +2746,28 @@ function showArticle(card) {
 /* ─── SECTION DATA & LIST VIEWS ─── */
 const sectionData = {
   insights: { cards: [
-    { tag: 'Science & Technology', title: 'My Secret Robot Friend: How Does AI Help Us at School?', excerpt: 'AI tools are reshaping classrooms. But are they helpers or cheaters?', author: 'Minho Lee · Gangnam', date: '2026.05.28', views: 1243, r1: 42, r2: 31, r3: 18, emoji: '🤖' , imgSrc: 'https://drive.google.com/thumbnail?id=1o_pFjZm1qBaTr5BxICPdKmrPJQVZNYsw&sz=w600' , section: 'INSIGHTS' },
-    { tag: 'Nature & Environment', title: 'Saving Our Blue Ocean: The Magic of No-Plastic Days', excerpt: 'Every Thursday, Haemi decided to live without plastic.', author: 'Haemi Choi · Mapo', date: '2026.05.28', views: 987, r1: 28, r2: 45, r3: 22, emoji: '🌊' , imgSrc: 'https://drive.google.com/thumbnail?id=1T2u-w2KbQNPEQGl5BaGX-c7imongLz5N&sz=w600' , section: 'INSIGHTS' },
-    { tag: 'Life & Society', title: 'The Yellow Safety Line: Secrets of Our Safe Road to School', excerpt: 'That yellow line near school crossings — who put it there?', author: 'Jiwon Park · Bundang', date: '2026.05.28', views: 754, r1: 19, r2: 33, r3: 14, emoji: '🚸' , imgSrc: 'https://drive.google.com/thumbnail?id=17thWW2vAPglkEng1JudOfJLUNVCaShsa&sz=w600' , section: 'INSIGHTS' },
-    { tag: 'Science & Technology', title: 'Weather Wonders: How Do Scientists Know When It Will Rain?', excerpt: 'Behind every forecast is a story of satellites and supercomputers.', author: 'Jiho Shin · Daechi', date: '2026.05.28', views: 1021, r1: 33, r2: 44, r3: 21, views: 1021, r1: 33, r2: 44, r3: 21, views: 1102, r1: 37, r2: 28, r3: 29, emoji: '🌦️' , imgSrc: 'https://drive.google.com/thumbnail?id=1lbQsPiJNZLIqCZlpgE9c_uYsOFuWHnUP&sz=w600' , section: 'INSIGHTS' },
-    { tag: 'Science & Technology', title: 'Space Food Secrets: What Do Astronauts Eat for Lunch?', excerpt: 'No forks, no gravity — the creative science behind eating in space.', author: 'Yuna Bae · Mokdong', date: '2026.05.28', views: 876, r1: 27, r2: 38, r3: 25, views: 892, r1: 24, r2: 51, r3: 16, emoji: '🚀' , imgSrc: 'https://drive.google.com/thumbnail?id=1xNgp8XMDjFTmY8oex4nVZtaJLthhe2B0&sz=w600' , section: 'INSIGHTS' },
-    { tag: 'Life & Society', title: 'Smartphones: Does Screen Time Keep Us Awake?', excerpt: 'We scroll, we watch, we swipe — what does blue light do to our sleep?', author: 'Sora Jung · Mapo', date: '2026.05.28', views: 1334, r1: 55, r2: 39, r3: 27, emoji: '📱' , imgSrc: 'https://drive.google.com/thumbnail?id=1x8a_oAt6Y5sGkCXQG2n64tf-JkTUyYvc&sz=w600' , section: 'INSIGHTS' },
+    { tag: 'Science & Technology', title: 'My Secret Robot Friend: How Does AI Help Us at School?', excerpt: 'AI tools are reshaping classrooms. But are they helpers or cheaters?', author: 'Minho Lee · Gangnam', date: '2026.05.28', views: 1243, r1: 42, r2: 31, r3: 18, emoji: '🤖' , imgSrc: 'https://drive.google.com/thumbnail?id=1o_pFjZm1qBaTr5BxICPdKmrPJQVZNYsw&sz=w600' , section: 'INSIGHTS' , body: '<p>Artificial intelligence is no longer just a buzzword — it\'s showing up in classrooms across Korea. From AI tutoring apps to smart note-taking tools, students are discovering new ways to learn faster and smarter.</p><p>But not everyone agrees AI is a good thing. Some teachers worry that students rely on it too much, using AI to write essays or solve math problems without really understanding the concepts. "The question isn\'t whether AI can do it," said one Gangnam teacher. "It\'s whether students are still learning."</p><p>Reporter Minho Lee visited three schools to find out how students really feel. Many said AI helps them catch up when they miss class, or explain confusing topics in simpler language. Others admitted they sometimes use it to finish homework faster.</p><p>The answer, most agree, is balance. AI is a tool — powerful when used wisely, but potentially harmful when it replaces thinking altogether.</p>', caption: 'An AI tutoring assistant helps a student review vocabulary. (Illustration: AI-generated by Poly Scoop)', campus: 'Gangnam Campus'},
+    { tag: 'Nature & Environment', title: 'Saving Our Blue Ocean: The Magic of No-Plastic Days', excerpt: 'Every Thursday, Haemi decided to live without plastic.', author: 'Haemi Choi · Mapo', date: '2026.05.28', views: 987, r1: 28, r2: 45, r3: 22, emoji: '🌊' , imgSrc: 'https://drive.google.com/thumbnail?id=1T2u-w2KbQNPEQGl5BaGX-c7imongLz5N&sz=w600' , section: 'INSIGHTS' , body: '<p>Every Thursday, Haemi Choi skips the plastic. No plastic bottles, no straws, no single-use bags. It started as a personal experiment, but it quickly became something bigger.</p><p>"I realized how much plastic I used without even thinking," said Haemi, a fifth-grader from Mapo. "Now I carry a reusable cup and a cloth bag everywhere."</p><p>Her class has joined the movement, and they\'ve tracked the results. In one month, they estimate they prevented over 200 plastic items from entering the waste stream.</p><p>Marine biologists warn that plastic pollution is one of the greatest threats to ocean health. Tiny microplastics have been found in fish, seabirds, and even human blood. The good news? Small choices add up. And young people like Haemi are proving it.</p>', caption: 'Reusable bags and bottles displayed at a Mapo school eco-fair. (Illustration: AI-generated by Poly Scoop)', campus: 'Mapo Campus'},
+    { tag: 'Life & Society', title: 'The Yellow Safety Line: Secrets of Our Safe Road to School', excerpt: 'That yellow line near school crossings — who put it there?', author: 'Jiwon Park · Bundang', date: '2026.05.28', views: 754, r1: 19, r2: 33, r3: 14, emoji: '🚸' , imgSrc: 'https://drive.google.com/thumbnail?id=17thWW2vAPglkEng1JudOfJLUNVCaShsa&sz=w600' , section: 'INSIGHTS' , body: '<p>That yellow line near school crossings — who put it there, and why does it matter? Reporter Jiwon Park set out to find the answer, and discovered a surprisingly deep story behind a simple stripe of paint.</p><p>The yellow safety line in Korea is required by law near all elementary schools. It marks the edge of where students must wait before crossing. Studies show that accidents drop significantly in zones where the line is clearly painted and maintained.</p><p>"We repaint it every spring," said a Bundang district road safety officer. "It fades in winter, and by March, kids are back on the streets."</p><p>Jiwon\'s investigation also found that some crossings lack proper lighting, making them more dangerous after dark. She\'s now petitioning her local government for better street lamps near her school.</p>', caption: 'A freshly repainted yellow safety line outside a Bundang elementary school. (Illustration: AI-generated by Poly Scoop)', campus: 'Bundang Campus'},
+    { tag: 'Science & Technology', title: 'Weather Wonders: How Do Scientists Know When It Will Rain?', excerpt: 'Behind every forecast is a story of satellites and supercomputers.', author: 'Jiho Shin · Daechi', date: '2026.05.28', views: 1021, r1: 33, r2: 44, r3: 21, views: 1021, r1: 33, r2: 44, r3: 21, views: 1102, r1: 37, r2: 28, r3: 29, emoji: '🌦️' , imgSrc: 'https://drive.google.com/thumbnail?id=1lbQsPiJNZLIqCZlpgE9c_uYsOFuWHnUP&sz=w600' , section: 'INSIGHTS' , body: '<p>Behind every weather forecast is a fascinating story of satellites, math, and supercomputers. Reporter Jiho Shin visited the Korea Meteorological Administration to find out how meteorologists predict the future.</p><p>Modern weather forecasting uses data from thousands of sensors on the ground, in the ocean, and in space. Satellites track cloud formations in real time, while ground stations measure temperature, humidity, and wind speed every few minutes.</p><p>All this data is fed into massive supercomputers that run complex mathematical models. The computers simulate the atmosphere and project what will happen in the next few hours — or days.</p><p>"The hardest part is uncertainty," said one meteorologist. "We can be 90% sure it will rain, but that 10% is what people remember when we\'re wrong." Despite the challenges, modern forecasts are accurate about 85% of the time — a huge improvement from just 30 years ago.</p>', caption: 'A weather satellite image showing cloud formations over the Korean Peninsula. (Illustration: AI-generated by Poly Scoop)', campus: 'Daechi Campus'},
+    { tag: 'Science & Technology', title: 'Space Food Secrets: What Do Astronauts Eat for Lunch?', excerpt: 'No forks, no gravity — the creative science behind eating in space.', author: 'Yuna Bae · Mokdong', date: '2026.05.28', views: 876, r1: 27, r2: 38, r3: 25, views: 892, r1: 24, r2: 51, r3: 16, emoji: '🚀' , imgSrc: 'https://drive.google.com/thumbnail?id=1xNgp8XMDjFTmY8oex4nVZtaJLthhe2B0&sz=w600' , section: 'INSIGHTS' , body: '<p>Eating in space is nothing like eating on Earth. There\'s no gravity to keep food on a plate, no flame to cook with in the traditional sense, and everything must be carefully designed to avoid crumbs that could float into equipment.</p><p>Modern space food has come a long way from the toothpaste-tube meals of early astronauts. Today\'s ISS crew enjoys rehydratable meals, thermostabilized dishes, and even fresh fruit delivered by resupply missions.</p><p>Korean astronaut Yi So-yeon famously insisted on bringing kimchi to space — and a team of scientists spent years developing a version that wouldn\'t ferment too quickly in microgravity.</p><p>"Food is more than nutrition in space," said a NASA food scientist. "It\'s comfort. It\'s connection to home. It\'s mental health."</p>', caption: 'Rehydratable space food packets used aboard the International Space Station. (Illustration: AI-generated by Poly Scoop)'},
+    { tag: 'Life & Society', title: 'Smartphones: Does Screen Time Keep Us Awake?', excerpt: 'We scroll, we watch, we swipe — what does blue light do to our sleep?', author: 'Sora Jung · Mapo', date: '2026.05.28', views: 1334, r1: 55, r2: 39, r3: 27, emoji: '📱' , imgSrc: 'https://drive.google.com/thumbnail?id=1x8a_oAt6Y5sGkCXQG2n64tf-JkTUyYvc&sz=w600' , section: 'INSIGHTS' , body: '<p>The blue light emitted by smartphone screens suppresses melatonin — the hormone that tells your brain it\'s time to sleep. This is not a theory. It\'s established science. And yet most teenagers (and many adults) use their phones right up until the moment they try to sleep.</p><p>Studies show that students who use screens in the hour before bed take longer to fall asleep, sleep less deeply, and perform worse on cognitive tests the next day. The effect is particularly pronounced in adolescents, whose sleep needs are actually greater than adults\'.</p><p>"The teenage brain is undergoing enormous development," said a sleep researcher. "Disrupting sleep during this period has consequences that extend well beyond tiredness."</p><p>Solutions are straightforward, if not easy: no screens an hour before bed, phone chargers outside the bedroom, blue-light filters in the evening. The challenge is not knowledge. It\'s habit.</p>', caption: 'A smartphone glowing in a dark bedroom. (Illustration: AI-generated by Poly Scoop)'},
   ]},
   lifelog: { cards: [
-    { tag: 'Nature & Garden', title: 'My Tiny Green Friend: The Day I Planted My First Flower', excerpt: 'From a seed to a blooming flower — patience and wonder.', imgSrc: 'https://drive.google.com/thumbnail?id=1jGPz05WxLtxm_c27YzSzEyYftuEpLhiN&sz=w600', author: 'Soyeon Kim · Incheon', date: '2026.05.28', views: 678, r1: 15, r2: 22, r3: 31, emoji: '🌱' , section: 'LIFE LOG' },
-    { tag: 'Family', title: 'The Busy Bee: Helping My Grandma Water Her Colorful Garden', excerpt: 'A weekend with grandma turned into a gardening adventure.', imgSrc: 'https://drive.google.com/thumbnail?id=1q6c4vZPzu0OnQz8QSUBh-PFsg8BMIJXG&sz=w600', author: 'Dahyun Oh · Suwon', date: '2026.05.28', views: 543, r1: 12, r2: 18, r3: 24, emoji: '🐝' , section: 'LIFE LOG' },
-    { tag: 'Environment', title: 'Our Green Mission: Sorting Recycling to Keep the Earth Happy', excerpt: 'What happens after we throw things into the recycling bin?', imgSrc: 'https://drive.google.com/thumbnail?id=1eytbDCy3V4dlCREsY3zPerqy2mkyIb7W&sz=w600', author: 'Eunji Yoon · Seongnam', date: '2026.05.28', views: 721, r1: 18, r2: 27, r3: 19, emoji: '♻️' , section: 'LIFE LOG' },
-    { tag: 'Daily Life', title: 'A Day in My Shoes: What I Love and Hate About School', excerpt: 'An honest essay about the highs and lows of being a student reporter.', imgSrc: 'https://drive.google.com/thumbnail?id=1I3BqOvqafGCmW5b9JnobSz2rN-aYQo0l&sz=w600', author: 'Yujin Han · Daechi', date: '2026.05.28', views: 894, r1: 31, r2: 24, r3: 38, emoji: '🏫' , section: 'LIFE LOG' },
-    { tag: 'Hobby & Art', title: 'My Art Weekend: How Drawing Helps Me Think Clearly', excerpt: 'When words fail, colors speak. Art as a personal reset button.', imgSrc: 'https://drive.google.com/thumbnail?id=1BD3D_h8Myg2AGR-Nsrs0RuJxbJ6bqBAu&sz=w600', author: 'Nara Lim · Bundang', date: '2026.07.16', views: 612, r1: 22, r2: 16, r3: 29, emoji: '🎨' , section: 'LIFE LOG' },
-    { tag: 'Food & Culture', title: 'Lunchbox Stories: What My Mom Packs Tells About Our Culture', excerpt: 'Every lunchbox holds a story — of family, love, and where we come from.', imgSrc: 'https://drive.google.com/thumbnail?id=1n-x3b3JB_dq3G9vzTTHaS_t-EaUYXv8J&sz=w600', author: 'Chaeyeon Bae · Nowon', date: '2026.07.16', views: 445, r1: 9, r2: 21, r3: 17, emoji: '🍱' , section: 'LIFE LOG' },
+    { tag: 'Nature & Garden', title: 'My Tiny Green Friend: The Day I Planted My First Flower', excerpt: 'From a seed to a blooming flower — patience and wonder.', imgSrc: 'https://drive.google.com/thumbnail?id=1jGPz05WxLtxm_c27YzSzEyYftuEpLhiN&sz=w600', author: 'Soyeon Kim · Incheon', date: '2026.05.28', views: 678, r1: 15, r2: 22, r3: 31, emoji: '🌱' , section: 'LIFE LOG' , body: '<p>It started with a small pot, a handful of soil, and a single seed. My teacher handed them out on Earth Day, and I brought mine home with more care than I\'d ever given anything.</p><p>I placed the pot on my windowsill where it would catch the morning sun. Every day I checked for signs of life. On the fifth day, a tiny green shoot appeared — so small I almost missed it.</p><p>Watching something grow because of your attention and care is a quietly profound experience. I watered it carefully, turned it so every side faced the light, and talked to it when I was doing homework nearby.</p><p>Now it\'s a blooming marigold, bright orange on my desk. My mom says it makes the room look warmer. I think so too.</p>', caption: 'A marigold seedling on a sunny windowsill. (Illustration: AI-generated by Poly Scoop)'},
+    { tag: 'Family', title: 'The Busy Bee: Helping My Grandma Water Her Colorful Garden', excerpt: 'A weekend with grandma turned into a gardening adventure.', imgSrc: 'https://drive.google.com/thumbnail?id=1q6c4vZPzu0OnQz8QSUBh-PFsg8BMIJXG&sz=w600', author: 'Dahyun Oh · Suwon', date: '2026.05.28', views: 543, r1: 12, r2: 18, r3: 24, emoji: '🐝' , section: 'LIFE LOG' , body: '<p>My grandmother\'s garden is not large — it fits on two balconies and a small strip of yard — but it feels enormous when you\'re the one responsible for keeping it alive.</p><p>Every weekend, I go to her house and we water together. She knows each plant by name and history: the rose that came from her mother\'s garden, the chili plant she\'s grown for forty years, the lavender she bought on a trip to Jeju.</p><p>She teaches me without teaching — by telling stories while we work. I\'ve learned that you don\'t pour water on leaves in strong sunlight. That some plants want dry spells between waterings. That a yellowing leaf is usually a symptom, not a cause.</p><p>Gardening with my grandmother is one of my favorite things. Mostly for the plants. Partly for the stories.</p>', caption: 'Colorful balcony plants tended with care. (Illustration: AI-generated by Poly Scoop)'},
+    { tag: 'Environment', title: 'Our Green Mission: Sorting Recycling to Keep the Earth Happy', excerpt: 'What happens after we throw things into the recycling bin?', imgSrc: 'https://drive.google.com/thumbnail?id=1eytbDCy3V4dlCREsY3zPerqy2mkyIb7W&sz=w600', author: 'Eunji Yoon · Seongnam', date: '2026.05.28', views: 721, r1: 18, r2: 27, r3: 19, emoji: '♻️' , section: 'LIFE LOG' , body: '<p>Our class decided to take recycling seriously. Not just putting things in the right bin — actually investigating whether our school was doing it correctly, and what happened to materials after collection.</p><p>What we found surprised us. Many items labeled "recyclable" are not actually recycled, because they\'re contaminated or too small to sort. Pizza boxes with grease. Plastic bags. Juice cartons that aren\'t cleaned.</p><p>We made posters and a short video explaining what can and cannot be recycled in our district. We presented to four other classes. The school principal asked us to display our guide in the cafeteria.</p><p>It\'s a small impact. But impact starts somewhere, and somewhere is better than nowhere.</p>', caption: 'Students sort recyclables in their classroom. (Illustration: AI-generated by Poly Scoop)'},
+    { tag: 'Daily Life', title: 'A Day in My Shoes: What I Love and Hate About School', excerpt: 'An honest essay about the highs and lows of being a student reporter.', imgSrc: 'https://drive.google.com/thumbnail?id=1I3BqOvqafGCmW5b9JnobSz2rN-aYQo0l&sz=w600', author: 'Yujin Han · Daechi', date: '2026.05.28', views: 894, r1: 31, r2: 24, r3: 38, emoji: '🏫' , section: 'LIFE LOG' , body: '<p>I love the moment a math problem suddenly makes sense. I love art class on Thursdays, when the room smells like paint and everyone is too absorbed to talk much. I love the five-minute walk between the school gate and the front door, when I\'m not yet inside and the day hasn\'t started.</p><p>I hate the way time slows to almost nothing during the last twenty minutes before lunch. I hate group projects where two people do everything and three people receive equal credit. I hate standardized tests that measure my worst day more accurately than my best.</p><p>But mostly, I love school. Not every minute of it. Not even most minutes of it. But the idea of it — a place where curiosity is, at least in theory, the whole point.</p><p>That\'s worth showing up for.</p>', caption: 'A student\'s notebook and art supplies at the end of the school day. (Illustration: AI-generated by Poly Scoop)'},
+    { tag: 'Hobby & Art', title: 'My Art Weekend: How Drawing Helps Me Think Clearly', excerpt: 'When words fail, colors speak. Art as a personal reset button.', imgSrc: 'https://drive.google.com/thumbnail?id=1BD3D_h8Myg2AGR-Nsrs0RuJxbJ6bqBAu&sz=w600', author: 'Nara Lim · Bundang', date: '2026.07.16', views: 612, r1: 22, r2: 16, r3: 29, emoji: '🎨' , section: 'LIFE LOG' , body: '<p>I started keeping a sketchbook after a particularly overwhelming week of exams. I didn\'t plan to — I just picked up a pencil and started drawing the plant on my desk.</p><p>Something shifted. The act of drawing requires a different kind of attention than studying. You must look carefully. You must translate what you see into marks on paper. The brain quiets its usual chatter and focuses on the immediate task.</p><p>I draw for about thirty minutes on weekend mornings. Plants, mostly. Sometimes my shoes. Sometimes faces from memory. I\'m not good at it in any technical sense, but I\'ve stopped caring about that.</p><p>What matters is the thirty minutes of clarity. The world is still complicated when I put the pencil down. But I\'m better equipped to handle it.</p>', caption: 'Sketches from a student\'s weekend sketchbook. (Illustration: AI-generated by Poly Scoop)'},
+    { tag: 'Food & Culture', title: 'Lunchbox Stories: What My Mom Packs Tells About Our Culture', excerpt: 'Every lunchbox holds a story — of family, love, and where we come from.', imgSrc: 'https://drive.google.com/thumbnail?id=1n-x3b3JB_dq3G9vzTTHaS_t-EaUYXv8J&sz=w600', author: 'Chaeyeon Bae · Nowon', date: '2026.07.16', views: 445, r1: 9, r2: 21, r3: 17, emoji: '🍱' , section: 'LIFE LOG' , body: '<p>Every day, my lunchbox is a small autobiography. My mom packs according to what\'s in season, what\'s on sale, what we ate for dinner, and occasionally, what I specifically requested (and more often, what I forgot to request).</p><p>In spring, there is always naengmyeon or bibimbap with fresh greens. In winter, the containers are heavier, full of braised root vegetables and warming soups in thermoses. There is always rice. There is almost always kimchi.</p><p>I\'ve started paying attention to my classmates\' lunchboxes. Each one is a small portrait of a family — its tastes, its origins, its routines. One friend always has Japanese-style onigiri. Another has sandwiches on white bread with the crusts cut off. Another brings the same stew, every day, that her grandmother makes fresh each morning.</p><p>Food is memory. Lunchboxes are love letters, written in rice and kimchi.</p>', caption: 'A colorful Korean lunchbox packed for school. (Illustration: AI-generated by Poly Scoop)'},
   ]},
   world: { cards: [
     { tag: 'Science & Technology', title: 'Weather Wonders: How Do Scientists Know When It Will Rain?', excerpt: 'Behind every forecast is a story of satellites and supercomputers.', imgSrc: 'https://drive.google.com/thumbnail?id=17PTyxPvJJtXakQcv8AYjN7IJtWJ6fHcQ&sz=w600', author: 'Jiho Shin · Daechi', date: '2026.05.28', views: 1021, r1: 33, r2: 44, r3: 21, emoji: '🌦️' , section: 'Inside the World' },
     { tag: 'Science & Technology', title: 'Space Food Secrets: What Do Astronauts Eat for Lunch?', excerpt: 'No forks, no gravity — the creative science behind eating in space.', imgSrc: 'https://drive.google.com/thumbnail?id=1hOhMZBEZ9Byfi92Jc29-myFHnmIzKq_r&sz=w600', author: 'Yuna Bae · Mokdong', date: '2026.05.28', views: 876, r1: 27, r2: 38, r3: 25, emoji: '🚀' , section: 'Inside the World' },
-    { tag: 'Science & Technology', title: 'The Truth About Robots: Can They Really Do Our Homework?', excerpt: 'AI robots are getting smarter every day. Should we trust them?', imgSrc: 'https://drive.google.com/thumbnail?id=17reCnL4xD5vW9AIYiYutzgyRHYiZ7Cxb&sz=w600', author: 'Seojun Lim · Nowon', date: '2026.05.28', views: 743, r1: 19, r2: 29, r3: 18, emoji: '🤖' , section: 'Inside the World' },
-    { tag: 'Nature & Environment', title: 'Ocean Plastic Crisis: Why Fish Are Eating Our Trash', excerpt: 'Millions of tons of plastic enter our oceans every year.', imgSrc: 'https://drive.google.com/thumbnail?id=1V87cbGAVYATBoFUBJv-1Ck52aMIN1ATa&sz=w600', author: 'Haemi Choi · Mapo', date: '2026.07.16', views: 1156, r1: 41, r2: 52, r3: 33, emoji: '🐠' , section: 'Inside the World' },
+    { tag: 'Science & Technology', title: 'The Truth About Robots: Can They Really Do Our Homework?', excerpt: 'AI robots are getting smarter every day. Should we trust them?', imgSrc: 'https://drive.google.com/thumbnail?id=17reCnL4xD5vW9AIYiYutzgyRHYiZ7Cxb&sz=w600', author: 'Seojun Lim · Nowon', date: '2026.05.28', views: 743, r1: 19, r2: 29, r3: 18, emoji: '🤖' , section: 'Inside the World' , body: '<p>Robots are getting smarter. There\'s no question about that. But can they — or should they — do student homework? Reporter Sujin Bae investigated, and the answer is more complicated than a simple yes or no.</p><p>Today\'s AI tools can write essays, solve math problems, and summarize complex texts in seconds. Students around the world are already using them, some openly and some secretly. Schools are struggling to define what constitutes cheating in an AI-assisted world.</p><p>But educators point out something important: homework isn\'t primarily about the product. It\'s about the process. The struggle, the confusion, and the eventual understanding — these are the parts that build real skill.</p><p>"A robot can do your homework," said one teacher. "But it can\'t understand it for you. And understanding is the whole point."</p>', caption: 'A student considers using an AI assistant for homework. (Illustration: AI-generated by Poly Scoop)'},
+    { tag: 'Nature & Environment', title: 'Ocean Plastic Crisis: Why Fish Are Eating Our Trash', excerpt: 'Millions of tons of plastic enter our oceans every year.', imgSrc: 'https://drive.google.com/thumbnail?id=1V87cbGAVYATBoFUBJv-1Ck52aMIN1ATa&sz=w600', author: 'Haemi Choi · Mapo', date: '2026.07.16', views: 1156, r1: 41, r2: 52, r3: 33, emoji: '🐠' , section: 'Inside the World' , body: '<p>Every year, approximately 8 million metric tons of plastic enter the world\'s oceans. That\'s equivalent to dumping a garbage truck of plastic into the sea every minute. And the consequences for marine life are catastrophic.</p><p>Sea turtles mistake plastic bags for jellyfish. Seabirds feed plastic fragments to their chicks. Fish ingest microplastics — tiny particles that have broken down from larger pieces — and those microplastics have now been found in the fish we eat.</p><p>The problem is not just the plastic itself, but the toxic chemicals it absorbs from the water and carries into the food chain. Scientists are still learning the full extent of the health impacts on both wildlife and humans.</p><p>"We created this problem in about 70 years," said a marine biologist. "We can solve it — but only if we treat it with the urgency it deserves."</p>', caption: 'Plastic debris collected from a beach cleanup. (Illustration: AI-generated by Poly Scoop)'},
     { tag: 'Life & Society', title: 'Smartphones: Does Screen Time Keep Us Awake?', excerpt: 'We scroll, we watch — what does blue light do to our sleep?', imgSrc: 'https://drive.google.com/thumbnail?id=1Dj5FeDFwGslc6YD5NbIx1mTW5nvpAsUS&sz=w600', author: 'Sora Jung · Mapo', date: '2026.07.16', views: 1334, r1: 55, r2: 39, r3: 27, emoji: '📱' , section: 'Inside the World' },
-    { tag: 'Nature & Environment', title: 'Electric vs. Gas: Which Car is Truly Better for Our Earth?', excerpt: 'A deep dive into the full lifecycle of both car types.', imgSrc: 'https://drive.google.com/thumbnail?id=1P-e-g2I5A01QrAmelj5JrGDGxsxD_UaH&sz=w600', author: 'Jiwon Park · Bundang', date: '2026.07.16', views: 876, r1: 27, r2: 38, r3: 25, emoji: '⚡' , section: 'Inside the World' },
+    { tag: 'Nature & Environment', title: 'Electric vs. Gas: Which Car is Truly Better for Our Earth?', excerpt: 'A deep dive into the full lifecycle of both car types.', imgSrc: 'https://drive.google.com/thumbnail?id=1P-e-g2I5A01QrAmelj5JrGDGxsxD_UaH&sz=w600', author: 'Jiwon Park · Bundang', date: '2026.07.16', views: 876, r1: 27, r2: 38, r3: 25, emoji: '⚡' , section: 'Inside the World' , body: '<p>Electric cars produce zero direct emissions. But the electricity that charges them has to come from somewhere — and if that somewhere is a coal power plant, the environmental calculation becomes much more complicated.</p><p>A comprehensive life-cycle analysis must consider not just tailpipe emissions, but the environmental cost of manufacturing (especially the battery), the source of charging electricity, and eventual disposal.</p><p>In countries with clean electricity grids — Norway, France, Canada — electric vehicles are dramatically better for the environment. In countries that rely heavily on coal, the advantage shrinks considerably, especially for new cars with large batteries.</p><p>"The answer depends on where you live and how your electricity is generated," said an environmental engineer. "But in most places, and increasingly everywhere, electric is the right direction." The grid is getting cleaner. And EVs will get cleaner with it.</p>', caption: 'An electric vehicle charging at a public station. (Illustration: AI-generated by Poly Scoop)'},
   ]},
   notice: { items: [
     { title: '2기 기자단 발대식 온라인 Zoom 개최 안내', date: '2026.08.01', isNew: true },
@@ -2653,6 +2789,72 @@ const sectionData = {
     { tag: '8호', imgSrc: 'https://drive.google.com/thumbnail?id=1f098ki90XDbryhrcDOKD3_BTmWvdzHyJ&sz=w600',   issue: 'Issue 8 · Jul 2027', date: '2027년 7월 16일 발간', cover: 'prev-cover-4' , section: 'Previous Issue' },
   ]}
 };
+
+
+/* ─── NOTICE DATA ─── */
+const noticeCards = [
+  { num: 10, title: '2026 Poly Scoop 여름호 원고 모집 안내', date: '2026.05.20', category: '공지', excerpt: '2026 여름호 원고를 모집합니다. 관심 있는 기자단원은 기한 내 제출 바랍니다.', section: 'Notice & Event' },
+  { num: 9,  title: '제3회 Poly Scoop 기자단 발대식 안내', date: '2026.05.15', category: '행사', excerpt: '제3회 기자단 발대식이 진행됩니다. 일정 및 장소를 확인하세요.', section: 'Notice & Event' },
+  { num: 8,  title: '5월 취재 일정 및 마감 안내', date: '2026.05.10', category: '공지', excerpt: '5월 취재 일정과 원고 마감일을 안내드립니다.', section: 'Notice & Event' },
+  { num: 7,  title: 'Poly Scoop 4호 발간 기념 이벤트', date: '2026.04.28', category: '행사', excerpt: '4호 발간을 기념하는 특별 이벤트에 여러분을 초대합니다.', section: 'Notice & Event' },
+  { num: 6,  title: '기자단 글쓰기 워크숍 참가 안내', date: '2026.04.20', category: '행사', excerpt: '글쓰기 역량 강화를 위한 워크숍이 진행됩니다.', section: 'Notice & Event' },
+  { num: 5,  title: '사이트 리뉴얼 안내', date: '2026.04.10', category: '공지', excerpt: 'Poly Scoop 웹사이트가 새롭게 단장되었습니다.', section: 'Notice & Event' },
+  { num: 4,  title: '2026 상반기 우수 기자단 시상 안내', date: '2026.03.30', category: '행사', excerpt: '상반기 우수 기자단원을 선발하여 시상합니다.', section: 'Notice & Event' },
+  { num: 3,  title: '취재 윤리 가이드라인 업데이트 안내', date: '2026.03.20', category: '공지', excerpt: '취재 및 기사 작성 시 준수해야 할 윤리 가이드라인이 업데이트되었습니다.', section: 'Notice & Event' },
+  { num: 2,  title: '기자단 정기 회의 일정 안내', date: '2026.03.10', category: '공지', excerpt: '3월 정기 회의 일정을 안내드립니다. 전원 참석 부탁드립니다.', section: 'Notice & Event' },
+  { num: 1,  title: 'Poly Scoop 창간호 발간 안내', date: '2026.03.01', category: '공지', excerpt: 'Poly Scoop이 창간호를 발간하였습니다. 많은 관심과 사랑 부탁드립니다.', section: 'Notice & Event' },
+];
+
+const NOTICE_PER_PAGE = 10;
+let noticePage = 1;
+
+function renderNotice(page) {
+  page = page || noticePage;
+  noticePage = page;
+
+  const keyword = (document.getElementById('notice-search-input')?.value || '').trim().toLowerCase();
+  const type    = document.getElementById('notice-search-type')?.value || 'all';
+
+  // 검색 필터
+  const filtered = noticeCards.filter(n => {
+    if (!keyword) return true;
+    if (type === 'date')  return n.date.toLowerCase().includes(keyword);
+    if (type === 'title') return n.title.toLowerCase().includes(keyword);
+    return n.title.toLowerCase().includes(keyword) || n.date.toLowerCase().includes(keyword);
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / NOTICE_PER_PAGE));
+  if (page > totalPages) { noticePage = 1; page = 1; }
+
+  const start = (page - 1) * NOTICE_PER_PAGE;
+  const slice = filtered.slice(start, start + NOTICE_PER_PAGE);
+
+  const tbody = document.querySelector('#grid-notice tbody');
+  if (!tbody) return;
+  tbody.innerHTML = slice.map((n, i) => `
+    <tr data-notice-idx="${noticeCards.indexOf(n)}" style="cursor:pointer;">
+      <td class="list-notice-num">${n.num}</td>
+      <td class="list-notice-title-cell"><span style="font-size:11px;font-weight:700;color:${n.category==='행사'?'#F4621F':'#1428a0'};margin-right:8px;">[${n.category}]</span>${n.title}</td>
+      <td class="list-notice-date">${n.date}</td>
+    </tr>
+  `).join('');
+  tbody.querySelectorAll('tr[data-notice-idx]').forEach(row => {
+    row.addEventListener('click', () => showArticle(noticeCards[+row.dataset.noticeIdx]));
+  });
+
+  // 페이지 버튼 렌더링
+  const pg = document.getElementById('notice-pagination');
+  if (!pg) return;
+  const prevArrow = `<svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M6 1L1 6l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const nextArrow = `<svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  let html = `<button ${page===1?'disabled':''} onclick="renderNotice(${page-1})">${prevArrow}</button>`;
+  for (let p = 1; p <= totalPages; p++) {
+    html += `<button class="${p===page?'active':''}" onclick="renderNotice(${p})">${p}</button>`;
+  }
+  html += `<button ${page===totalPages?'disabled':''} onclick="renderNotice(${page+1})">${nextArrow}</button>`;
+  pg.innerHTML = html;
+}
 
 const _cardRegistry = {};
 let _cardIdx = 0;
@@ -2711,11 +2913,11 @@ function cardHTML(c) {
       statsHTML +
     '</div></div>';
 }
-function prevCardHTML(c) {
+function prevCardHTML(c, idx) {
   const coverHTML = c.imgSrc
     ? `<img src="${c.imgSrc}" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;display:block;" alt="${c.issue}" />`
     : `<div class="prev-cover ${c.cover}"><div class="prev-cover-text">Poly Scoop</div><div class="prev-cover-issue">${c.issue}</div></div>`;
-  return `<div class="prev-card" style="flex:unset;" onclick="showArticle(c)">
+  return `<div class="prev-card" style="flex:unset;cursor:pointer;" data-prev-idx="${idx}">
     <div class="prev-cover-wrap">${coverHTML}</div>
     <div class="prev-card-body">
       <p class="art-card-tag" style="margin:0">${c.tag}</p>
@@ -2725,68 +2927,101 @@ function prevCardHTML(c) {
 }
 
 function filterNotice() {
-  const keyword = (document.getElementById('notice-search-input').value || '').trim().toLowerCase();
-  const tbody = document.querySelector('#grid-notice tbody');
-  if (!tbody) return;
-  Array.from(tbody.rows).forEach(row => {
-    const title = (row.cells[1] ? row.cells[1].textContent : '').toLowerCase();
-    row.style.display = (!keyword || title.includes(keyword)) ? '' : 'none';
-  });
+  noticePage = 1;
+  renderNotice(1);
 }
 
 function initListViews() {
-  ['insights','lifelog','world'].forEach(id => {
-    const el = document.getElementById('grid-' + id);
-    if (el) el.innerHTML = sectionData[id].cards.map(cardHTML).join('');
-  });
-  // Wire static carousel cards to pass card data to showArticle
-  const insightsTrack = document.getElementById('insights-track');
-  if (insightsTrack) {
-    const cards = insightsTrack.querySelectorAll('.strip-card');
-    sectionData.insights.cards.forEach((card, i) => {
-      if (cards[i]) cards[i].setAttribute('onclick', '');
-      if (cards[i]) cards[i].addEventListener('click', () => showArticle(card));
-    });
-  }
-  // Wire lifelog carousel cards
-  const lifelogTrack = document.getElementById('lifelog-track');
-  if (lifelogTrack) {
-    const cards = lifelogTrack.querySelectorAll('.strip-card');
-    sectionData.lifelog.cards.forEach((card, i) => {
-      if (cards[i]) cards[i].setAttribute('onclick', '');
-      if (cards[i]) cards[i].addEventListener('click', () => showArticle(card));
-    });
-  }
-  // Wire world carousel cards
-  const worldTrack = document.getElementById('world-track');
-  if (worldTrack) {
-    const cards = worldTrack.querySelectorAll('.strip-card');
-    sectionData.world.cards.forEach((card, i) => {
-      if (cards[i]) cards[i].setAttribute('onclick', '');
-      if (cards[i]) cards[i].addEventListener('click', () => showArticle(card));
-    });
-  }
-  const tbody = document.querySelector('#grid-notice tbody');
-  if (tbody) {
-    const items = sectionData.notice.items;
-    tbody.innerHTML = items.map((n,i) => `<tr onclick="showArticle()">
-      <td class="list-notice-num">${items.length - i}</td>
-      <td class="list-notice-title-cell">${n.title}${n.isNew ? ' <span class="notice-badge-new">N</span>' : ''}</td>
-      <td class="list-notice-date">${n.date}</td></tr>`).join('');
-  }
-  const pg = document.getElementById('grid-previous');
-  if (pg) pg.innerHTML = sectionData.previous.cards.map(prevCardHTML).join('');
 
-  // 메인 prev-track 카드에 sectionData 연결
+  // ── 1. 리스트 페이지 그리드 렌더링 (insights / lifelog / world) ──
+  ['insights','lifelog','world'].forEach(secId => {
+    const el = document.getElementById('grid-' + secId);
+    if (!el) return;
+    el.innerHTML = '';
+    sectionData[secId].cards.forEach(card => {
+      const div = document.createElement('div');
+      div.innerHTML = cardHTML(card);
+      const node = div.firstElementChild;
+      // onclick 속성 제거 후 addEventListener로 정확히 연결
+      node.removeAttribute('onclick');
+      node.addEventListener('click', () => showArticle(card));
+      el.appendChild(node);
+    });
+  });
+
+  // ── 2. Notice & Event 렌더링 ──
+  renderNotice();
+
+  // ── 3. Previous Issue 리스트 렌더링 ──
+  const pg = document.getElementById('grid-previous');
+  if (pg) {
+    pg.innerHTML = sectionData.previous.cards.map((c, i) => prevCardHTML(c, i)).join('');
+    pg.querySelectorAll('[data-prev-idx]').forEach(el => {
+      el.addEventListener('click', () => showArticle(sectionData.previous.cards[+el.dataset.prevIdx]));
+    });
+  }
+
+  // ── 4. 메인 Notice & Event 리스트 → showArticle 연결 ──
+  document.querySelectorAll('.notice-row[data-notice-idx]').forEach(row => {
+    row.addEventListener('click', () => {
+      const card = noticeCards[+row.dataset.noticeIdx];
+      if (card) showArticle(card);
+    });
+  });
+
+  // ── 5. 메인 캐러셀 카드 → showArticle 연결 (트랙별 한정) ──
+  [
+    { trackId: 'insights-track', secId: 'insights' },
+    { trackId: 'lifelog-track',  secId: 'lifelog'  },
+    { trackId: 'world-track',    secId: 'world'    },
+  ].forEach(({ trackId, secId }) => {
+    const track = document.getElementById(trackId);
+    if (!track) return;
+    const carouselCards = Array.from(track.querySelectorAll('.strip-card'));
+    sectionData[secId].cards.forEach((card, i) => {
+      if (!carouselCards[i]) return;
+      carouselCards[i].removeAttribute('onclick');
+      carouselCards[i].addEventListener('click', () => showArticle(card));
+    });
+  });
+
+  // ── 5. 메인 Previous Issue 캐러셀 카드 연결 ──
   const prevTrack = document.getElementById('prev-track');
   if (prevTrack) {
-    const prevCards = prevTrack.querySelectorAll('.prev-card');
-    sectionData.previous.cards.forEach((card, i) => {
-      if (prevCards[i]) {
-        prevCards[i].style.cursor = 'pointer';
-        prevCards[i].onclick = () => showArticle(card);
+    prevTrack.querySelectorAll('.prev-card').forEach((el, i) => {
+      if (sectionData.previous.cards[i]) {
+        el.style.cursor = 'pointer';
+        el.onclick = () => showArticle(sectionData.previous.cards[i]);
       }
     });
+  }
+
+  // ── 6. 커스텀 셀렉트 드롭다운 초기화 ──
+  const noticeInput  = document.getElementById('notice-search-input');
+  const trigger      = document.getElementById('notice-search-type-trigger');
+  const dropdown     = document.getElementById('notice-search-type-dropdown');
+  const wrap         = document.getElementById('notice-search-type-wrap');
+  const hiddenInput  = document.getElementById('notice-search-type');
+  const labelEl      = document.getElementById('notice-search-type-label');
+
+  if (trigger && dropdown) {
+    trigger.addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
+    dropdown.querySelectorAll('.custom-select-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        dropdown.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        const val = opt.dataset.value;
+        hiddenInput.value = val;
+        labelEl.textContent = opt.textContent;
+        wrap.classList.remove('open');
+        if (noticeInput) {
+          noticeInput.placeholder = val === 'date' ? '날짜를 입력하세요 (예: 2026.05)' : val === 'all' ? '검색어를 입력하세요' : '제목을 검색하세요';
+          noticeInput.value = '';
+          filterNotice();
+        }
+      });
+    });
+    document.addEventListener('click', () => wrap.classList.remove('open'));
   }
 }
 document.addEventListener('DOMContentLoaded', initListViews);
