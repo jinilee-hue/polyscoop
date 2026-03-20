@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}:root{--black:#000000;--white:#ffffff;--gray-50:#f9f9f9;--gray-100:#f2f2f2;--gray-200:#e5e5e5;--gray-400:#aaaaaa;--gray-600:#666666;--gray-800:#333333;--blue:#1428a0;--blue-lt:#1a39cc;--font-kr:'Noto Sans KR',sans-serif;--max-w:1320px;--header-h:60px;}html{font-size:16px;scroll-behavior:smooth;}body{font-family:var(--font-kr);color:var(--black);background:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden;}a{text-decoration:none;color:inherit;}button{cursor:pointer;border:none;background:none;font-family:inherit;}img{display:block;width:100%;}.view{display:none;}.view.active{display:block;}.site-header{position:sticky;top:0;z-index:1000;background:var(--white);box-shadow:0 2px 8px rgba(0,0,0,.08);height:var(--header-h);}.header-wrap{max-width:var(--max-w);margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;gap:32px;}.btn-menu{display:none;flex-direction:column;gap:5px;padding:8px;}.btn-menu span{display:block;width:20px;height:1.5px;background:var(--black);transition:.3s;}@media (max-width:768px){.btn-menu{display:flex;}}.site-logo{font-size:17px;font-weight:700;letter-spacing:-0.3px;display:flex;align-items:center;gap:2px;cursor:pointer;}.site-logo .dot{color:var(--blue);font-size:22px;line-height:1;}.main-nav{display:flex;gap:0;margin-left:16px;height:100%;}.main-nav>a{display:flex;align-items:center;padding:0 18px;font-size:14px;font-weight:500;color:var(--gray-800);border-bottom:2px solid transparent;transition:.2s;white-space:nowrap;}.main-nav>a:hover,.main-nav>a.active{color:var(--black);border-bottom-color:var(--black);}.header-right{margin-left:auto;display:flex;align-items:center;gap:8px;}.btn-icon{padding:10px;border-radius:50%;transition:background .2s;display:flex;align-items:center;justify-content:center;}.btn-icon:hover{background:var(--gray-100);}.btn-icon svg{width:20px;height:20px;}.search-bar{display:flex;align-items:center;gap:0;overflow:hidden;max-width:0;opacity:0;transition:max-width .35s cubic-bezier(.4,0,.2,1),opacity .25s;}.search-bar.open{max-width:360px;opacity:1;}.search-input{border:none;border-bottom:1.5px solid var(--black);outline:none;background:transparent;font-size:14px;padding:4px 8px;width:220px;color:var(--black);white-space:nowrap;}.search-input::placeholder{color:var(--gray-400);}.search-submit{flex-shrink:0;display:none;align-items:center;justify-content:center;height:30px;padding:0 14px;background:var(--blue);color:white;font-size:12px;font-weight:500;letter-spacing:.3px;border-radius:2px;cursor:pointer;margin-left:8px;white-space:nowrap;transition:background .2s;}.search-submit:hover{background:var(--blue-lt);}.search-submit.visible{display:flex;}.drawer-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s;}.drawer-bg.show{opacity:1;pointer-events:all;}.drawer{position:fixed;left:0;top:0;bottom:0;width:280px;background:var(--white);z-index:901;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow-y:auto;}.drawer.show{transform:translateX(0);}.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;flex-shrink:0;}.drawer-head .drawer-logo{font-size:16px;font-weight:700;}.drawer-head .drawer-logo span{color:var(--blue);}.btn-close{font-size:22px;color:var(--gray-600);line-height:1;}.drawer-menu{padding:12px 0;}.drawer-menu a{display:flex;align-items:center;gap:12px;padding:13px 24px;font-size:14px;font-weight:500;color:var(--gray-800);transition:.15s;}.drawer-menu a:hover{background:var(--gray-50);color:var(--black);}..drawer-menu .section-name{padding:16px 24px 6px;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray-400);}.hero-slider{position:relative;overflow:hidden;background:var(--black);width:100%;}.hero-track{display:flex;transition:transform .65s cubic-bezier(.4,0,.2,1);}.hero-slide{flex:0 0 100%;position:relative;cursor:pointer;}.hero-img-wrap{position:relative;width:100%;aspect-ratio:16 / 7;overflow:hidden;}@media (max-width:900px){.hero-img-wrap{aspect-ratio:16/9;}}@media (max-width:500px){.hero-img-wrap{aspect-ratio:4/3;}}.hero-img-wrap-inner{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;transition:transform .65s ease;}.hero-slide:hover .hero-img-wrap-inner{transform:scale(1.025);}.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}iframe.hero-video{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:56.25vw;min-height:100%;pointer-events:none;border:none;}.hero-video-placeholder{position:absolute;inset:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:rgba(0,0,0,.45);color:rgba(255,255,255,.6);font-size:14px;letter-spacing:.5px;pointer-events:none;}.hero-video-placeholder svg{width:48px;height:48px;opacity:.5;}.hi-1{background:linear-gradient(135deg,#06122e 0%,#0d2260 45%,#1428a0 100%);}.hi-2{background:linear-gradient(150deg,#071a07 0%,#0d4020 50%,#1a7a35 100%);}.hi-3{background:linear-gradient(140deg,#1a0800 0%,#5a1800 50%,#c03800 100%);}.hero-overlay{position:absolute;bottom:0;left:0;right:0;padding:100px 0 56px;background:linear-gradient( to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.35) 55%,transparent 100% );color:white;pointer-events:none;}
 .hero-overlay-inner{max-width:var(--max-w);margin:0 auto;padding:0 24px;}.hero-overlay-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;border:1px solid rgba(255,255,255,.5);padding:4px 12px;border-radius:2px;margin-bottom:18px;color:rgba(255,255,255,.92);}.hero-overlay-title{font-size:clamp(24px,3.4vw,48px);font-weight:700;line-height:1.22;letter-spacing:-0.6px;max-width:740px;text-shadow:0 2px 12px rgba(0,0,0,.3);}.hero-overlay-sub{font-size:clamp(13px,1.2vw,16px);color:rgba(255,255,255,.75);margin-top:14px;font-weight:300;max-width:580px;line-height:1.65;}@media (max-width:768px){.hero-overlay{padding:60px 0 36px;}.hero-overlay-inner{padding:0 24px;}}.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);width:60px;height:60px;border-radius:50%;border:none;background:rgba(0,0,0,.25);backdrop-filter:blur(6px);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:all .2s;}.hero-arrow:hover{background:rgba(0,0,0,.55);transform:translateY(-50%) scale(1.08);}.hero-arrow svg{width:64px;height:64px;}.hero-arrow-left{left:24px;}.hero-arrow-right{right:24px;}@media (max-width:500px){.hero-arrow{width:36px;height:36px;}.hero-arrow svg{width:48px;height:48px;}.hero-arrow-left{left:12px;}.hero-arrow-right{right:12px;}}.hero-dots-bar{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:10;}.hero-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .3s;border:1.5px solid rgba(255,255,255,.6);}.hero-dot.on{width:24px;border-radius:4px;background:white;border-color:white;}.page-wrap{max-width:var(--max-w);margin:0 auto;padding:0 24px;}.page-wrap>section:last-child{margin-bottom:0;padding-bottom:0;}.section-head{display:flex;align-items:flex-end;justify-content:space-between;padding-top:5px;margin-bottom:28px;position:relative;}.section-head-left{display:flex;align-items:baseline;gap:10px;position:relative;}.section-head-left::before{content:'';position:absolute;top:-5px;left:0;width:20px;height:2px;background:var(--black);}.section-name{font-size:20px;font-weight:700;letter-spacing:-0.3px;}.section-name-sub{font-size:13px;color:#484848;font-weight:400;}.btn-more{font-size:12px;color:var(--gray-600);font-weight:600;display:inline-flex;align-items:center;gap:4px;padding:2px 0;border:none;border-bottom:1px solid var(--gray-600);transition:all .2s;}.btn-more:hover{color:var(--black);border-bottom-color:var(--black);}#insights{padding:48px 0;}section+section{border-top:none;}.bento-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:2px;}.bento-main{grid-row:1 / 3;}.bento-sub{}.art-card{display:block;cursor:pointer;overflow:hidden;}.art-card:hover .art-card-img-inner{transform:scale(1.03);}.art-card-img{overflow:hidden;background:var(--gray-100);aspect-ratio:16/10;width:100%;border-radius:10px;}.art-card-img-inner{width:100%;height:100%;transition:transform .5s ease;display:flex;align-items:center;justify-content:center;}.art-card-body{padding:18px 0 24px;}#world-track .strip-card .art-card-img{border-radius:10px 10px 0 0;}#world-track .strip-card{background:#ffffff;border-radius:10px;overflow:hidden;}#world-track .strip-card .art-card-body{background:#ffffff;padding:18px 14px 20px;border-radius:0 0 10px 10px;}.art-card-stats{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray-100);}.stat-reactions{display:flex;gap:8px;align-items:center;}.art-card-stats--dark{border-top:1px solid rgba(255,255,255,0.15);margin-top:8px;padding-top:8px;}.stat-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--gray-400);font-weight:500;}.stat-item svg{width:12px;height:12px;flex-shrink:0;}.art-card-stats--dark .stat-item{color:rgba(255,255,255,0.55);}.art-card-tag{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;display:block;}.art-card-title{font-size:17px;font-weight:700;line-height:1.4;letter-spacing:-0.3px;color:var(--black);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}.art-card-title.lg{font-size:22px;-webkit-line-clamp:3;}.art-card-excerpt{font-size:14px;color:var(--gray-600);margin-top:8px;line-height:1.65;font-weight:300;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}.art-card-meta{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;border-top:1px solid var(--gray-200);padding-top:10px;}.art-card-date{font-size:12px;color:var(--gray-400);}.art-card-author{font-size:12px;color:var(--gray-600);font-weight:500;}.art-card-reactions{display:flex;gap:10px;margin-left:auto;}.reaction{font-size:12px;color:var(--gray-400);display:flex;align-items:center;gap:3px;cursor:pointer;transition:color .2s;}.reaction:hover{color:var(--gray-800);}.reaction span{font-size:13px;}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}.bento-sub .art-card{display:flex;gap:20px;padding:24px;background:var(--gray-50);height:100%;}.bento-sub .art-card:first-child{border-bottom:1px solid var(--gray-200);}.bento-sub .art-card .art-card-img{flex-shrink:0;width:140px;aspect-ratio:4/3;border-radius:10px;}.bento-sub .art-card .art-card-body{padding:0;flex:1;}.bento-sub .art-card .art-card-title{font-size:15px;-webkit-line-clamp:3;}.bento-sub .art-card .art-card-excerpt{-webkit-line-clamp:2;font-size:13px;}.carousel-wrap{position:relative;}.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:1px solid var(--gray-200);background:var(--white);box-shadow:0 2px 8px rgba(0,0,0,.10);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:all .2s;color:var(--gray-800);}.carousel-btn:hover{background:var(--black);color:white;border-color:var(--black);}.carousel-btn:disabled{opacity:0;pointer-events:none;}.carousel-btn svg{width:16px;height:16px;}.carousel-btn-left{left:-20px;}.carousel-btn-right{right:-20px;}.carousel-viewport{overflow:hidden;}.carousel-track{display:flex;gap:24px;transition:transform .45s cubic-bezier(.4,0,.2,1);}.carousel-track>*{flex:0 0 calc((100% - 72px) / 4);min-width:0;}.strip-card{cursor:pointer;}.strip-card:hover .art-card-img-inner{transform:scale(1.03);}.strip-card .art-card-img{aspect-ratio:16/9;overflow:hidden;border-radius:10px;}.strip-card .art-card-img-inner{transition:transform .45s ease;}.lifelog-overlay-card{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .3s ease;}.lifelog-overlay-card:hover{transform:translateY(-4px);}.lifelog-stats{margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.05);}.lifelog-stats .stat-item{color:rgba(255,255,255,0.8);font-size:11px;}.lifelog-stats .si-eye svg,.lifelog-stats .si-idea svg,.lifelog-stats .si-search svg,.lifelog-stats .si-heart svg{stroke:rgba(255,255,255,0.8);}.lifelog-overlay{position:relative;z-index:2;padding:20px 16px 16px;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.4) 60%,transparent 100%);display:flex;flex-direction:column;gap:6px;}.lifelog-overlay-card .art-card-title{font-size:14px;font-weight:700;line-height:1.4;margin:0;}.lifelog-overlay-card .art-card-excerpt{font-size:12px;line-height:1.5;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}.lifelog-overlay-card .art-card-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;}.lifelog-overlay-card .art-card-author,.lifelog-overlay-card .art-card-date{font-size:11px;}.strip-tabs{display:flex;gap:0;border-bottom:1px solid var(--gray-200);margin-bottom:24px;}.strip-tab{padding:10px 20px;font-size:14px;font-weight:500;color:var(--gray-400);cursor:pointer;transition:.2s;border-bottom:2px solid transparent;margin-bottom:-1px;}.strip-tab.on{color:var(--black);border-bottom-color:var(--black);}.topic-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}.topic-tab{padding:7px 18px;border:none;border-radius:100px;font-size:13px;font-weight:500;color:var(--gray-600);background:var(--white);cursor:pointer;transition:all .2s;}.topic-tab.on{background:var(--black);color:var(--white);border-color:var(--black);}.topic-tab:hover:not(.on){color:var(--black);}.notice-pov-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
-#notice{padding:48px 0;}.notice-pov-grid>div{display:flex;flex-direction:column;height:100%;}.notice-list{display:flex;flex-direction:column;flex:1;}.pov-card{flex:1;display:flex;flex-direction:column;}.notice-row{display:flex;align-items:center;gap:14px;padding:0;flex:1;border-bottom:1px solid var(--gray-200);cursor:pointer;transition:.15s;min-height:0;}.notice-row:first-child{border-top:1px solid var(--gray-200);}.notice-row:hover .notice-title{color:var(--blue);}.notice-badge-new{flex-shrink:0;width:18px;height:18px;border-radius:50%;background:var(--blue);color:white;font-size:10px;font-weight:800;font-style:italic;display:inline-flex;align-items:center;justify-content:center;letter-spacing:0;vertical-align:middle;margin-left:4px;}.notice-title{font-size:14px;font-weight:500;flex:1;line-height:1.5;}.notice-date{font-size:12px;color:var(--gray-400);white-space:nowrap;flex-shrink:0;}.notice-arrow{display:none;flex-shrink:0;color:var(--gray-400);font-size:16px;line-height:1;}.pov-card{background:#fdf8f2;border-radius:4px;padding:28px 24px;display:flex;flex-direction:column;gap:18px;transition:box-shadow .2s;}.pov-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);}.pov-card-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#F4621F;text-align:center;margin-bottom:-8px;}.pov-card-title{font-size:24px;font-weight:700;line-height:1.35;text-align:center;}.pov-vs-wrap{display:flex;align-items:center;gap:0;}.pov-side{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;border-radius:4px;cursor:pointer;transition:box-shadow .2s,border-color .2s;text-align:center;background:#fff;border:1px solid #fff;}.pov-side:hover{background:#fff;border-color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.12);}.pov-side.selected{background:#fff;border:2px solid #F4621F;border-radius:4px;}.pov-avatar{font-size:44px;line-height:1;}.pov-choice-name{font-size:14px;font-weight:700;color:var(--black);}.pov-choice-quote{font-size:12px;color:var(--gray-600);font-weight:300;line-height:1.5;}.pov-bar-row{width:100%;display:flex;justify-content:center;}.pov-bar-track{width:67%;height:10px;background:var(--gray-200);border-radius:5px;overflow:hidden;margin-top:4px;}.pov-bar-fill{height:100%;background:#F4621F;border-radius:3px;transition:width .8s ease;}.pov-bar-fill.gray{background:#FF7A3D;}.pov-pct{font-size:13px;font-weight:700;color:var(--gray-800);}.pov-vs-divider{display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#000;padding:0 6px;flex-shrink:0;}.pov-vote-btn{align-self:center;background:#F4621F;color:white;font-size:13px;font-weight:700;padding:11px 48px;border-radius:2px;cursor:pointer;transition:background .2s;letter-spacing:1px;}.pov-vote-btn:hover{background:#FF7A3D;}.pov-vote-btn:disabled{background:var(--gray-400);cursor:default;}
+#notice{padding:48px 0;}.notice-pov-grid>div{display:flex;flex-direction:column;height:100%;}.notice-list{display:flex;flex-direction:column;flex:1;}.pov-card{flex:1;display:flex;flex-direction:column;}.notice-row{display:flex;align-items:center;gap:14px;padding:0;flex:1;border-bottom:1px solid var(--gray-200);cursor:pointer;transition:.15s;min-height:0;}.notice-row:first-child{border-top:1px solid var(--gray-200);}.notice-row:hover .notice-title{color:var(--blue);}.notice-badge-new{flex-shrink:0;width:18px;height:18px;border-radius:50%;background:var(--blue);color:white;font-size:10px;font-weight:800;font-style:italic;display:inline-flex;align-items:center;justify-content:center;letter-spacing:0;vertical-align:middle;margin-left:4px;}.notice-title{font-size:14px;font-weight:500;flex:1;line-height:1.5;}.notice-date{font-size:12px;color:var(--gray-400);white-space:nowrap;flex-shrink:0;}.notice-arrow{display:none;flex-shrink:0;color:var(--gray-400);font-size:16px;line-height:1;}.pov-card{background:#fdf8f2;border-radius:4px;padding:28px 24px;display:flex;flex-direction:column;gap:18px;transition:box-shadow .2s;}.pov-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);}.pov-card-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#F4621F;text-align:center;margin-bottom:-8px;}.pov-card-title{font-size:24px;font-weight:700;line-height:1.35;text-align:center;}.pov-vs-wrap{display:flex;align-items:stretch;gap:0;}.pov-side{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;border-radius:4px;cursor:pointer;transition:box-shadow .2s,border-color .2s;text-align:center;background:#fff;border:1px solid #fff;}.pov-side:hover{background:#fff;border-color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.12);}.pov-side.selected{background:#fff;border:2px solid #F4621F;border-radius:4px;}.pov-avatar{font-size:44px;line-height:1;}.pov-choice-name{font-size:14px;font-weight:700;color:var(--black);}.pov-choice-quote{font-size:12px;color:var(--gray-600);font-weight:300;line-height:1.5;}.pov-bar-row{width:100%;display:flex;justify-content:center;}.pov-bar-track{width:67%;height:10px;background:var(--gray-200);border-radius:5px;overflow:hidden;margin-top:4px;}.pov-bar-fill{height:100%;background:#F4621F;border-radius:3px;transition:width .8s ease;}.pov-bar-fill.gray{background:#FF7A3D;}.pov-pct{font-size:13px;font-weight:700;color:var(--gray-800);}.pov-vs-divider{display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#000;padding:0 6px;flex-shrink:0;}.pov-vote-btn{align-self:center;background:#F4621F;color:white;font-size:13px;font-weight:700;padding:11px 48px;border-radius:2px;cursor:pointer;transition:background .2s;letter-spacing:1px;}.pov-vote-btn:hover{background:#FF7A3D;}.pov-vote-btn:disabled{background:var(--gray-400);cursor:default;}
 .pov-vote-wrap{display:flex;flex-direction:column;gap:12px;width:100%;}
 .pov-vote-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:6px;cursor:pointer;transition:background .2s;border:2px solid transparent;}
 .pov-vote-row:hover{background:rgba(20,40,160,0.06);}
@@ -497,8 +497,7 @@
 <div>
 <div class="section-head animate">
 <div class="section-head-left">
-<span class="section-name">Interactive</span>
-<span class="section-name-sub">POV Switcher</span>
+<span class="section-name">POV Switcher</span>
 </div>
 </div>
 <div class="pov-card animate delay-1" id="povCard">
@@ -517,14 +516,24 @@
 <span class="pov-choice-quote">"Maybe the chores will teach her a lesson..."</span>
 </div>
 </div>
-<p style="font-size:11px;font-weight:600;color:#F4621F;letter-spacing:0.8px;text-align:center;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:6px;"><img src="https://i.gifer.com/ZKZg.gif" style="width:14px;height:14px;vertical-align:middle;" alt="loading" /> Voting in Progress</p>
-<div class="pov-single-bar">
-<div class="pov-single-bar-track">
-<div class="pov-single-bar-a" id="povBarA" style="width:64%"><span id="povBarPctA">64%</span></div>
-<div class="pov-single-bar-b" id="povBarB" style="width:36%"><span id="povBarPctB">36%</span></div>
-</div>
-</div>
-
+<div style="background:#fff;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+  <p style="font-size:11px;font-weight:600;color:#F4621F;letter-spacing:0.8px;text-align:center;margin:0;display:flex;align-items:center;justify-content:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border:2px solid #F4621F;border-top-color:transparent;border-radius:50%;animation:ld-spin .9s linear infinite;"></span>Voting in Progress</p>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;">
+      <span style="font-size:24px;line-height:1;">👸</span>
+      <span style="font-size:10px;font-weight:700;color:var(--gray-800);">Cinderella</span>
+    </div>
+    <div class="pov-single-bar" style="flex:1;margin:0;">
+      <div class="pov-single-bar-track">
+        <div class="pov-single-bar-a" id="povBarA" style="width:64%"><span id="povBarPctA">64%</span></div>
+        <div class="pov-single-bar-b" id="povBarB" style="width:36%"><span id="povBarPctB">36%</span></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;">
+      <span style="font-size:24px;line-height:1;">👻</span>
+      <span style="font-size:10px;font-weight:700;color:var(--gray-800);">Stepmother</span>
+    </div>
+  </div>
 </div>
 </div>
 </div>
@@ -729,6 +738,38 @@
 <p>Walking out of the convention center on the final day, my head was spinning with ideas, questions, and possibilities. CES 2026 showed me that the future isn't something that happens to us — it's something we build together. And as students today, we are the ones who will decide what kind of future that will be.</p>
 </div>
 <hr class="art-divider">
+<div class="art-pov-vote-wrap" id="artPovVoteWrap" style="display:none;background:#eef2ff;border-radius:0;padding:40px 24px;margin-bottom:40px;border:1px solid #c7d3f7;">
+<div style="text-align:center;margin-bottom:16px;"><div style="background:#dce5fb;color:#1428a0;font-size:12px;font-weight:800;letter-spacing:1.5px;padding:8px 20px;border-radius:4px;display:inline-block;">CLICK TO VOTE</div></div>
+<div style="font-size:24px;font-weight:700;margin-bottom:14px;text-align:center;" id="artPovQuestion"></div>
+<div style="position:relative;margin-top:20px;">
+  <div id="povToast" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(20,40,160,0.5);color:#fff;font-size:13px;font-weight:700;padding:10px 24px;border-radius:100px;opacity:0;pointer-events:none;transition:opacity .3s;white-space:nowrap;z-index:10;">투표에 참여하셨습니다!</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;" id="artPovChoices"></div>
+</div>
+<div style="border-top:1px solid #c7d3f7;margin:20px 0 20px;"></div>
+<div style="text-align:center;margin-bottom:16px;">
+  <button id="artPovResultBtn" onclick="showPovResult()" style="background:#1428a0;border:none;border-radius:4px;padding:12px 0;font-size:14px;font-weight:600;cursor:pointer;color:#fff;width:200px;display:block;margin:0 auto;">결과보기</button>
+</div>
+<div id="artPovResultBar" style="display:none;margin-top:14px;">
+  <div style="background:#fff;border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;gap:10px;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;">
+        <span style="font-size:24px;line-height:1;">👸</span>
+        <span style="font-size:10px;font-weight:700;color:var(--gray-800);">Cinderella</span>
+      </div>
+      <div class="pov-single-bar" style="flex:1;margin:0;">
+        <div class="pov-single-bar-track">
+          <div class="pov-single-bar-a" id="artPovBarA" style="width:64%"><span id="artPovPctA">64%</span></div>
+          <div class="pov-single-bar-b" id="artPovBarB" style="width:36%"><span id="artPovPctB">36%</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;">
+        <span style="font-size:24px;line-height:1;">👻</span>
+        <span style="font-size:10px;font-weight:700;color:var(--gray-800);">Stepmother</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 <div class="art-reactions-wrap">
 <div class="art-reactions-label">이 기사를 추천합니다</div>
 <div class="art-reaction-btns">
@@ -1110,6 +1151,37 @@ function showArticle(card) {
 
     
     const reactionsWrap = document.querySelector('#articleView .art-reactions-wrap');
+    const povVoteWrap = document.getElementById('artPovVoteWrap');
+    const isPov = card.section === 'POV Switcher';
+    const hasPoll = !isPov && card.poll;
+    if (povVoteWrap) {
+      povVoteWrap.style.display = (isPov || hasPoll) ? 'block' : 'none';
+      const resultBar = document.getElementById('artPovResultBar');
+      if (resultBar) resultBar.style.display = 'none';
+      const resultBtn = document.getElementById('artPovResultBtn');
+      if (resultBtn) { resultBtn.style.display = 'block'; delete resultBtn.dataset.voted; }
+      if (isPov) {
+        document.getElementById('artPovQuestion').textContent = 'Cinderella vs. Stepmother — Whose side are you on?';
+        const choices = document.getElementById('artPovChoices');
+        if (choices) {
+          choices.innerHTML = [
+            {label:'👸 Cinderella', val:'A'},
+            {label:'👻 Stepmother', val:'B'}
+          ].map(opt => `<button onclick="selectPovVote('${opt.val}', this)" onmouseover="if(!this.dataset.selected){this.style.boxShadow='0 4px 16px rgba(20,40,160,.15)';this.style.background='#fff';}" onmouseout="if(!this.dataset.selected){this.style.boxShadow='';this.style.background='#fff';}" style="flex:1;min-width:100px;height:120px;padding:0 8px;border:2px solid transparent;border-radius:8px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s;box-sizing:border-box;">${opt.label}</button>`).join('');
+        }
+      } else if (hasPoll) {
+        document.getElementById('artPovQuestion').textContent = card.poll.question;
+        const choices = document.getElementById('artPovChoices');
+        if (choices) {
+          const optCount = card.poll.options.length;
+          choices.style.flexWrap = optCount > 2 ? 'wrap' : 'nowrap';
+          choices.innerHTML = card.poll.options.map((opt, i) => {
+            const w = optCount <= 2 ? 'calc(50% - 5px)' : 'calc(50% - 5px)';
+            return `<button onclick="selectPovVote('${i}', this)" onmouseover="if(!this.dataset.selected){this.style.boxShadow='0 4px 16px rgba(20,40,160,.15)';this.style.background='#fff';}" onmouseout="if(!this.dataset.selected){this.style.boxShadow='';this.style.background='#fff';}" style="flex:0 0 ${w};height:60px;padding:0 8px;border:2px solid transparent;border-radius:8px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s;box-sizing:border-box;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${opt}</button>`;
+          }).join('');
+        }
+      }
+    }
     const artDivider    = document.querySelector('#articleView .art-divider');
     const artNavRow     = document.querySelector('#articleView .art-nav-row');
     const campusRow     = document.querySelector('#articleView .art-author-campus-row');
@@ -1137,7 +1209,13 @@ function showArticle(card) {
     const captionEl = document.querySelector('#articleView .art-img-caption');
     if (captionEl) captionEl.textContent = card.caption || '';
     const campusEl = document.querySelector('#articleView .art-author-campus');
-    if (campusEl) campusEl.textContent = card.campus || (card.author ? card.author.split('·').slice(1).join('·').trim() : '');
+    if (campusEl) {
+      const campusText = card.campus
+        ? card.campus
+        : (card.author && card.author.includes('·') ? card.author.split('·')[1].trim() : '');
+      campusEl.textContent = campusText;
+      campusEl.style.display = campusText ? '' : 'none';
+    }
 
     
     const statsEl = document.querySelector('#articleView .art-stats');
@@ -1271,7 +1349,7 @@ const articleBodies = {
 
 const sectionData = {
   insights: { cards: [
-    { tag: 'Science & Technology', title: 'My Secret Robot Friend: How Does AI Help Us at School?', excerpt: 'Walk into almost any classroom today, and you will notice something different — students typing questions into AI chatbots, using smart tools to check their grammar, and even asking artificial...', author: 'Minho Lee · Gangnam', date: '2026.05.28', views: 1243, r1: 42, r2: 31, r3: 18, emoji: '🤖' , imgSrc: 'https://drive.google.com/thumbnail?id=1o_pFjZm1qBaTr5BxICPdKmrPJQVZNYsw&sz=w600' , section: 'INSIGHTS'},
+    { tag: 'Science & Technology', title: 'My Secret Robot Friend: How Does AI Help Us at School?', excerpt: 'Walk into almost any classroom today, and you will notice something different — students typing questions into AI chatbots, using smart tools to check their grammar, and even asking artificial...', author: 'Minho Lee · Gangnam', date: '2026.05.28', views: 1243, r1: 42, r2: 31, r3: 18, emoji: '🤖' , imgSrc: 'https://drive.google.com/thumbnail?id=1o_pFjZm1qBaTr5BxICPdKmrPJQVZNYsw&sz=w600' , poll: { question: 'Do you use AI tools for school?', options: ['Yes, every day', 'Sometimes', 'Rarely', 'Never'] }, poll: { question: 'Do you try to reduce plastic use?', options: ['Yes, always', 'Sometimes', 'I want to start', 'Not yet'] }, poll: { question: 'Do you always follow road safety rules?', options: ['Always', 'Mostly', 'Sometimes', 'Rarely'] }, poll: { question: 'How do you check the weather?', options: ['Phone app', 'TV news', 'Website', 'I just look outside'] }, poll: { question: 'Would you eat space food?', options: ['Absolutely!', 'Maybe', 'Not sure', 'No way'] }, poll: { question: 'Do you use your phone before bed?', options: ['Yes, every night', 'Sometimes', 'Rarely', 'Never'] }, section: 'INSIGHTS'},
     { tag: 'Nature & Environment', title: 'Saving Our Blue Ocean: The Magic of No-Plastic Days', excerpt: 'It started with a dare. My friend Sujin bet me that I couldn\'t go a single Thursday without using any plastic. No plastic water bottle, no plastic wrap on my lunch, no straw, no convenience store...', author: 'Haemi Choi · Mapo', date: '2026.05.28', views: 987, r1: 28, r2: 45, r3: 22, emoji: '🌊' , imgSrc: 'https://drive.google.com/thumbnail?id=1T2u-w2KbQNPEQGl5BaGX-c7imongLz5N&sz=w600' , section: 'INSIGHTS'},
     { tag: 'Life & Society', title: 'The Yellow Safety Line: Secrets of Our Safe Road to School', excerpt: 'Every morning, millions of children walk past a yellow line painted on the road near their school and think nothing of it. It\'s just part of the scenery — like traffic lights or zebra crossings. But...', author: 'Jiwon Park · Bundang', date: '2026.05.28', views: 754, r1: 19, r2: 33, r3: 14, emoji: '🚸' , imgSrc: 'https://drive.google.com/thumbnail?id=17thWW2vAPglkEng1JudOfJLUNVCaShsa&sz=w600' , section: 'INSIGHTS'},
     { tag: 'Science & Technology', title: 'Weather Wonders: How Do Scientists Know When It Will Rain?', excerpt: 'You check your phone. The weather app says sunny all day. You leave your umbrella at home. By lunchtime, you\'re soaked. Sound familiar? Weather forecasting has come a long way — but it\'s still one of...', author: 'Jiho Shin · Daechi', date: '2026.05.28', views: 1021, r1: 33, r2: 44, r3: 21, views: 1021, r1: 33, r2: 44, r3: 21, views: 1102, r1: 37, r2: 28, r3: 29, emoji: '🌦️' , imgSrc: 'https://drive.google.com/thumbnail?id=1lbQsPiJNZLIqCZlpgE9c_uYsOFuWHnUP&sz=w600' , section: 'INSIGHTS'},
@@ -1279,7 +1357,7 @@ const sectionData = {
     { tag: 'Life & Society', title: 'Smartphones: Does Screen Time Keep Us Awake?', excerpt: 'It\'s 11 p.m. You\'re supposed to be asleep. But your phone is in your hand, glowing softly in the dark, and you\'re watching just one more video. Sound familiar? For millions of young people around the...', author: 'Sora Jung · Mapo', date: '2026.05.28', views: 1334, r1: 55, r2: 39, r3: 27, emoji: '📱' , imgSrc: 'https://drive.google.com/thumbnail?id=1x8a_oAt6Y5sGkCXQG2n64tf-JkTUyYvc&sz=w600' , section: 'INSIGHTS'},
   ]},
   lifelog: { cards: [
-    { tag: 'Nature & Garden', title: 'My Tiny Green Friend: The Day I Planted My First Flower', excerpt: 'It was a tiny seed — smaller than my pinky nail — sitting in the palm of my hand. My mom had bought it at the weekend market along with a small pot of soil. "Plant it," she said. "See what happens."...', imgSrc: 'https://drive.google.com/thumbnail?id=1jGPz05WxLtxm_c27YzSzEyYftuEpLhiN&sz=w600', author: 'Soyeon Kim · Incheon', date: '2026.05.28', views: 678, r1: 15, r2: 22, r3: 31, emoji: '🌱' , section: 'LIFE LOG'},
+    { tag: 'Nature & Garden', title: 'My Tiny Green Friend: The Day I Planted My First Flower', excerpt: 'It was a tiny seed — smaller than my pinky nail — sitting in the palm of my hand. My mom had bought it at the weekend market along with a small pot of soil. "Plant it," she said. "See what happens."...', imgSrc: 'https://drive.google.com/thumbnail?id=1jGPz05WxLtxm_c27YzSzEyYftuEpLhiN&sz=w600', author: 'Soyeon Kim · Incheon', date: '2026.05.28', views: 678, r1: 15, r2: 22, r3: 31, emoji: '🌱' , poll: { question: 'Have you ever grown a plant?', options: ['Yes!', 'I want to try', 'Not yet', 'No interest'] }, poll: { question: 'Do you help with gardening at home?', options: ['Yes, often', 'Sometimes', 'Rarely', 'Never'] }, poll: { question: 'Do you sort your recycling?', options: ['Always', 'Mostly', 'Sometimes', 'Not really'] }, poll: { question: 'What do you love most about school?', options: ['Friends', 'Learning', 'Activities', 'Lunch!'] }, poll: { question: 'Do you have a creative hobby?', options: ['Drawing', 'Music', 'Writing', 'Other'] }, poll: { question: 'What is your favourite lunch?', options: ['Korean food', 'Western food', 'Snacks', 'Anything!'] }, section: 'LIFE LOG'},
     { tag: 'Family', title: 'The Busy Bee: Helping My Grandma Water Her Colorful Garden', excerpt: 'My grandmother\'s garden is famous in her neighborhood. Every spring and summer, the narrow strip of land behind her apartment building bursts into color — red roses climbing the fence, purple...', imgSrc: 'https://drive.google.com/thumbnail?id=1q6c4vZPzu0OnQz8QSUBh-PFsg8BMIJXG&sz=w600', author: 'Dahyun Oh · Suwon', date: '2026.05.28', views: 543, r1: 12, r2: 18, r3: 24, emoji: '🐝' , section: 'LIFE LOG'},
     { tag: 'Environment', title: 'Our Green Mission: Sorting Recycling to Keep the Earth Happy', excerpt: 'Every Monday morning, our apartment building puts out its recycling bins — separate containers for paper, plastic, glass, and metal. For most of my life, I watched my parents sort our trash and...', imgSrc: 'https://drive.google.com/thumbnail?id=1eytbDCy3V4dlCREsY3zPerqy2mkyIb7W&sz=w600', author: 'Eunji Yoon · Seongnam', date: '2026.05.28', views: 721, r1: 18, r2: 27, r3: 19, emoji: '♻️' , section: 'LIFE LOG'},
     { tag: 'Daily Life', title: 'A Day in My Shoes: What I Love and Hate About School', excerpt: 'Nobody asked me if I wanted to be a student reporter. I signed up myself, on a Tuesday in March, mostly because my friend Jinho dared me to. "You talk too much anyway," he said. "You might as well...', imgSrc: 'https://drive.google.com/thumbnail?id=1I3BqOvqafGCmW5b9JnobSz2rN-aYQo0l&sz=w600', author: 'Yujin Han · Daechi', date: '2026.05.28', views: 894, r1: 31, r2: 24, r3: 38, emoji: '🏫' , section: 'LIFE LOG'},
@@ -1287,7 +1365,7 @@ const sectionData = {
     { tag: 'Food & Culture', title: 'Lunchbox Stories: What My Mom Packs Tells About Our Culture', excerpt: 'Every morning before school, while I\'m still half-asleep, my mom is in the kitchen packing my lunchbox. It\'s a ritual I\'ve barely noticed for most of my life — the click of the container, the smell...', imgSrc: 'https://drive.google.com/thumbnail?id=1n-x3b3JB_dq3G9vzTTHaS_t-EaUYXv8J&sz=w600', author: 'Chaeyeon Bae · Nowon', date: '2026.07.16', views: 445, r1: 9, r2: 21, r3: 17, emoji: '🍱' , section: 'LIFE LOG'},
   ]},
   world: { cards: [
-    { tag: 'Science & Technology', title: 'Weather Wonders: How Do Scientists Know When It Will Rain?', excerpt: 'You check your phone. The weather app says sunny all day. You leave your umbrella at home. By lunchtime, you\'re soaked. Sound familiar? Weather forecasting has come a long way — but it\'s still one of...', imgSrc: 'https://drive.google.com/thumbnail?id=17PTyxPvJJtXakQcv8AYjN7IJtWJ6fHcQ&sz=w600', author: 'Jiho Shin · Daechi', date: '2026.05.28', views: 1021, r1: 33, r2: 44, r3: 21, emoji: '🌦️' , section: 'Inside the World'},
+    { tag: 'Science & Technology', title: 'Weather Wonders: How Do Scientists Know When It Will Rain?', excerpt: 'You check your phone. The weather app says sunny all day. You leave your umbrella at home. By lunchtime, you\'re soaked. Sound familiar? Weather forecasting has come a long way — but it\'s still one of...', imgSrc: 'https://drive.google.com/thumbnail?id=17PTyxPvJJtXakQcv8AYjN7IJtWJ6fHcQ&sz=w600', author: 'Jiho Shin · Daechi', date: '2026.05.28', views: 1021, r1: 33, r2: 44, r3: 21, emoji: '🌦️' , poll: { question: 'Can robots do your homework?', options: ['Yes, easily', 'Maybe someday', 'Only simple tasks', 'No way'] }, poll: { question: 'How worried are you about ocean plastic?', options: ['Very worried', 'A little worried', 'Not sure', 'Not worried'] }, poll: { question: 'Which car do you prefer?', options: ['Electric', 'Gas', 'No preference', 'I prefer cycling'] }, section: 'Inside the World'},
     { tag: 'Science & Technology', title: 'Space Food Secrets: What Do Astronauts Eat for Lunch?', excerpt: 'Imagine floating through space, stomach growling, reaching for your lunch — only to watch your sandwich crumble into a hundred crumbs that drift toward the instrument panels. In space, even eating is...', imgSrc: 'https://drive.google.com/thumbnail?id=1hOhMZBEZ9Byfi92Jc29-myFHnmIzKq_r&sz=w600', author: 'Yuna Bae · Mokdong', date: '2026.05.28', views: 876, r1: 27, r2: 38, r3: 25, emoji: '🚀' , section: 'Inside the World'},
     { tag: 'Science & Technology', title: 'The Truth About Robots: Can They Really Do Our Homework?', excerpt: 'It began as a joke between classmates. "I\'ll just get the robot to do it," Donghyun said, waving off a history assignment due the next morning. We all laughed. But later that evening, I found myself...', imgSrc: 'https://drive.google.com/thumbnail?id=17reCnL4xD5vW9AIYiYutzgyRHYiZ7Cxb&sz=w600', author: 'Seojun Lim · Nowon', date: '2026.05.28', views: 743, r1: 19, r2: 29, r3: 18, emoji: '🤖' , section: 'Inside the World'},
     { tag: 'Nature & Environment', title: 'Ocean Plastic Crisis: Why Fish Are Eating Our Trash', excerpt: 'Last spring, our class visited an aquarium on a school trip. I stood in front of a large tank, watching fish move silently through blue-lit water, and felt genuinely peaceful — until I read a small...', imgSrc: 'https://drive.google.com/thumbnail?id=1V87cbGAVYATBoFUBJv-1Ck52aMIN1ATa&sz=w600', author: 'Haemi Choi · Mapo', date: '2026.07.16', views: 1156, r1: 41, r2: 52, r3: 33, emoji: '🐠' , section: 'Inside the World'},
@@ -1916,6 +1994,68 @@ function switchTopic(btn) {
   btn.classList.add('on');
 }
 
+function selectPovVote(side, btn) {
+  document.querySelectorAll('#artPovChoices button').forEach(b => {
+    b.style.borderColor = 'transparent';
+    b.style.background = '#fff';
+    b.style.boxShadow = '';
+    delete b.dataset.selected;
+  });
+  btn.style.borderColor = '#1428a0';
+  btn.style.background = '#fff';
+  btn.style.boxShadow = '0 4px 16px rgba(20,40,160,.15)';
+  btn.dataset.selected = 'true';
+  document.getElementById('artPovResultBtn').dataset.voted = side;
+  // 토스트 팝업
+  const toast = document.getElementById('povToast');
+  if (toast) {
+    toast.style.opacity = '1';
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+      toast.style.opacity = '0';
+    }, 2000);
+  }
+}
+
+function showPovResult() {
+  const btn = document.getElementById('artPovResultBtn');
+  const side = btn ? btn.dataset.voted : null;
+  if (side === undefined || side === null || side === '') return;
+  const buttons = document.querySelectorAll('#artPovChoices button');
+  const total = buttons.length;
+  // 각 보기 득표 비율 계산 (선택한 항목 +1, 나머지 랜덤)
+  const counts = Array.from({length: total}, (_, i) => i === +side || side === String.fromCharCode(65+i) ? Math.floor(Math.random()*20)+30 : Math.floor(Math.random()*25)+10);
+  const sum = counts.reduce((a,b) => a+b, 0);
+  const pcts = counts.map(v => Math.round(v/sum*100));
+  // 결과바 업데이트
+  const resultBar = document.getElementById('artPovResultBar');
+  if (resultBar) {
+    resultBar.style.display = 'block';
+    const maxPct = Math.max(...pcts);
+  resultBar.innerHTML = `<div style="background:#fff;border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;gap:8px;">` +
+      Array.from(buttons).map((b, i) =>
+        `<div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:12px;font-weight:600;color:#333;min-width:120px;flex-shrink:0;">${b.textContent}</span>
+          <div style="flex:1;height:8px;background:#e5e5e5;border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:${pcts[i]}%;background:${pcts[i]===maxPct?'#F4621F':'#1428a0'};border-radius:4px;transition:width .6s ease;"></div>
+          </div>
+          <span style="font-size:12px;font-weight:700;color:#333;min-width:32px;text-align:right;">${pcts[i]}%</span>
+        </div>`
+      ).join('') +
+    `</div>`;
+  }
+  // POV 고정 바 색상 업데이트 (최고 수치 주황, 나머지 파란)
+  const barA = document.getElementById('artPovBarA');
+  const barB = document.getElementById('artPovBarB');
+  if (barA && barB && pcts.length >= 2) {
+    const maxPctPov = Math.max(...pcts);
+    barA.style.background = pcts[0] === maxPctPov ? 'linear-gradient(180deg,#ffb380 0%,#ff7a3d 40%,#F4621F 100%)' : 'linear-gradient(180deg,#6b8fff 0%,#2e4fd6 40%,#1428a0 100%)';
+    barB.style.background = pcts[1] === maxPctPov ? 'linear-gradient(180deg,#ffb380 0%,#ff7a3d 40%,#F4621F 100%)' : 'linear-gradient(180deg,#6b8fff 0%,#2e4fd6 40%,#1428a0 100%)';
+  }
+  if (btn) btn.style.display = 'none';
+  buttons.forEach(b => { b.disabled = true; b.style.color = '#333'; b.style.opacity = '1'; });
+}
+
 function toggleR(btn) {
   const c = btn.querySelector('.rcount');
   let n = parseInt(c.textContent);
@@ -1942,6 +2082,11 @@ document.querySelectorAll('.strip-tab').forEach(tab => {
     if (sideB) sideB.addEventListener('click', () => selectSide('B'));
   });
 
+  const povArticles = {
+    A: { tag: 'POV Switcher', title: 'Cinderella: "I never get to go to the ball. It\'s not fair..."', excerpt: 'Cinderella has always been treated unfairly by her stepmother. She dreams of going to the royal ball, but is forced to stay home and do chores while her stepsisters enjoy every privilege. Is she right to feel the way she does?', author: 'Editorial Team', campus: 'Poly Scoop', date: '2026.05.28', section: 'POV Switcher', emoji: '👸' },
+    B: { tag: 'POV Switcher', title: 'Stepmother: "Maybe the chores will teach her a lesson..."', excerpt: 'The stepmother has her own side of the story. Running a household is hard work, and she believes that discipline and responsibility build character. Does she have a point — or is she simply being cruel?', author: 'Editorial Team', campus: 'Poly Scoop', date: '2026.05.28', section: 'POV Switcher', emoji: '👻' }
+  };
+
   function selectSide(side) {
     if (voted) return;
     selected = side;
@@ -1949,6 +2094,7 @@ document.querySelectorAll('.strip-tab').forEach(tab => {
     const sideB = document.getElementById('povSideB');
     if (sideA) sideA.classList.toggle('selected', side === 'A');
     if (sideB) sideB.classList.toggle('selected', side === 'B');
+    showArticle(povArticles[side]);
   }
 
   window.povVote = function() {
@@ -2036,5 +2182,6 @@ document.querySelectorAll('.strip-tab').forEach(tab => {
   });
 })();
 </script>
+
 </body>
 </html>
