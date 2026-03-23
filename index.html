@@ -1179,10 +1179,11 @@ function showArticle(card) {
         const choices = document.getElementById('artPovChoices');
         if (choices) {
           const optCount = card.poll.options.length;
-          choices.style.flexWrap = optCount > 2 ? 'wrap' : 'nowrap';
+          const lbls = ['A','B','C','D'];
+          choices.style.flexWrap = 'wrap';
           choices.innerHTML = card.poll.options.map((opt, i) => {
-            const w = optCount <= 2 ? 'calc(50% - 5px)' : 'calc(50% - 5px)';
-            return `<button onclick="selectPovVote('${i}', this)" onmouseover="if(!this.dataset.selected){this.style.boxShadow='0 4px 16px rgba(20,40,160,.15)';this.style.background='#fff';}" onmouseout="if(!this.dataset.selected){this.style.boxShadow='';this.style.background='#fff';}" style="flex:0 0 ${w};height:60px;padding:0 8px;border:2px solid transparent;border-radius:8px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s;box-sizing:border-box;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${opt}</button>`;
+            const w = 'calc(50% - 5px)';
+            return `<button onclick="selectPovVote('${i}', this)" onmouseover="if(!this.dataset.selected){this.style.boxShadow='0 4px 16px rgba(20,40,160,.15)';this.style.background='#fff';}" onmouseout="if(!this.dataset.selected){this.style.boxShadow='';this.style.background='#fff';}" style="flex:0 0 ${w};height:60px;padding:0 12px;border:2px solid transparent;border-radius:8px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s;box-sizing:border-box;display:flex;align-items:center;gap:10px;text-align:left;"><span style="width:26px;height:26px;border-radius:50%;background:#eef2ff;color:#1428a0;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${lbls[i]}</span>${opt}</button>`;
           }).join('');
         }
       }
@@ -2069,8 +2070,9 @@ function showPovResult() {
   resultBar.innerHTML = `<div style="background:#fff;border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;gap:8px;">` +
       Array.from(buttons).map((b, i) => {
         const color = pcts[i] === maxPct ? '#F4621F' : '#1428a0';
+        const resLbls = ['A','B','C','D'];
         return `<div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:12px;font-weight:600;color:${color};min-width:120px;flex-shrink:0;display:flex;align-items:center;gap:6px;"><span style="color:${color};font-size:10px;flex-shrink:0;">●</span>${b.textContent.trim()}</span>
+          <span style="width:22px;height:22px;border-radius:50%;background:${color};color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${resLbls[i]||''}</span>
           <div style="flex:1;height:8px;background:#e5e5e5;border-radius:4px;overflow:hidden;">
             <div style="height:100%;width:${pcts[i]}%;background:${color};border-radius:4px;transition:width .6s ease;"></div>
           </div>
