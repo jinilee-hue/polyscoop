@@ -1747,9 +1747,9 @@ function doSearch() {
   
   const grid = document.getElementById('searchResultGrid');
   if (results.length === 0) {
-    grid.innerHTML = `<div class="search-no-result" style="grid-column:1/-1;">
-🔍
-      "<strong>${keyword}</strong>"에 대한 검색 결과가 없습니다.
+    grid.innerHTML = `<div class="search-no-result" style="grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:16px;padding:60px 0;">
+      <div style="width:52px;height:52px;border-radius:50%;background:rgba(20,40,160,0.05);color:#1428a0;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;">!</div>
+      <span style="font-size:15px;color:#666;">"<strong style="color:#1428a0;">${keyword}</strong>"에 대한 검색 결과가 없습니다.</span>
     </div>`;
   } else {
     grid.innerHTML = results.map(c => `
