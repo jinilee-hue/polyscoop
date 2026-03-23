@@ -657,7 +657,6 @@
 </div>
 <div class="footer-links-group">
 <h4>Legal</h4>
-<a href="https://www.poly-english.com/util/privacy.do" target="_blank" rel="noopener">개인정보처리방침</a>
 <a href="https://www.poly-english.com/util/service.do" target="_blank" rel="noopener">이용약관</a>
 </div>
 </div>
@@ -800,6 +799,7 @@
 ⬇
     PDF 다운로드
   </button>
+<div class="view-footer-wrap"><div class="shared-footer-slot"></div></div>
 </div><!-- /articleView -->
 <!-- ═══════════════════════════════════════════
      ISSUE VIEW  (각 호 메인)
@@ -1666,6 +1666,12 @@ function initListViews() {
   }
 }
 document.addEventListener('DOMContentLoaded', initListViews);
+document.addEventListener('DOMContentLoaded', function() {
+  const footerHTML = document.querySelector('.site-footer') ? document.querySelector('.site-footer').outerHTML : '';
+  document.querySelectorAll('.shared-footer-slot').forEach(slot => {
+    slot.innerHTML = footerHTML;
+  });
+});
 
 function showList(sectionId) {
   showLoading();
@@ -2176,7 +2182,6 @@ document.querySelectorAll('.strip-tab').forEach(tab => {
 </div>
 <div class="footer-links-group">
 <h4>Legal</h4>
-<a href="https://www.poly-english.com/util/privacy.do" target="_blank" rel="noopener">개인정보처리방침</a>
 <a href="https://www.poly-english.com/util/service.do" target="_blank" rel="noopener">이용약관</a>
 </div>
 </div>
