@@ -1162,9 +1162,9 @@ function showArticle(card) {
         const choices = document.getElementById('artPovChoices');
         if (choices) {
           choices.innerHTML = [
-            {label:'👸 Cinderella', val:'A', lbl:'A'},
-            {label:'👻 Stepmother', val:'B', lbl:'B'}
-          ].map(opt => `<button onclick="selectPovVote('${opt.val}', this)" onmouseover="if(!this.dataset.selected){this.style.boxShadow='0 4px 16px rgba(20,40,160,.15)';this.style.background='#fff';}" onmouseout="if(!this.dataset.selected){this.style.boxShadow='';this.style.background='#fff';}" style="flex:1;min-width:100px;height:120px;padding:0 12px;border:2px solid transparent;border-radius:8px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;"><span style="position:absolute;top:8px;left:8px;width:22px;height:22px;border-radius:50%;background:#555;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;">${opt.lbl}</span>${opt.label}</button>`).join('');
+            {label:'Cinderella', val:'A', lbl:'A'},
+            {label:'Stepmother', val:'B', lbl:'B'}
+          ].map(opt => `<button onclick="selectPovVote('${opt.val}', this)" onmouseover="if(!this.dataset.selected){this.style.boxShadow='0 4px 16px rgba(20,40,160,.15)';this.style.background='#fff';}" onmouseout="if(!this.dataset.selected){this.style.boxShadow='';this.style.background='#fff';}" style="flex:1;min-width:100px;height:60px;padding:0 12px;border:2px solid transparent;border-radius:8px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s;box-sizing:border-box;display:flex;align-items:center;gap:10px;"><span style="width:26px;height:26px;border-radius:50%;background:#555;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${opt.lbl}</span>${opt.label}</button>`).join('');
         }
       } else if (hasPoll) {
         document.getElementById('artPovQuestion').textContent = card.poll.question;
