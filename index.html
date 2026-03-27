@@ -1094,7 +1094,7 @@ function showArticle(card) {
     if (excerptEl) {
       if (card.category) {
         excerptEl.style.display = '';
-        excerptEl.textContent = '작성일 · ' + (card.date || '');
+        excerptEl.innerHTML = '작성일 · ' + (card.date || '') + '<span style="margin-left:10px;">조회수 · ' + (card.views ? card.views.toLocaleString() : '0') + '</span>';
         excerptEl.style.color = '#aaa';
         excerptEl.style.fontSize = '13px';
         excerptEl.style.fontWeight = '400';
@@ -1129,11 +1129,16 @@ function showArticle(card) {
         noticeAttach.innerHTML = '';
         noticeAttach.style.display = 'none';
       }
+      // 첨부파일 없으면 meta-bar border-bottom 제거 (구분선 중복 방지)
+      const metaBar = document.querySelector('#articleView .art-meta-bar');
+      if (metaBar) metaBar.style.borderBottom = card.attach ? '' : 'none';
       if (authorEl) authorEl.textContent = card.attach ? '' : '';
     } else {
       if (avatarEl) avatarEl.style.display = '';
       const noticeAttach = document.getElementById('noticeAttachBtn');
       if (noticeAttach) { noticeAttach.innerHTML = ''; noticeAttach.style.display = 'none'; }
+      const metaBarEl = document.querySelector('#articleView .art-meta-bar');
+      if (metaBarEl) metaBarEl.style.borderBottom = '';
       if (authorEl && card.author) authorEl.textContent = card.author.split('·')[0].trim();
     }
     const dateEl = document.querySelector('#articleView .art-date');
